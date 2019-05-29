@@ -1,3 +1,8 @@
+@@font-face {
+  font-family: 'Magic:the Gathering', Arial;
+  src: url('../fonts/magic.TTF');
+}
+
 body {
   font-size: 16px;
 }
@@ -12,6 +17,7 @@ body {
 
 .container h1 {
   font-size: 3rem;
+  font-family: "Magic:the Gathering";
   flex-basis: 100%;
   text-align: center;
   line-height: 2;
