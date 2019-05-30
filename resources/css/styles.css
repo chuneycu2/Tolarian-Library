@@ -3,6 +3,11 @@
   src: url('../fonts/magic.TTF');
 }
 
+@@font-face {
+  font-family: "Beleren-Bold", sans-serif;
+  src: url('../fonts/Beleren-Bold.ttf');
+}
+
 body {
   font-size: 16px;
   background-image: url('../images/background.jpg');
@@ -31,10 +36,11 @@ body {
 }
 
 .search-container input {
+  font-family: "Beleren-Bold", sans-serif;
   width: 30%;
   margin-right: 1rem;
   padding: 1rem;
-  font-size: 1rem;
+  font-size: 1.25rem;
   border-radius: 0.5rem;
 }
 
