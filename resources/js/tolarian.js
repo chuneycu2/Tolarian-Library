@@ -6,11 +6,9 @@ $(document).ready(function() {
   })
 });
 
-let rulingsBox = '';
-
 TolarianLibrary.renderRulings = function(cards) {
 
-  rulingsBox = '';
+  let rulingsBox = '';
 
   let rulingsList = [];
 
@@ -25,6 +23,8 @@ TolarianLibrary.renderRulings = function(cards) {
   for (let row = 0; row < rulingsList.length; row++) {
     rulingsBox = rulingsBox + '<p>' + rulingsList[row].date + ': ' + rulingsList[row].text + '</p>';
   };
+
+  return rulingsBox;
 
 };
 
@@ -96,7 +96,7 @@ TolarianLibrary.renderCards = function(cards) {
     '    </dl>                                                   ' +
     ' </div>                                                     ' +
     ' <div id="rulings" class="rulings">                         ' +
-    '   ' + rulingsBox + '                                       ' +
+    '   ' + TolarianLibrary.renderRulings(cards); + '            ' +
     '  </div>                                                    ' +
     '</div>                                                      ';
 
@@ -108,7 +108,6 @@ TolarianLibrary.testAjax = function(name) {
   $.ajax({
     url: 'https://api.magicthegathering.io/v1/cards?name="' + name + '"',
     success: function(response) {
-      TolarianLibrary.renderRulings(response.cards);
       TolarianLibrary.renderCards(response.cards);
       //console.log(response.cards[0]);
     }

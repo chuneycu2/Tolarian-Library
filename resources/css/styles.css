@@ -99,7 +99,7 @@ body {
 .card-info dl {
   display: flex;
   flex-flow: row;
-  padding: 0.45rem 0;
+  padding: 0.4rem 0;
 }
 
 .card-info dt {
@@ -116,8 +116,8 @@ body {
   line-height: 1.2;
 }
 
-.card-info:first-child dl {
-  padding: 0 0 0.45rem 0;
+.card-info dl:first-child {
+  padding: 0 0 0.4rem 0;
 }
 
 .card-info .flavor {
@@ -138,7 +138,7 @@ body {
 }
 
 .rulings p {
-  padding: 1rem;
+  padding: 1rem 1rem 0.75rem 1rem;
   margin: 0.5rem 0;
   line-height: 1.2;
   background-color: #dde2e6;
@@ -165,6 +165,9 @@ body {
   }
 }
 @media only screen and (max-width: 41.563rem) {
+  .result img {
+    align-self: center;
+  }
   .card-info dt {
     flex-basis: 25%;
   }
