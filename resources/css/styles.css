@@ -5,9 +5,16 @@
 
 body {
   font-size: 16px;
+  background-image: url('../images/background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
-.container {
+/* search container styles */
+
+.search-container {
   margin-top: 4rem;
   display: flex;
   flex-wrap: wrap;
@@ -15,7 +22,7 @@ body {
   align-items: center;
 }
 
-.container h1 {
+.search-container h1 {
   font-size: 3rem;
   font-family: "Magic:the Gathering";
   flex-basis: 100%;
@@ -23,7 +30,7 @@ body {
   line-height: 2;
 }
 
-.container input {
+.search-container input {
   width: 30%;
   margin-right: 1rem;
   padding: 1rem;
@@ -31,20 +38,125 @@ body {
   border-radius: 0.5rem;
 }
 
-.container input:focus {
+.search-container input:focus {
   outline: none;
 }
 
-.container i {
+.search-container i {
   padding: 0.7rem;
   background-color: #26d7b2;
   border-radius: 0.5rem;
 }
 
-.container i:hover{
+.search-container i:hover{
   padding: 0.7rem;
   background-color: #24b290;
   border-radius: 0.5rem;
   cursor: pointer;
   color: white;
+}
+
+/* card detail container styles*/
+
+.card-container {
+  width: 100%;
+  padding: 3rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.result {
+  display: flex;
+  justify-content: center;
+  width: auto;
+  max-width: 50rem;
+  background-color: white;
+  border: 1px solid black;
+  margin: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.result img {
+  height: 310px;
+  width: 223px;
+  padding: 1.5rem 0.75rem 1.5rem 1.5rem;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.card-info {
+  padding: 1.5rem 1.5rem 1.5rem 0.75rem;
+  flex: 1
+}
+
+.card-info dl {
+  display: flex;
+  flex-flow: row;
+  padding: 0.45rem 0;
+}
+
+.card-info dt {
+  flex-basis: 20%;
+  text-align: right;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.card-info dd {
+  flex-basis: 50%;
+  flex-grow: 1;
+  padding-left: 1rem;
+  line-height: 1.2;
+}
+
+.card-info .flavor {
+  font-style: italic;
+}
+
+.rulings {
+  width: 100%;
+  flex-basis: 100%;
+  margin: 0rem 1.5rem 1.5rem 1.5rem;
+}
+
+.rulings h2 {
+  margin: 1rem;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.rulings p {
+  margin: 1rem;
+  padding: 1rem;
+  line-height: 1.2;
+  background-color: #dde2e6;
+  border: 0.5px solid black;
+}
+
+@media only screen and (max-width: 47.5rem) {
+  .result {
+    flex-direction: column;
+  }
+  .card-info {
+    padding: 1.5rem;
+  }
+  .card-info dt {
+    flex-basis: 15%;
+  }
+  .card-info dd {
+    flex-basis: 85%;
+  }
+  .rulings {
+    width: auto;
+    flex-basis: auto;
+  }
+}
+@media only screen and (max-width: 41.563rem) {
+  .card-info dt {
+    flex-basis: 25%;
+  }
+  .card-info dd {
+    flex-basis: 75%;
+  }
 }
