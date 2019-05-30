@@ -10,15 +10,20 @@ TolarianLibrary.renderCards = function(cards) {
   var $cardList = $('#card-list');
   $cardList.empty();
 
+  var dates = [];
+  var rulings = [];
+
+  for (var ruling = 0; ruling < cards[ruling].rulings.length; ruling++) {
+    if (cards[ruling].rulings.length === 0) {
+      rulings = '';
+      dates = '';
+    } else {
+      dates.push(cards[ruling].rulings[ruling].date);
+      rulings.push(cards[ruling].rulings[ruling].text);
+    }
+  };
+
   for (var index = 0; index < cards.length; index++) {
-
-    var dates = [];
-    var rulings = [];
-
-    for (var ruling = 0; ruling < cards[index].rulings.length; ruling++) {
-      rulings.push(cards[index].rulings[ruling].date);
-      rulings.push(cards[index].rulings[ruling].text);
-    };
 
     var imageUrl = cards[index].imageUrl;
     var name = cards[index].name;
@@ -27,6 +32,11 @@ TolarianLibrary.renderCards = function(cards) {
     var type = cards[index].type;
     var text = cards[index].text;
     var flavor = cards[index].flavor;
+
+    if (flavor === undefined) {
+      flavor = ' ';
+    };
+
     var set = cards[index].set;
     var artist = cards[index].artist;
 
@@ -70,7 +80,7 @@ TolarianLibrary.renderCards = function(cards) {
     ' </div>                                                     ' +
     ' <div class="rulings">                                      ' +
     '    <h2>Rulings</h2>                                        ' +
-    '    <p>' + dates[index] + ': ' + rulings[index] + '</p>     ' +
+    '    <p>' + dates + ': ' + rulings + '</p>     ' +
     '  </div>                                                    ' +
     '</div>                                                      ';
 
@@ -82,8 +92,17 @@ TolarianLibrary.testAjax = function(name) {
   $.ajax({
     url: 'https://api.magicthegathering.io/v1/cards?name="' + name + '"',
     success: function(response) {
-      //TolarianLibrary.renderCards(response.cards);
-      console.log(response.cards[0]);
+      TolarianLibrary.renderCards(response.cards);
+      //console.log(response.cards[0].rulings[0].date);
     }
   });
 }
+
+/* v.01 notes */
+/*
+
+- Response time is low; consider storing data in an object variable so that in more complex designs, it can be easily retrieved after search is clicked
+
+- Need to create a separate control flow for dates and rulings, as they reference arrays. An object can stand in for the jQuery object, which will display its own HTML that fits as many rulings as there are for a card
+
+*/

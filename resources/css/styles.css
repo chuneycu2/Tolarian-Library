@@ -64,11 +64,12 @@ body {
 
 /* card detail container styles*/
 
-.card-list {
+.results-rows {
   width: 100%;
   padding: 3rem 0;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .result {
