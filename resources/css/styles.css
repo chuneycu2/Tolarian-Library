@@ -54,6 +54,7 @@ body {
   padding: 0.7rem;
   background-color: #26d7b2;
   border-radius: 0.5rem;
+  border: 0.5px solid green;
 }
 
 .search-container i:hover{
@@ -188,4 +189,18 @@ body {
   .card-info dd {
     flex-basis: 75%;
   }
+}
+
+/* footer styles */
+
+footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+
+footer p {
+  font-size: 0.8rem;
+  padding: 0.25rem 0;
 }

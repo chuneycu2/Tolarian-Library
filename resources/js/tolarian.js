@@ -3,7 +3,7 @@ var TolarianLibrary = {};
 $(document).ready(function() {
   $('#search-button').on('click', function() {
     TolarianLibrary.testAjax($('#search-input').val());
-  })
+  });
 });
 
 TolarianLibrary.renderRulings = function(cards) {
@@ -40,7 +40,7 @@ TolarianLibrary.renderCards = function(cards) {
     var imageUrl = cards[index].imageUrl;
 
     if (imageUrl === undefined) {
-      imageUrl = './resources/images/card-unavailable.jpg';
+      imageUrl = './resources/images/card-unavailable.png';
     }
 
     var name = cards[index].name;
