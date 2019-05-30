@@ -10,6 +10,8 @@
 
 body {
   font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
   background-image: url('../images/background.jpg');
   background-position: center;
   background-repeat: no-repeat;
@@ -150,6 +152,9 @@ body {
   .result {
     flex-direction: column;
   }
+  .result img {
+    align-self: center;
+  }
   .card-info {
     padding: 1.5rem;
   }
@@ -165,9 +170,6 @@ body {
   }
 }
 @media only screen and (max-width: 41.563rem) {
-  .result img {
-    align-self: center;
-  }
   .card-info dt {
     flex-basis: 25%;
   }
