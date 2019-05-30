@@ -47,12 +47,20 @@ TolarianLibrary.renderCards = function(cards) {
     var manaCost = cards[index].manaCost;
     var cmc = cards[index].cmc;
     var type = cards[index].type;
+    var rarity = cards[index].rarity;
     var text = cards[index].text;
     var flavor = cards[index].flavor;
 
+    var flavorRow =
+
+    '    <dl>                                    ' +
+    '      <dt>Flavor text:</dt>                 ' +
+    '      <dd class="flavor">' + flavor + '</dd>' +
+    '    </dl>                                   ';
+
     if (flavor === undefined) {
-      flavor = ' ';
-    };
+      flavorRow = '';
+    }
 
     var set = cards[index].set;
     var artist = cards[index].artist;
@@ -60,7 +68,7 @@ TolarianLibrary.renderCards = function(cards) {
     var cardResult =
 
     '<div class="result">' +
-    '  <img src="' + imageUrl + '" alt="' + name + ' card art" />' +
+    '  <img src="' + imageUrl + '" alt="' + name + ' card" />    ' +
     '  <div class="card-info">                                   ' +
     '    <dl>                                                    ' +
     '      <dt>Card name:</dt>                                   ' +
@@ -79,13 +87,14 @@ TolarianLibrary.renderCards = function(cards) {
     '      <dd>' + type + '</dd>                                 ' +
     '    </dl>                                                   ' +
     '    <dl>                                                    ' +
+    '      <dt>Rarity:</dt>                                      ' +
+    '      <dd>' + rarity + '</dd>                               ' +
+    '    </dl>                                                   ' +
+    '    <dl>                                                    ' +
     '      <dt>Card text:</dt>                                   ' +
     '      <dd>' + text + '</dd>                                 ' +
     '    </dl>                                                   ' +
-    '    <dl>                                                    ' +
-    '      <dt>Flavor text:</dt>                                 ' +
-    '      <dd class="flavor">' + flavor + '</dd>                ' +
-    '    </dl>                                                   ' +
+    '    ' + flavorRow + '                                       ' +
     '    <dl>                                                    ' +
     '      <dt>Set:</dt>                                         ' +
     '      <dd>' + set + '</dd>                                  ' +
