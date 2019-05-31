@@ -119,11 +119,11 @@ TolarianLibrary.renderCards = function(cards) {
 TolarianLibrary.ajaxRequest = function(name) {
   $.ajax({
     url: 'https://api.magicthegathering.io/v1/cards?name=' + name,
-    /* type: 'GET',
-    xhrFields: {
+    type: 'GET',
+    /* xhrFields: {
       withCredentials: true
-    },
-    data: 'data', */
+    }, */
+    dataType: 'JSON', 
     success: function(response) {
       //TolarianLibrary.renderRulings(response.cards, 0);
       TolarianLibrary.renderCards(response.cards);
