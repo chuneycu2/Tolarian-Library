@@ -12,33 +12,33 @@ $(document).ready(function() {
   });
 });
 
+//when called, the card array and the current index of that array are sent as parameters
+TolarianLibrary.renderRulings = function(cards, index) {
+
+  var rulingsArray = cards[index].rulings;
+  var rulingsBox = '<h2>Rulings</h2>';
+
+    for (var ruling = 0; ruling < rulingsArray.length; ruling++) {
+
+     if (rulingsArray.length === 0) {
+       rulingsBox = '';
+     };
+
+     var date = rulingsArray[ruling].date;
+     var text = rulingsArray[ruling].text;
+     rulingsBox = rulingsBox + '<p>' + date + ': ' + text + '</p>';
+   }
+
+   return rulingsBox;
+};
+
+//when called, a card list is sent as a parameter and card attributes are rendered
 TolarianLibrary.renderCards = function(cards) {
   var $cardList = $('#card-list');
   $cardList.empty();
 
-  var rulingsArray = [];
-
-  //rulings loop - adds arrays of rulings to rulingsArray
-  for (var cardsIndex = 0; cardsIndex < cards.length; cardsIndex++) {
-    var cardRulings = [];
-    cardRulings.push(cards[cardsIndex].rulings);
-    rulingsArray.push(cardRulings[0]);
-  };
-
   //main loop - renders each card
   for (var index = 0; index < cards.length; index++) {
-
-    var rulingsBox = '<h2>Rulings</h2>';
-
-    if (rulingsArray[index].length === 0) {
-      rulingsBox = '';
-    };
-
-    for (var ruling = 0; ruling < rulingsArray[index].length; ruling++) {
-      var date = rulingsArray[index][ruling].date;
-      var text = rulingsArray[index][ruling].text;
-      rulingsBox = rulingsBox + '<p>' + date + ': ' + text + '</p>';
-    };
 
     var imageUrl = cards[index].imageUrl;
 
@@ -108,7 +108,7 @@ TolarianLibrary.renderCards = function(cards) {
     '    </dl>                                                   ' +
     ' </div>                                                     ' +
     ' <div id="rulings" class="rulings">                         ' +
-    '   ' + rulingsBox + '                                       ' +
+    '   ' + TolarianLibrary.renderRulings(cards, index) + '      ' +
     '  </div>                                                    ' +
     '</div>                                                      ';
 
@@ -119,21 +119,15 @@ TolarianLibrary.renderCards = function(cards) {
 TolarianLibrary.ajaxRequest = function(name) {
   $.ajax({
     url: 'https://api.magicthegathering.io/v1/cards?name=' + name,
+    /* type: 'GET',
+    xhrFields: {
+      withCredentials: true
+    },
+    data: 'data', */
     success: function(response) {
-      //TolarianLibrary.renderRulings(response.cards);
+      //TolarianLibrary.renderRulings(response.cards, 0);
       TolarianLibrary.renderCards(response.cards);
-      //console.log(response.cards);
+      //console.log(response.cards[0].rulings);
     }
   });
 };
-
-/* v.01 notes */
-/*
-
-- Response time is low; consider storing data in an object variable so that in more complex designs, it can be easily retrieved after search is clicked
-
-- Need to create a separate control flow for dates and rulings, as they reference arrays. An object can stand in for the jQuery object, which will display its own HTML that fits as many rulings as there are for a card
-
-- Find a way to fix the global variable rulingsBox. How do you call it in renderCards()?
-
-*/

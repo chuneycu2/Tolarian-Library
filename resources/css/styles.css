@@ -35,6 +35,8 @@ body {
   flex-basis: 100%;
   text-align: center;
   line-height: 2;
+  color: cornsilk;
+  text-shadow: 1px 1px 8px black;
 }
 
 .search-container input {
