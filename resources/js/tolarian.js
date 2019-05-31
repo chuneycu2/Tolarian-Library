@@ -2,7 +2,13 @@ var TolarianLibrary = {};
 
 $(document).ready(function() {
   $('#search-button').on('click', function() {
-    TolarianLibrary.testAjax($('#search-input').val());
+    TolarianLibrary.ajaxRequest($('#search-input').val());
+  });
+  $(document).keypress(function(e) {
+    var key = e.which;
+    if (key === 13) {
+      TolarianLibrary.ajaxRequest($('#search-input').val());
+    };
   });
 });
 
@@ -26,7 +32,7 @@ TolarianLibrary.renderCards = function(cards) {
 
     if (rulingsArray[index].length === 0) {
       rulingsBox = '';
-    }
+    };
 
     for (var ruling = 0; ruling < rulingsArray[index].length; ruling++) {
       var date = rulingsArray[index][ruling].date;
@@ -38,7 +44,7 @@ TolarianLibrary.renderCards = function(cards) {
 
     if (imageUrl === undefined) {
       imageUrl = './resources/images/card-unavailable.png';
-    }
+    };
 
     var name = cards[index].name;
     var manaCost = cards[index].manaCost;
@@ -57,7 +63,7 @@ TolarianLibrary.renderCards = function(cards) {
 
     if (flavor === undefined) {
       flavorRow = '';
-    }
+    };
 
     var set = cards[index].set;
     var artist = cards[index].artist;
@@ -110,7 +116,7 @@ TolarianLibrary.renderCards = function(cards) {
   };
 };
 
-TolarianLibrary.testAjax = function(name) {
+TolarianLibrary.ajaxRequest = function(name) {
   $.ajax({
     url: 'https://api.magicthegathering.io/v1/cards?name=' + name,
     success: function(response) {
@@ -119,7 +125,7 @@ TolarianLibrary.testAjax = function(name) {
       //console.log(response.cards);
     }
   });
-}
+};
 
 /* v.01 notes */
 /*
