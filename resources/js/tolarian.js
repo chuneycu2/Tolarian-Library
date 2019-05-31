@@ -137,7 +137,7 @@ TolarianLibrary.renderCards = function(cards) {
 
   var $body = $('body');
   $body.addClass('relative');
-  
+
 };
 
 TolarianLibrary.ajaxRequest = function(name) {
