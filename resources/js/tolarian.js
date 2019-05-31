@@ -6,36 +6,52 @@ $(document).ready(function() {
   });
 });
 
-TolarianLibrary.renderRulings = function(cards) {
+/* TolarianLibrary.renderRulings = function(cards) {
 
-  let rulingsBox = '';
+  var rulingsArray = [];
 
-  let rulingsList = [];
-
-  for (let rulingIndex = 0; rulingIndex < cards[0].rulings.length; rulingIndex++) { //loop through each ruling for the first card in the cards array
-    if (cards[0].rulings.length !== 0 || rulingsList.length <= cards[0].rulings.length) { //check to see if there are zero rulings, or if the rulings array is full
-      rulingsList.push(cards[0].rulings[rulingIndex]); //push the first ruling to the array, then repeat
-    }
+  for (var cardsIndex = 0; cardsIndex < cards.length; cardsIndex++) { //loop through each card
+    var cardRulings = []; //set an empty array for the rulings
+    cardRulings.push(cards[cardsIndex].rulings); //push the rulings array for the current card to cardRulings
+    rulingsArray.push(cardRulings[0]); //push the contents of cardRulings to the rulingsArray
   }
+  //console.log(rulingsArray);
 
-  rulingsBox = '<h2>Rulings</h2>';
+  /* var rulingsBox = '<h2>Rulings</h2>';
 
-  for (let row = 0; row < rulingsList.length; row++) {
-    rulingsBox = rulingsBox + '<p>' + rulingsList[row].date + ': ' + rulingsList[row].text + '</p>';
+  for (var card = 0; card < rulingsArray.length; card++) {
+    for (var ruling = 0; ruling < rulingsArray[card].length; ruling++) {
+      rulingsBox = rulingsBox + '<p>' + rulingsArray[card][ruling].date + ': ' + rulingsArray[card][ruling].text + '</p>';
+    }
   };
-
-  return rulingsBox;
-
-};
+}; */
 
 TolarianLibrary.renderCards = function(cards) {
   var $cardList = $('#card-list');
   $cardList.empty();
 
-  //var $rulingsHTML = $('#rulings');
-  //$rulingsHTML.empty();
+  var rulingsArray = [];
+
+  for (var cardsIndex = 0; cardsIndex < cards.length; cardsIndex++) { //loop once for each card
+    var cardRulings = []; //set an empty array for the rulings
+    cardRulings.push(cards[cardsIndex].rulings); //push the rulings array for the current card to cardRulings
+    rulingsArray.push(cardRulings[0]); //push the contents of cardRulings to the rulingsArray
+  };
+
+  //console.log(rulingsArray[0].length);
 
   for (var index = 0; index < cards.length; index++) {
+
+    var rulingsBox = '<h2>Rulings</h2>';
+
+    //console.log(rulingsArray[0].length);
+    for (var ruling = 0; ruling < rulingsArray[index].length; ruling++) {
+      //console.log(rulingsArray[ruling].length);
+      var date = rulingsArray[index][ruling].date;
+      var text = rulingsArray[index][ruling].text;
+      //console.log(rulingsArray[0][0].date);
+      rulingsBox = rulingsBox + '<p>' + date + ': ' + text + '</p>';
+    };
 
     var imageUrl = cards[index].imageUrl;
 
@@ -105,7 +121,7 @@ TolarianLibrary.renderCards = function(cards) {
     '    </dl>                                                   ' +
     ' </div>                                                     ' +
     ' <div id="rulings" class="rulings">                         ' +
-    '   ' + TolarianLibrary.renderRulings(cards); + '            ' +
+    '   ' + rulingsBox + '                                       ' +
     '  </div>                                                    ' +
     '</div>                                                      ';
 
@@ -115,10 +131,11 @@ TolarianLibrary.renderCards = function(cards) {
 
 TolarianLibrary.testAjax = function(name) {
   $.ajax({
-    url: 'https://api.magicthegathering.io/v1/cards?name="' + name + '"',
+    url: 'https://api.magicthegathering.io/v1/cards?name=' + name,
     success: function(response) {
+      //TolarianLibrary.renderRulings(response.cards);
       TolarianLibrary.renderCards(response.cards);
-      //console.log(response.cards[0]);
+      //console.log(response.cards);
     }
   });
 }
