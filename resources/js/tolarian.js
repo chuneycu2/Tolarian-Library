@@ -6,50 +6,31 @@ $(document).ready(function() {
   });
 });
 
-/* TolarianLibrary.renderRulings = function(cards) {
-
-  var rulingsArray = [];
-
-  for (var cardsIndex = 0; cardsIndex < cards.length; cardsIndex++) { //loop through each card
-    var cardRulings = []; //set an empty array for the rulings
-    cardRulings.push(cards[cardsIndex].rulings); //push the rulings array for the current card to cardRulings
-    rulingsArray.push(cardRulings[0]); //push the contents of cardRulings to the rulingsArray
-  }
-  //console.log(rulingsArray);
-
-  /* var rulingsBox = '<h2>Rulings</h2>';
-
-  for (var card = 0; card < rulingsArray.length; card++) {
-    for (var ruling = 0; ruling < rulingsArray[card].length; ruling++) {
-      rulingsBox = rulingsBox + '<p>' + rulingsArray[card][ruling].date + ': ' + rulingsArray[card][ruling].text + '</p>';
-    }
-  };
-}; */
-
 TolarianLibrary.renderCards = function(cards) {
   var $cardList = $('#card-list');
   $cardList.empty();
 
   var rulingsArray = [];
 
-  for (var cardsIndex = 0; cardsIndex < cards.length; cardsIndex++) { //loop once for each card
-    var cardRulings = []; //set an empty array for the rulings
-    cardRulings.push(cards[cardsIndex].rulings); //push the rulings array for the current card to cardRulings
-    rulingsArray.push(cardRulings[0]); //push the contents of cardRulings to the rulingsArray
+  //rulings loop - adds arrays of rulings to rulingsArray
+  for (var cardsIndex = 0; cardsIndex < cards.length; cardsIndex++) {
+    var cardRulings = [];
+    cardRulings.push(cards[cardsIndex].rulings);
+    rulingsArray.push(cardRulings[0]);
   };
 
-  //console.log(rulingsArray[0].length);
-
+  //main loop - renders each card
   for (var index = 0; index < cards.length; index++) {
 
     var rulingsBox = '<h2>Rulings</h2>';
 
-    //console.log(rulingsArray[0].length);
+    if (rulingsArray[index].length === 0) {
+      rulingsBox = '';
+    }
+
     for (var ruling = 0; ruling < rulingsArray[index].length; ruling++) {
-      //console.log(rulingsArray[ruling].length);
       var date = rulingsArray[index][ruling].date;
       var text = rulingsArray[index][ruling].text;
-      //console.log(rulingsArray[0][0].date);
       rulingsBox = rulingsBox + '<p>' + date + ': ' + text + '</p>';
     };
 
