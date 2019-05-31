@@ -10,6 +10,19 @@ $(document).ready(function() {
       TolarianLibrary.ajaxRequest($('#search-input').val());
     };
   });
+
+  var $body = $('body');
+  var $cardList = $('#card-list');
+
+  $(document).on({
+    ajaxStart: function() {
+      $cardList.empty();
+      $body.addClass('loading');
+    },
+    ajaxStop: function() {
+      $body.removeClass('loading');
+    }
+  })
 });
 
 //when called, the card array and the current index of that array are sent as parameters
@@ -120,10 +133,7 @@ TolarianLibrary.ajaxRequest = function(name) {
   $.ajax({
     url: 'https://api.magicthegathering.io/v1/cards?name=' + name,
     type: 'GET',
-    /* xhrFields: {
-      withCredentials: true
-    }, */
-    dataType: 'JSON', 
+    dataType: 'JSON',
     success: function(response) {
       //TolarianLibrary.renderRulings(response.cards, 0);
       TolarianLibrary.renderCards(response.cards);

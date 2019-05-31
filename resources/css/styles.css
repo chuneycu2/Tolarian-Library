@@ -193,13 +193,35 @@ body {
   }
 }
 
+/* loading animation */
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: url('../images/ajax-loader.gif') 50% 50% no-repeat;
+}
+
+body.loading .modal {
+  overflow: hidden;
+  display: block;
+}
+
 /* footer styles */
 
 footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 1rem;
+  padding: 0.75rem 0;
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  width: 100%;
+  background-color: beige;
 }
 
 footer p {
