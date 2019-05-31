@@ -19,6 +19,11 @@ body {
   background-size: cover;
 }
 
+.relative {
+  position: relative;
+  padding-bottom: 2rem;
+}
+
 /* search container styles */
 
 .search-container {

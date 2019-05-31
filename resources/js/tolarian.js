@@ -1,9 +1,11 @@
 var TolarianLibrary = {};
 
 $(document).ready(function() {
+
   $('#search-button').on('click', function() {
     TolarianLibrary.ajaxRequest($('#search-input').val());
   });
+
   $(document).keypress(function(e) {
     var key = e.which;
     if (key === 13) {
@@ -16,6 +18,7 @@ $(document).ready(function() {
 
   $(document).on({
     ajaxStart: function() {
+      $body.removeClass('relative');
       $cardList.empty();
       $body.addClass('loading');
     },
@@ -23,6 +26,7 @@ $(document).ready(function() {
       $body.removeClass('loading');
     }
   })
+
 });
 
 //when called, the card array and the current index of that array are sent as parameters
@@ -31,18 +35,19 @@ TolarianLibrary.renderRulings = function(cards, index) {
   var rulingsArray = cards[index].rulings;
   var rulingsBox = '<h2>Rulings</h2>';
 
+  if (rulingsArray.length === 0) {
+    rulingsBox = '';
+    return rulingsBox;
+  };
+
     for (var ruling = 0; ruling < rulingsArray.length; ruling++) {
-
-     if (rulingsArray.length === 0) {
-       rulingsBox = '';
-     };
-
-     var date = rulingsArray[ruling].date;
-     var text = rulingsArray[ruling].text;
-     rulingsBox = rulingsBox + '<p>' + date + ': ' + text + '</p>';
+      var date = rulingsArray[ruling].date;
+      var text = rulingsArray[ruling].text;
+      rulingsBox = rulingsBox + '<p>' + date + ': ' + text + '</p>';
    }
 
    return rulingsBox;
+
 };
 
 //when called, a card list is sent as a parameter and card attributes are rendered
@@ -129,11 +134,10 @@ TolarianLibrary.renderCards = function(cards) {
     $cardList.append(cardResult);
 
   };
+
   var $body = $('body');
-  $body.css({
-    'position': 'relative',
-    'padding-bottom': '2rem'
-  });
+  $body.addClass('relative');
+  
 };
 
 TolarianLibrary.ajaxRequest = function(name) {
