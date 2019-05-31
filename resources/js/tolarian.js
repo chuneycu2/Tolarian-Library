@@ -47,6 +47,7 @@ TolarianLibrary.renderRulings = function(cards, index) {
 
 //when called, a card list is sent as a parameter and card attributes are rendered
 TolarianLibrary.renderCards = function(cards) {
+
   var $cardList = $('#card-list');
   $cardList.empty();
 
@@ -126,7 +127,13 @@ TolarianLibrary.renderCards = function(cards) {
     '</div>                                                      ';
 
     $cardList.append(cardResult);
+
   };
+  var $body = $('body');
+  $body.css({
+    'position': 'relative',
+    'padding-bottom': '2rem'
+  });
 };
 
 TolarianLibrary.ajaxRequest = function(name) {
