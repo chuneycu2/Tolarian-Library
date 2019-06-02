@@ -2,7 +2,7 @@ var TolarianLibrary = {};
 
 $(document).ready(function() {
 
-  $('#search-button').on('click', function() {
+  /* $('#search-button').on('click', function() {
     TolarianLibrary.ajaxRequest($('#search-input').val());
   });
 
@@ -25,7 +25,7 @@ $(document).ready(function() {
     ajaxStop: function() {
       $body.removeClass('loading');
     }
-  })
+  }) */
 
 });
 
