@@ -19,13 +19,31 @@ body {
   background-size: cover;
 }
 
+/* active classes */
+
+.rest {
+  /* for search option buttons resting state*/
+  background-color: white;
+  color: #19359b;
+}
+
+.active {
+  /* for search option buttons when active */
+  background-color: #19359b;
+  color: white;
+}
+
 /* search container styles */
 
 .content-container {
   position: absolute;
-  top: 30%;
+  top: 25%;
   left: 0;
   right: 0;
+  transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .search-container {
@@ -35,7 +53,7 @@ body {
   align-items: center;
   margin: 0 auto;
   width: 65%;
-  max-width: 40rem;
+  max-width: 50rem;
 }
 
 .search-container h1 {
@@ -45,6 +63,7 @@ body {
   text-align: center;
   line-height: 2;
   color: #19359b;
+  padding-top: 1.5rem;
 }
 
 .search-bar {
@@ -69,6 +88,10 @@ body {
   outline: none;
 }
 
+.search-bar input::placeholder {
+  color: #b7b7b7;
+}
+
 .search-bar i {
   color: #19359b;
   padding-left: 0.75rem;
@@ -91,13 +114,11 @@ body {
   border: 1px solid #19359b;
   border-radius: 7px;
   margin-top: 1rem;
-  background-color: white;
 }
 
 .search-options button p {
   font-size: 1rem;
   font-family: "Beleren-Bold", sans-serif;
-  color: #19359b;
 }
 
 .search-options button:hover {
@@ -110,157 +131,46 @@ body {
   outline: none;
 }
 
+.search-options .active:hover {
+  background-color: #19359b;
+  color: white;
+}
+
 @media only screen and (max-width: 48.675rem) {
+  .content-container {
+    padding: 0 2rem;
+  }
+  .search-container {
+    width: 100%;
+    margin: 0;
+  }
   .search-options button {
     height: 3.5rem;
   }
 }
 
+/* advanced search box styles */
 
-
-/* card detail container styles
-
-.results-rows {
-  width: 100%;
-  padding: 3rem 0;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.result {
-  display: flex;
-  justify-content: center;
-  width: auto;
+.advanced-search {
+  width: 65%;
   max-width: 50rem;
-  background-image: url('../images/parchment-background.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border: 1px solid black;
-  border-radius: 0.5rem;
-  margin: 1.5rem;
-  flex-wrap: wrap;
+  height: 600px;
+  background-color: white;
+  border: 1px solid #19359b;
+  border-radius: 10px;
+  margin-top: 2rem;
 }
 
-.result img {
-  height: 310px;
-  width: 223px;
-  padding: 1.5rem 0.75rem 1.5rem 1.5rem;
-  flex-shrink: 0;
+.search-terms {
+
 }
 
-.card-info {
-  padding: 1.5rem 1.5rem 1.5rem 0.75rem;
-  flex: 1
+.search-inputs {
+
 }
 
-.card-info dl {
-  display: flex;
-  flex-flow: row;
-  padding: 0.4rem 0;
-}
-
-.card-info dt {
-  flex-basis: 20%;
-  text-align: right;
-  font-weight: bold;
-  line-height: 1.2;
-}
-
-.card-info dd {
-  flex-basis: 50%;
-  flex-grow: 1;
-  padding-left: 1rem;
-  line-height: 1.2;
-}
-
-.card-info dl:first-child {
-  padding: 0 0 0.4rem 0;
-}
-
-.card-info .flavor {
-  font-style: italic;
-}
-
-.rulings {
-  width: 100%;
-  flex-basis: 100%;
-  margin: 0rem 1.5rem 1.5rem 1.5rem;
-}
-
-.rulings h2 {
-  margin: 1rem;
-  text-align: center;
-  font-weight: bold;
-  text-decoration: underline;
-}
-
-.rulings p {
-  padding: 1rem;
-  margin: 0.5rem 0;
-  line-height: 1.2;
-  background-color: ghostwhite;
-  border: 0.5px solid black;
-  border-radius: 0.5rem;
-}
-
-.rulings p:last-child {
-  margin: 0.5rem 0 0 0;
-}
-
-@media only screen and (max-width: 47.5rem) {
-  .result {
-    flex-direction: column;
-  }
-  .result img {
-    align-self: center;
-  }
-  .card-info {
-    padding: 1.5rem;
-  }
-  .card-info dt {
-    flex-basis: 15%;
-  }
-  .card-info dd {
-    flex-basis: 85%;
-  }
-  .rulings {
-    width: auto;
-    flex-basis: auto;
+@media only screen and (max-width: 48.675rem) {
+  .advanced-search {
+    width: 100%;
   }
 }
-@media only screen and (max-width: 41.563rem) {
-  .result img {
-    width: 70%;
-    height: auto;
-    padding: 4.5rem 1.5rem 1.5rem 1.5rem;
-  }
-  .card-info dt {
-    flex-basis: 25%;
-  }
-  .card-info dd {
-    flex-basis: 75%;
-  }
-}
-
-/* loading animation */
-
-/*
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background: url('../images/ajax-loader.gif') 50% 50% no-repeat;
-}
-
-body.loading .modal {
-  overflow: hidden;
-  display: block;
-}
-*/
-
-/* footer styles */

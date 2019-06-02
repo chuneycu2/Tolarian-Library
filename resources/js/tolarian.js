@@ -2,6 +2,28 @@ var TolarianLibrary = {};
 
 $(document).ready(function() {
 
+  $('#advanced-search').on('click', function() {
+    $('#advanced-search').removeClass('rest').addClass('active');
+    $('.content-container').css({
+      top: 0 });
+    TolarianLibrary.showAdvancedSearch();
+    });
+
+});
+
+TolarianLibrary.showAdvancedSearch = function() {
+  var $content = $('.content-container');
+  var $advancedSearchBox =
+    '<div class="advanced-search">' +
+
+
+    '</div>';
+    
+  $content.append($advancedSearchBox);
+}
+
+/* $(document).ready(function() {
+
   /* $('#search-button').on('click', function() {
     TolarianLibrary.ajaxRequest($('#search-input').val());
   });
@@ -25,9 +47,9 @@ $(document).ready(function() {
     ajaxStop: function() {
       $body.removeClass('loading');
     }
-  }) */
+  })
 
-});
+}); */
 
 //when called, the card array and the current index of that array are sent as parameters
 TolarianLibrary.renderRulings = function(cards, index) {
