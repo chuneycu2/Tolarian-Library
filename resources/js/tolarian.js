@@ -4,26 +4,16 @@ $(document).ready(function() {
   $('#search-button').on('click', function() {
     TolarianLibrary.ajaxRequest($('#search-input').val());
   });
+  $('#advanced-search-button').on('click', function() {
+    TolarianLibrary.ajaxRequest($('#search-input').val());
+  });
 
-  /* $('#advanced-search').on('click', function() {
-    $('#advanced-search').removeClass('rest').addClass('active');
-    $('.content-container').css({
-      top: 0 });
-    TolarianLibrary.showAdvancedSearch();
-  }); */
+  $('#advanced-search').on('click', function() {
+    $('#advanced-search').toggleClass('rest').toggleClass('active');
+    $('.advanced-search').slideToggle('hide');
+  });
 
 });
-
-TolarianLibrary.showAdvancedSearch = function() {
-  var $content = $('.content-container');
-  var $advancedSearchBox =
-    '<div class="advanced-search">' +
-
-
-    '</div>';
-
-  $content.append($advancedSearchBox);
-}
 
 /* $(document).ready(function() {
 
