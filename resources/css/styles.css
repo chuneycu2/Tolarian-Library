@@ -154,20 +154,172 @@ body {
 .advanced-search {
   width: 65%;
   max-width: 50rem;
-  height: 600px;
+  height: auto;
   background-color: white;
   border: 1px solid #19359b;
   border-radius: 10px;
   margin-top: 2rem;
 }
 
-.search-terms {
-
+.search-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem 1.5rem 1.5rem;
 }
 
-.search-inputs {
-
+.search-input:first-child {
+  padding: 1.5rem;
 }
+
+.search-input p {
+  width: 20%;
+}
+
+.search-input input {
+  width: 80%;
+  padding: 0.75rem;
+  border: 1px solid #4676e0;
+  border-radius: 7px;
+  font-size: 1rem;
+}
+
+.search-input input::placeholder {
+  color: #b7b7b7;
+}
+
+.search-input input:focus {
+  outline: none;
+  box-shadow: 0px 0px 3px #19359b;
+}
+
+.dropdown-row, .colors-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 84%;
+}
+
+.dropdown-row select {
+  margin-left: 1rem;
+  width: 25%;
+  height: 2.75rem;
+  font-size: 1rem;
+}
+
+.dropdown-row select:focus {
+  outline: none;
+  box-shadow: 0px 0px 3px #19359b;
+}
+
+.colors-row {
+  display: flex;
+  width: 84%;
+}
+
+.color-inputs {
+  display: flex;
+  justify-content: space-between;
+  width: 84%;
+}
+
+.color-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.color-button span:hover {
+  background-color: #ccc;
+}
+
+.color-button img {
+  width: 25px;
+  height: 25px;
+}
+
+.colors-row select {
+  margin-left: 2rem;
+  width: 25%;
+  height: 2.75rem;
+  font-size: 1rem;
+}
+
+/* custom checkboxes */
+.color-button input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.color-button .checkmark {
+  position: relative;
+  margin-top: 0.5rem;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: white;
+  border: 1px solid #19359b;
+  border-radius: 5px;
+}
+
+.color-button:hover input ~ .checkmark {
+  background-color: #eee;
+}
+
+.color-button input:checked ~ .checkmark {
+  background-color: #19359b;
+}
+
+.color-button span:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.color-button input:checked ~ .checkmark:after {
+  display: block;
+}
+
+label .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+/* end custom checkboxes*/
+
+.search-input #power {
+  width: 35%;
+  margin-right: 2rem;
+}
+
+.search-input #toughness {
+  width: 35%;
+}
+
 
 @media only screen and (max-width: 48.675rem) {
   .advanced-search {

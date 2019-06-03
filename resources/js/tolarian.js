@@ -1,13 +1,16 @@
 var TolarianLibrary = {};
 
 $(document).ready(function() {
+  $('#search-button').on('click', function() {
+    TolarianLibrary.ajaxRequest($('#search-input').val());
+  });
 
-  $('#advanced-search').on('click', function() {
+  /* $('#advanced-search').on('click', function() {
     $('#advanced-search').removeClass('rest').addClass('active');
     $('.content-container').css({
       top: 0 });
     TolarianLibrary.showAdvancedSearch();
-    });
+  }); */
 
 });
 
@@ -18,7 +21,7 @@ TolarianLibrary.showAdvancedSearch = function() {
 
 
     '</div>';
-    
+
   $content.append($advancedSearchBox);
 }
 
@@ -169,8 +172,8 @@ TolarianLibrary.ajaxRequest = function(name) {
     dataType: 'JSON',
     success: function(response) {
       //TolarianLibrary.renderRulings(response.cards, 0);
-      TolarianLibrary.renderCards(response.cards);
-      //console.log(response.cards[0].rulings);
+      //TolarianLibrary.renderCards(response.cards);
+      console.log(response.cards);
     }
   });
 };
