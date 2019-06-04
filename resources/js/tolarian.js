@@ -46,32 +46,20 @@ $(document).ready(function() {
   });
 
   var $checkbox = $('input[type=checkbox]');
+  var $colorButton = $('label.color-button');
 
   var selectedColors = '';
 
-  $checkbox.on('click', function() {
-    if ($(this).prop('checked', false)) {
-      $(this).prop('checked', true);
-      console.log("it's checked!");
-      selectedColors += this.id;
-    }
-    console.log(selectedColors);
+  $colorButton.on('click', function() {
+    
+    //console.log(selectedColors);
   });
 
 });
 
 TolarianLibrary.selectedColors = function() {
 
-  $checkbox = $('input[type=checkbox]');
 
-  const selectedColors = '';
-
-  $checkbox.on('click', function() {
-    if ($('input[type=checkbox]:checked')) {
-      console.log("it's checked!")
-    }
-    console.log(selectedColors);
-  });
   //return a string of selected color words
 }
 
