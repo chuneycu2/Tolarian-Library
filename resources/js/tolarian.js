@@ -4,19 +4,6 @@ var magicAPI = 'https://api.magicthegathering.io/v1/cards';
 
 $(document).ready(function() {
 
-  //sets a click handler for the main search icon
-  $('#search-button').on('click', function() {
-    TolarianLibrary.ajaxRequest(magicAPI + '?name=' + $('#search-input').val());
-  });
-
-  //enables the Enter key to perform a generic search
-  $(document).keypress(function(e) {
-    var key = e.which;
-    if (key === 13) {
-      TolarianLibrary.ajaxRequest(magicAPI + '?name' + $('#search-input').val());
-    };
-  });
-
   //search option panel click handlers
   var $advancedTab = $('#advanced-search');
   var $advancedPanel = $('.advanced-search');
@@ -52,15 +39,9 @@ $(document).ready(function() {
     });
   });
 
-  //sets a click handler for the advanced search button
-  $('#advanced-search-button').on('click', function() {
-    $advancedPanel.toggleClass('hide');
-    TolarianLibrary.advancedSearch();
-  });
-
   //displays a loading gif during ajax requests
   var $body = $('body');
-  var $cardList = $('.card-list');
+  var $cardList = $('#card-list');
 
   $(document).on({
     ajaxStart: function() {
@@ -71,6 +52,27 @@ $(document).ready(function() {
     ajaxStop: function() {
       $body.removeClass('loading');
     }
+  });
+
+  //sets a click handler for the main search icon
+  $('#search-button').on('click', function() {
+    TolarianLibrary.ajaxRequest(magicAPI + '?name=' + $('#search-input').val());
+  });
+
+  //enables the Enter key to perform a main search
+  $(document).keypress(function(e) {
+    var key = e.which;
+    if (key === 13) {
+      TolarianLibrary.ajaxRequest(magicAPI + '?name=' + $('#search-input').val());
+    };
+  });
+
+  //sets a click handler for the advanced search button
+  $('#advanced-search-button').on('click', function() {
+    $advancedTab.toggleClass('rest').toggleClass('active');
+    $advancedPanel.toggleClass('hide');
+    $cardList.empty();
+    TolarianLibrary.advancedSearch();
   });
 
 });
@@ -196,7 +198,7 @@ TolarianLibrary.renderCards = function(cards) {
       flavorRow = '';
     };
 
-    var set = cards[index].set;
+    var set = cards[index].setName;
     var artist = cards[index].artist;
 
     var cardResult =
@@ -259,8 +261,8 @@ TolarianLibrary.ajaxRequest = function(url) {
     dataType: 'JSON',
     success: function(response) {
       //TolarianLibrary.renderRulings(response.cards, 0);
-      //TolarianLibrary.renderCards(response.cards);
-      console.log(response.cards);
+      TolarianLibrary.renderCards(response.cards);
+      //console.log(response.cards);
     }
   });
 };

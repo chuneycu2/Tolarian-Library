@@ -373,7 +373,7 @@ label .checkmark:after {
   .search-input p {
     padding-bottom: 0.75rem;
     text-align: left;
-    width: 30%;
+    width: 100%;
   }
   .dropdown-row, .colors-row, .input-stats {
     width: 100%;
@@ -486,4 +486,134 @@ label .checkmark:after {
 body.loading .modal {
   overflow: hidden;
   display: block;
+}
+
+/* search results styles */
+
+.results-rows {
+  width: 100%;
+  padding: 3rem 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.result {
+  display: flex;
+  justify-content: center;
+  width: auto;
+  max-width: 50rem;
+  background-color: white;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 1px solid #19359b;
+  border-radius: 0.5rem;
+  margin: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.result img {
+  height: 310px;
+  width: 223px;
+  padding: 1.5rem 0.75rem 1.5rem 1.5rem;
+  flex-shrink: 0;
+}
+
+.card-info {
+  padding: 1.5rem 1.5rem 1.5rem 0.75rem;
+  flex: 1
+}
+
+.card-info dl {
+  display: flex;
+  flex-flow: row;
+  padding: 0.4rem 0;
+}
+
+.card-info dt {
+  flex-basis: 20%;
+  text-align: right;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.card-info dd {
+  flex-basis: 50%;
+  flex-grow: 1;
+  padding-left: 1rem;
+  line-height: 1.2;
+}
+
+.card-info dl:first-child {
+  padding: 0 0 0.4rem 0;
+}
+
+.card-info .flavor {
+  font-style: italic;
+}
+
+.rulings {
+  width: 100%;
+  flex-basis: 100%;
+  margin: 0rem 1.5rem 1.5rem 1.5rem;
+}
+
+.rulings h2 {
+  margin: 1rem;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.rulings p {
+  padding: 1rem;
+  margin: 0.5rem 0;
+  line-height: 1.2;
+  background-color: ghostwhite;
+  border: 0.5px solid #4676e0;
+  border-radius: 0.5rem;
+}
+
+.rulings p:last-child {
+  margin: 0.5rem 0 0 0;
+}
+
+@media only screen and (max-width: 47.5rem) {
+  .result {
+    flex-direction: column;
+  }
+  .result img {
+    align-self: center;
+  }
+  .card-info {
+    padding: 1.5rem;
+  }
+  .card-info dt {
+    flex-basis: 15%;
+  }
+  .card-info dd {
+    flex-basis: 85%;
+  }
+  .rulings {
+    width: auto;
+    flex-basis: auto;
+  }
+}
+@media only screen and (max-width: 41.563rem) {
+  .result {
+    margin: 2rem;
+  }
+  .result img {
+    width: 100%;
+    height: auto;
+    padding: 1.75rem;
+    box-sizing: border-box;
+  }
+  .card-info dt {
+    flex-basis: 25%;
+  }
+  .card-info dd {
+    flex-basis: 75%;
+  }
 }
