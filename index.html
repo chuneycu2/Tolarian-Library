@@ -36,9 +36,9 @@
       <div class="search-input">
         <p>Rules text:</p>
         <div class="dropdown-row">
-          <input id="text" placeholder="Use brackets and/or text">
+          <input id="text" placeholder="Add text or symbols">
           <select id="symbols">
-            <option value="">Select:</option>
+            <option value="">Symbol:</option>
             <option value="{W}">{W}: One white mana</option>
             <option value="{U}">{U}: One blue mana</option>
             <option value="{B}">{B}: One black mana</option>
@@ -82,41 +82,40 @@
         <p>Colors:</p>
         <div class="colors-row">
           <div class="color-inputs">
-            <label class="color-button">
+            <label class="color-button" for="white">
               <img src="./resources/images/color-icon-W.png" alt="white mana symbol"/>
               <input id="white" type="checkbox">
               <span class="checkmark"></span>
             </label>
-            <label class="color-button">
+            <label class="color-button" for="blue">
               <img src="./resources/images/color-icon-U.png" alt="blue mana symbol"/>
               <input id="blue" type="checkbox">
               <span class="checkmark"></span>
             </label>
-            <label class="color-button">
+            <label class="color-button" for="black">
               <img src="./resources/images/color-icon-B.png" alt="black mana symbol"/>
               <input id="black" type="checkbox">
               <span class="checkmark"></span>
             </label>
-            <label class="color-button">
+            <label class="color-button" for="red">
               <img src="./resources/images/color-icon-R.png" alt="red mana symbol"/>
               <input id="red" type="checkbox">
               <span class="checkmark"></span>
             </label>
-            <label class="color-button">
+            <label class="color-button" for="green">
               <img src="./resources/images/color-icon-G.png" alt="green mana symbol"/>
               <input id="green" type="checkbox">
               <span class="checkmark"></span>
             </label>
-            <label class="color-button">
+            <!--<label class="color-button" for="colorless">
               <img src="./resources/images/color-icon-C.png" alt="colorless mana symbol"/>
               <input id="colorless" type="checkbox">
               <span class="checkmark"></span>
-            </label>
+            </label>-->
           </div>
-          <select>
+          <select id="color-specifics">
             <option val="Exactly">Exactly</option>
-            <option val="Exactly">Including</option>
-            <option val="Exactly">At most</option>
+            <option val="Including">Including</option>
           </select>
         </div>
       </div>

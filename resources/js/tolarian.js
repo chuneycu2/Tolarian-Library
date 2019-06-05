@@ -45,33 +45,49 @@ $(document).ready(function() {
     $('.generate-booster').slideToggle('hide');
   });
 
-  var $checkbox = $('input[type=checkbox]');
-  var $colorButton = $('label.color-button');
+  //symbols: when option is clicked, it is added to the Text input
+  var $symbols = $('#symbols');
+  var $textField = $('input[id="text"]');
 
-  var selectedColors = '';
-
-  $colorButton.on('click', function() {
-    
-    //console.log(selectedColors);
+  $symbols.on('change', function() {
+    var value = $(this).val();
+    $textField.val(function(i, val) {
+      return val + value;
+    });
   });
 
 });
 
 TolarianLibrary.selectedColors = function() {
 
+  var $checkedColor = $('input[type=checkbox]:checked');
+  var $colorSpecifics = $('#color-specifics').val();
+  var selectedColors = [];
+  var colorsParam = '';
 
-  //return a string of selected color words
+  $checkedColor.each(function(index) {
+    if ($colorSpecifics === "Exactly") {
+      selectedColors.push($(this).attr('id'));
+      colorsParam = selectedColors.join(',');
+    } else if ($colorSpecifics === "Including") {
+      selectedColors.push($(this).attr('id'));
+      colorsParam = selectedColors.join('|');
+    }
+  });
+
+  return colorsParam;
+  //returns a string of selected color words
+  //exactly: "blue,red,green"
+  //including: "blue|red|green"
 }
 
 TolarianLibrary.advancedSearch = function() {
-
-  var magicAPIparams = 'https://api.magicthegathering.io/v1/cards?';
 
   var $name = $('#card-name').val();
   var $cmc = $('#cmc').val();
   var $text = $('#text').val();
   var $types = $('#types').val();
-  //var $colors = TolarianLibrary.selectedColors(); //returns a string of color words
+  var $colors = TolarianLibrary.selectedColors(); //returns an array of color words
   var $rarity = $('#rarity').val();
   var $set = $('#set').val();
   var $power = $('#power').val();
@@ -84,9 +100,9 @@ TolarianLibrary.advancedSearch = function() {
     cmc: $cmc,
     text: $text,
     types: $types,
-    //colors: $colors,
+    colors: $colors,
     rarity: $rarity,
-    set: $set,
+    setName: $set,
     power: $power,
     toughness: $toughness,
     artist: $artist,
@@ -101,9 +117,17 @@ TolarianLibrary.advancedSearch = function() {
 
   console.log(searchEntries);
 
-  console.log($.param(searchEntries));
+  var parameters = $.param(searchEntries);
 
-  var searchUrl = '';
+  console.log(parameters);
+
+  var searchUrl = magicAPI + '?' + parameters;
+
+  //console.log(searchUrl);
+
+  //return searchUrl;
+
+  TolarianLibrary.ajaxRequest(searchUrl);
 }
 
 
