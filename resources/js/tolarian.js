@@ -17,32 +17,28 @@ $(document).ready(function() {
     };
   });
 
-  //sets a click handler for the advanced search button
-  $('#advanced-search-button').on('click', function() {
-    TolarianLibrary.advancedSearch();
+  //search option panel click handlers
+  var $advancedTab = $('#advanced-search');
+  var $advancedPanel = $('.advanced-search');
+  var $generateTab = $('#generate-booster');
+  var $generatePanel = $('.generate-booster');
+
+  $advancedTab.on('click', function() {
+    $generateTab.removeClass('active').addClass('rest');
+    if (!$generatePanel.hasClass('hide')) {
+      $generatePanel.toggleClass('hide');
+    }
+    $advancedTab.toggleClass('rest').toggleClass('active');
+    $advancedPanel.toggleClass('hide');
   });
 
-  //sets click handlers for the options tabs
-  $('#advanced-search').on('click', function() {
-    $('#generate-booster')
-      .removeClass('active')
-      .addClass('rest');
-    $('.generate-booster').css({ "display": "none" });
-    $('#advanced-search')
-      .toggleClass('rest')
-      .toggleClass('active');
-    $('.advanced-search').slideToggle('hide');
-  });
-
-  $('#generate-booster').on('click', function() {
-    $('#advanced-search')
-      .removeClass('active')
-      .addClass('rest');
-    $('.advanced-search').css({ "display": "none" });
-    $('#generate-booster')
-      .toggleClass('rest')
-      .toggleClass('active');
-    $('.generate-booster').slideToggle('hide');
+  $generateTab.on('click', function() {
+    $advancedTab.removeClass('active').addClass('rest');
+    if (!$advancedPanel.hasClass('hide')) {
+      $advancedPanel.toggleClass('hide');
+    }
+    $generateTab.toggleClass('rest').toggleClass('active');
+    $generatePanel.toggleClass('hide');
   });
 
   //symbols: when option is clicked, it is added to the Text input
@@ -54,6 +50,27 @@ $(document).ready(function() {
     $textField.val(function(i, val) {
       return val + value;
     });
+  });
+
+  //sets a click handler for the advanced search button
+  $('#advanced-search-button').on('click', function() {
+    $advancedPanel.toggleClass('hide');
+    TolarianLibrary.advancedSearch();
+  });
+
+  //displays a loading gif during ajax requests
+  var $body = $('body');
+  var $cardList = $('.card-list');
+
+  $(document).on({
+    ajaxStart: function() {
+      $body.removeClass('relative');
+      $cardList.empty();
+      $body.addClass('loading');
+    },
+    ajaxStop: function() {
+      $body.removeClass('loading');
+    }
   });
 
 });
