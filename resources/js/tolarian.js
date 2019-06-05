@@ -6,7 +6,7 @@ $(document).ready(function() {
 
   //sets a click handler for the main search icon
   $('#search-button').on('click', function() {
-    TolarianLibrary.ajaxRequest(magicAPI + '?name' + $('#search-input').val());
+    TolarianLibrary.ajaxRequest(magicAPI + '?name=' + $('#search-input').val());
   });
 
   //enables the Enter key to perform a generic search
@@ -115,17 +115,10 @@ TolarianLibrary.advancedSearch = function() {
     }
   }
 
-  console.log(searchEntries);
-
+  //console.log(searchEntries);
   var parameters = $.param(searchEntries);
-
-  console.log(parameters);
-
+  //console.log(parameters);
   var searchUrl = magicAPI + '?' + parameters;
-
-  //console.log(searchUrl);
-
-  //return searchUrl;
 
   TolarianLibrary.ajaxRequest(searchUrl);
 }
