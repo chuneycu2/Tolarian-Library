@@ -4,6 +4,9 @@ var magicAPI = 'https://api.magicthegathering.io/v1/cards';
 
 $(document).ready(function() {
 
+  //testing mtgSets import
+
+
   //search option panel click handlers
   var $advancedTab = $('#advanced-search');
   var $advancedPanel = $('.advanced-search');
@@ -62,7 +65,9 @@ $(document).ready(function() {
   //enables the Enter key to perform a main search
   $(document).keypress(function(e) {
     var key = e.which;
-    if (key === 13) {
+    if (!$advancedPanel.hasClass('hide')) {
+      return;
+    } else if (key === 13) {
       TolarianLibrary.ajaxRequest(magicAPI + '?name=' + $('#search-input').val());
     };
   });
@@ -255,6 +260,7 @@ TolarianLibrary.renderCards = function(cards) {
 };
 
 TolarianLibrary.ajaxRequest = function(url) {
+  var magicAPI = 'https://api.magicthegathering.io/v1/cards';
   $.ajax({
     url: url,
     type: 'GET',
