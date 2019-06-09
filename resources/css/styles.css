@@ -496,6 +496,8 @@ body.loading .modal {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  max-width: 60rem;
+  margin: 0 auto;
 }
 
 .result {
@@ -617,3 +619,23 @@ body.loading .modal {
     flex-basis: 75%;
   }
 }
+
+/* autocomplete styling */
+
+.ui-menu-item {
+  padding: 0.5rem;
+  font-family: "Beleren-Bold", sans-serif;
+}
+
+/* search result v03 styles */
+
+/* .card-result {
+  display: flex;
+  justify-content: center;
+}
+#card-image {
+  margin: 0.5rem;
+  width: 223px;
+  height: 310px;
+  align-self: center;
+} */

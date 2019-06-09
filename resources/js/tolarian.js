@@ -1,17 +1,29 @@
 var TolarianLibrary = {};
 
-var magicAPI = 'https://api.magicthegathering.io/v1/cards';
+var magicAPI = 'https://api.magicthegathering.io/v1/';
+
+var boosterSets = ["Tenth Edition", "Unlimited Edition", "Revised Edition", "Fourth Edition", "Fifth Dawn", "Fifth Edition", "Classic Sixth Edition", "Seventh Edition", "Eighth Edition", "Ninth Edition", "Masters 25", "Aether Revolt", "Amonkhet", "Shards of Alara", "Alliances", "Apocalypse", "Alara Reborn", "Arabian Nights", "Antiquities", "Avacyn Restored", "Battlebond", "Battle for Zendikar", "Born of the Gods", "Betrayers of Kamigawa", "Champions of Kamigawa", "Chronicles", "Conspiracy: Take the Crown", "Conspiracy", "Conflux", "Coldsnap", "Dragon's Maze", "Dissension", "Dark Ascension", "Dominaria", "The Dark", "Darksteel", "Dragons of Tarkir", "Eternal Masters", "Eldritch Moon", "Eventide", "Exodus", "Fallen Empires", "Fate Reforged", "Future Sight", "Guildpact", "Guilds of Ravnica", "Gatecrash", "Homelands", "Hour of Devastation", "Ice Age", "Iconic Masters", "Invasion", "Innistrad", "Journey into Nyx", "Judgment", "Kaladesh", "Khans of Tarkir", "Limited Edition Alpha", "Limited Edition Beta", "Legends", "Legions", "Lorwyn", "Magic 2010", "Magic 2011", "Magic 2012", "Magic 2013", "Magic 2014", "Magic 2015", "Core Set 2019", "Mirrodin Besieged", "Masters Edition", "Masters Edition II", "Masters Edition III", "Masters Edition IV", "Mirage", "Modern Masters 2015", "Modern Masters 2017", "Modern Masters", "Mercadian Masques", "Morningtide", "Mirrodin", "Nemesis", "New Phyrexia", "Odyssey", "Oath of the Gatewatch", "Onslaught", "Magic Origins", "Prophecy", "Planar Chaos", "Planeshift", "Portal", "Portal Three Kingdoms", "Ravnica: City of Guilds", "Rivals of Ixalan", "Ravnica Allegiance", "Rise of the Eldrazi", "Return to Ravnica", "Starter 1999", "Scourge", "Shadowmoor", "Shadows over Innistrad", "Saviors of Kamigawa", "Scars of Mirrodin", "Stronghold", "Theros", "Tempest", "Torment", "Tempest Remastered", "Time Spiral", "Urza's Destiny", "Unglued", "Urza's Legacy",  "Ultimate Masters", "Unhinged", "Urza's Saga", "Unstable", "Visions", "Vintage Masters", "War of the Spark"];
 
 $(document).ready(function() {
 
-  //testing mtgSets import
-
-
-  //search option panel click handlers
+  //jquery objects
+  var $body = $('body');
+  var $cardList = $('#card-list');
   var $advancedTab = $('#advanced-search');
   var $advancedPanel = $('.advanced-search');
   var $generateTab = $('#generate-booster');
   var $generatePanel = $('.generate-booster');
+  var $symbols = $('#symbols');
+  var $textField = $('input[id="text"]');
+
+  $('#search-sets').autocomplete({
+    source: boosterSets
+  })
+
+  $("#booster-pack-button").on('click', function() {
+    $cardList.empty();
+    TolarianLibrary.generateBooster($('#search-sets').val());
+  })
 
   $advancedTab.on('click', function() {
     $generateTab.removeClass('active').addClass('rest');
@@ -32,9 +44,6 @@ $(document).ready(function() {
   });
 
   //symbols: when option is clicked, it is added to the Text input
-  var $symbols = $('#symbols');
-  var $textField = $('input[id="text"]');
-
   $symbols.on('change', function() {
     var value = $(this).val();
     $textField.val(function(i, val) {
@@ -43,9 +52,6 @@ $(document).ready(function() {
   });
 
   //displays a loading gif during ajax requests
-  var $body = $('body');
-  var $cardList = $('#card-list');
-
   $(document).on({
     ajaxStart: function() {
       $body.removeClass('relative');
@@ -59,7 +65,7 @@ $(document).ready(function() {
 
   //sets a click handler for the main search icon
   $('#search-button').on('click', function() {
-    TolarianLibrary.ajaxRequest(magicAPI + '?name=' + $('#search-input').val());
+    TolarianLibrary.ajaxRequest(magicAPI + 'cards?name=' + $('#search-input').val());
   });
 
   //enables the Enter key to perform a main search
@@ -68,7 +74,7 @@ $(document).ready(function() {
     if (!$advancedPanel.hasClass('hide')) {
       return;
     } else if (key === 13) {
-      TolarianLibrary.ajaxRequest(magicAPI + '?name=' + $('#search-input').val());
+      TolarianLibrary.ajaxRequest(magicAPI + 'cards?name=' + $('#search-input').val());
     };
   });
 
@@ -206,6 +212,12 @@ TolarianLibrary.renderCards = function(cards) {
     var set = cards[index].setName;
     var artist = cards[index].artist;
 
+    //for v03
+    /* var cardResult =
+    '<div class="card-result">                                                   ' +
+    '  <img id="card-image" src="' + imageUrl + '" alt="' + name + ' card" />    ' +
+    '</div>                                                                        '; */
+
     var cardResult =
 
     '<div class="result">' +
@@ -260,7 +272,6 @@ TolarianLibrary.renderCards = function(cards) {
 };
 
 TolarianLibrary.ajaxRequest = function(url) {
-  var magicAPI = 'https://api.magicthegathering.io/v1/cards';
   $.ajax({
     url: url,
     type: 'GET',
@@ -272,3 +283,53 @@ TolarianLibrary.ajaxRequest = function(url) {
     }
   });
 };
+
+// dynamic set fill for autocomplete
+/*TolarianLibrary.getSets = function() {
+  var setsAPI = 'https://api.magicthegathering.io/v1/sets';
+  $.ajax({
+    url: setsAPI,
+    type: 'GET',
+    dataType: 'JSON',
+    success: function(response) {
+      var allSets = [];
+      for (var setIndex = 0; setIndex < 443; setIndex++) {
+        if (response.sets[setIndex].booster) {
+          allSets.push(response.sets[setIndex].name);
+        }
+      }
+      console.log(allSets);
+      return allSets;
+    }
+  })
+}*/
+
+TolarianLibrary.generateBooster = function(name) {
+  $.ajax({
+    url: magicAPI + 'sets?name=' + name,
+    type: 'GET',
+    dataType: 'JSON',
+    success: function(response) {
+      for (var set = 0; set < response.sets.length; set++) {
+        if (response.sets[set].name === name) {
+          var setCode = response.sets[set].code;
+          TolarianLibrary.ajaxRequest(magicAPI + 'sets/' + setCode + '/booster');
+        }
+      }
+    }
+  })
+}
+
+
+//random card - under construction
+/* TolarianLibrary.getRandomCard = function() {
+  var randomMultiverseId = Math.floor(Math.random() * 466754);
+  $.ajax({
+    url: magicAPI + '?multiverseid=' + randomMultiverseId,
+    type: 'GET',
+    dataType: 'JSON',
+    success: function(response) {
+      console.log(response);
+    }
+  })
+} */
