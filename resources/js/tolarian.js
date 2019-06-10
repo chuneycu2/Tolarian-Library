@@ -148,7 +148,7 @@ TolarianLibrary.advancedSearch = function() {
   //console.log(searchEntries);
   var parameters = $.param(searchEntries);
   //console.log(parameters);
-  var searchUrl = magicAPI + '?' + parameters;
+  var searchUrl = magicAPI + 'cards?' + parameters;
 
   TolarianLibrary.ajaxRequest(searchUrl);
 }
@@ -212,13 +212,23 @@ TolarianLibrary.renderCards = function(cards) {
     var set = cards[index].setName;
     var artist = cards[index].artist;
 
-    //for v03
-    /* var cardResult =
-    '<div class="card-result">                                                   ' +
-    '  <img id="card-image" src="' + imageUrl + '" alt="' + name + ' card" />    ' +
-    '</div>                                                                        '; */
+    if (imageUrl === './resources/images/card-unavailable.png') {
+      var cardResult =
+      '<div class="card-result">                                               ' +
+      '  <img id="card-image" src="' + imageUrl + '" alt="' + name + ' card" />' +
+      '  <div class="placeholder">                                             ' +
+      '    <p>' + name + '</p>                                                 ' +
+      '    <p>' + set + '</p>                                              ' +
+      '  </div>                                                                ' +
+      '</div>                                                                  ';
+    } else {
+      var cardResult =
+      '<div class="card-result">                                               ' +
+      '  <img id="card-image" src="' + imageUrl + '" alt="' + name + ' card" />' +
+      '</div>                                                                  ';
+    }
 
-    var cardResult =
+    /* var cardResult =
 
     '<div class="result">' +
     '  <img src="' + imageUrl + '" alt="' + name + ' card" />    ' +
@@ -260,7 +270,7 @@ TolarianLibrary.renderCards = function(cards) {
     ' <div id="rulings" class="rulings">                         ' +
     '   ' + TolarianLibrary.renderRulings(cards, index) + '      ' +
     '  </div>                                                    ' +
-    '</div>                                                      ';
+    '</div>                                                      '; */
 
     $cardList.append(cardResult);
 

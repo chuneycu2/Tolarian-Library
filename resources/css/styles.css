@@ -494,7 +494,7 @@ body.loading .modal {
   width: 100%;
   padding: 3rem 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   max-width: 60rem;
   margin: 0 auto;
@@ -629,13 +629,40 @@ body.loading .modal {
 
 /* search result v03 styles */
 
-/* .card-result {
-  display: flex;
-  justify-content: center;
+.card-result {
+  position: relative;
+  text-align: center;
 }
+
+.placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+}
+
+.card-result p:first-child {
+  font-size: 1.15rem;
+  line-height: 1.15;
+  font-family: "Beleren-Bold", sans-serif;
+}
+
+.card-result p:last-child {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  padding-top: 0.3rem;
+}
+
 #card-image {
   margin: 0.5rem;
   width: 223px;
   height: 310px;
   align-self: center;
-} */
+}
+
+@media only screen and (max-width: 62.5rem) {
+  .results-rows {
+    justify-content: center;
+  }
+}
