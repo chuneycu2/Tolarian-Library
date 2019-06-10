@@ -148,7 +148,7 @@ TolarianLibrary.advancedSearch = function() {
   //console.log(searchEntries);
   var parameters = $.param(searchEntries);
   //console.log(parameters);
-  var searchUrl = magicAPI + '?' + parameters;
+  var searchUrl = magicAPI + 'cards?' + parameters;
 
   TolarianLibrary.ajaxRequest(searchUrl);
 }
