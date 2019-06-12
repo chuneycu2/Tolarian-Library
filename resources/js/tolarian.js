@@ -193,86 +193,24 @@ TolarianLibrary.renderCards = function(cards) {
     };
 
     var name = cards[index].name;
-    var manaCost = cards[index].manaCost;
-    var cmc = cards[index].cmc;
-    var type = cards[index].type;
-    var rarity = cards[index].rarity;
-    var text = cards[index].text;
-    var flavor = cards[index].flavor;
-
-    var flavorRow =
-
-    '    <dl>                                    ' +
-    '      <dt>Flavor text:</dt>                 ' +
-    '      <dd class="flavor">' + flavor + '</dd>' +
-    '    </dl>                                   ';
-
-    if (flavor === undefined) {
-      flavorRow = '';
-    };
-
     var set = cards[index].setName;
-    var artist = cards[index].artist;
+    var multiverseID = cards[index].multiverseid;
 
     if (imageUrl === './resources/images/card-unavailable.png') {
       var cardResult =
-      '<div class="card-result">                                               ' +
+      '<div class="card-result" id="' + multiverseID + '">                     ' +
       '  <img id="card-image" src="' + imageUrl + '" alt="' + name + ' card" />' +
       '  <div class="placeholder">                                             ' +
       '    <p>' + name + '</p>                                                 ' +
-      '    <p>' + set + '</p>                                              ' +
+      '    <p>' + set + '</p>                                                  ' +
       '  </div>                                                                ' +
       '</div>                                                                  ';
     } else {
       var cardResult =
-      '<div class="card-result">                                               ' +
+      '<div class="card-result" id="' + multiverseID + '">                     ' +
       '  <img id="card-image" src="' + imageUrl + '" alt="' + name + ' card" />' +
       '</div>                                                                  ';
     }
-
-    /* var cardResult =
-
-    '<div class="result">' +
-    '  <img src="' + imageUrl + '" alt="' + name + ' card" />    ' +
-    '  <div class="card-info">                                   ' +
-    '    <dl>                                                    ' +
-    '      <dt>Card name:</dt>                                   ' +
-    '      <dd>' + name + '</dd>                                 ' +
-    '    </dl>                                                   ' +
-    '    <dl>                                                    ' +
-    '      <dt>Mana cost:</dt>                                   ' +
-    '      <dd>' + manaCost + '</dd>                             ' +
-    '    </dl>                                                   ' +
-    '    <dl>                                                    ' +
-    '      <dt>CMC:</dt>                                         ' +
-    '      <dd>' + cmc + '</dd>                                  ' +
-    '    </dl>                                                   ' +
-    '    <dl>                                                    ' +
-    '      <dt>Type:</dt>                                        ' +
-    '      <dd>' + type + '</dd>                                 ' +
-    '    </dl>                                                   ' +
-    '    <dl>                                                    ' +
-    '      <dt>Rarity:</dt>                                      ' +
-    '      <dd>' + rarity + '</dd>                               ' +
-    '    </dl>                                                   ' +
-    '    <dl>                                                    ' +
-    '      <dt>Card text:</dt>                                   ' +
-    '      <dd>' + text + '</dd>                                 ' +
-    '    </dl>                                                   ' +
-    '    ' + flavorRow + '                                       ' +
-    '    <dl>                                                    ' +
-    '      <dt>Set:</dt>                                         ' +
-    '      <dd>' + set + '</dd>                                  ' +
-    '    </dl>                                                   ' +
-    '    <dl>                                                    ' +
-    '      <dt>Artist:</dt>                                      ' +
-    '      <dd>' + artist + '</dd>                               ' +
-    '    </dl>                                                   ' +
-    ' </div>                                                     ' +
-    ' <div id="rulings" class="rulings">                         ' +
-    '   ' + TolarianLibrary.renderRulings(cards, index) + '      ' +
-    '  </div>                                                    ' +
-    '</div>                                                      '; */
 
     $cardList.append(cardResult);
 
@@ -283,15 +221,111 @@ TolarianLibrary.renderCards = function(cards) {
 
 };
 
+/*TolarianLibrary.cardDetails = function(cards) {
+  var $cardList = $('#card-list');
+  var $cardResult = $('.card-result');
+  var $cardDetail = $('#card-detail');
+  var $body = $('body');
+
+  console.log(cards);
+
+  $cardResult.on('click', function() {
+    var multiverseID = $(this).attr('id');
+    console.log(multiverseID);
+
+    for (var index = 0; index < cards.length; index++) {
+
+      if (multiverseID = cards[index].multiverseid) {
+
+        var imageUrl = cards[index].imageUrl;
+
+        if (imageUrl === undefined) {
+          imageUrl = './resources/images/card-unavailable.png';
+        };
+
+        var name = cards[index].name;
+        var manaCost = cards[index].manaCost;
+        var cmc = cards[index].cmc;
+        var type = cards[index].type;
+        var rarity = cards[index].rarity;
+        var text = cards[index].text;
+        var flavor = cards[index].flavor;
+
+        var flavorRow =
+
+        '    <dl>                                    ' +
+        '      <dt>Flavor text:</dt>                 ' +
+        '      <dd class="flavor">' + flavor + '</dd>' +
+        '    </dl>                                   ';
+
+        if (flavor === undefined) {
+          flavorRow = '';
+        };
+
+        var set = cards[index].setName;
+        var artist = cards[index].artist;
+
+        var cardDetails =
+
+        '<div id="card-detail" class="content-container">            ' +
+        '<div class="result">                                        ' +
+        '  <img src="' + imageUrl + '" alt="' + name + ' card" />    ' +
+        '  <div class="card-info">                                   ' +
+        '    <dl>                                                    ' +
+        '      <dt>Card name:</dt>                                   ' +
+        '      <dd>' + name + '</dd>                                 ' +
+        '    </dl>                                                   ' +
+        '    <dl>                                                    ' +
+        '      <dt>Mana cost:</dt>                                   ' +
+        '      <dd>' + manaCost + '</dd>                             ' +
+        '    </dl>                                                   ' +
+        '    <dl>                                                    ' +
+        '      <dt>CMC:</dt>                                         ' +
+        '      <dd>' + cmc + '</dd>                                  ' +
+        '    </dl>                                                   ' +
+        '    <dl>                                                    ' +
+        '      <dt>Type:</dt>                                        ' +
+        '      <dd>' + type + '</dd>                                 ' +
+        '    </dl>                                                   ' +
+        '    <dl>                                                    ' +
+        '      <dt>Rarity:</dt>                                      ' +
+        '      <dd>' + rarity + '</dd>                               ' +
+        '    </dl>                                                   ' +
+        '    <dl>                                                    ' +
+        '      <dt>Card text:</dt>                                   ' +
+        '      <dd>' + text + '</dd>                                 ' +
+        '    </dl>                                                   ' +
+        '    ' + flavorRow + '                                       ' +
+        '    <dl>                                                    ' +
+        '      <dt>Set:</dt>                                         ' +
+        '      <dd>' + set + '</dd>                                  ' +
+        '    </dl>                                                   ' +
+        '    <dl>                                                    ' +
+        '      <dt>Artist:</dt>                                      ' +
+        '      <dd>' + artist + '</dd>                               ' +
+        '    </dl>                                                   ' +
+        ' </div>                                                     ' +
+        ' <div id="rulings" class="rulings">                         ' +
+        '   ' + TolarianLibrary.renderRulings(cards, index) + '      ' +
+        '  </div>                                                    ' +
+        '</div>                                                      ' +
+        '</div>                                                      ';
+
+        }
+      }
+    //$cardResult.hide();
+    //$body.append(cardDetails);
+  })
+}*/
+
 TolarianLibrary.ajaxRequest = function(url) {
   $.ajax({
     url: url,
     type: 'GET',
     dataType: 'JSON',
     success: function(response) {
-      //TolarianLibrary.renderRulings(response.cards, 0);
       TolarianLibrary.renderCards(response.cards);
-      //console.log(response.cards);
+      //TolarianLibrary.cardDetails(response.cards);
     }
   });
 };

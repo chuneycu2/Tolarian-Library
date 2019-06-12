@@ -503,7 +503,7 @@ body.loading .modal {
 .result {
   display: flex;
   justify-content: center;
-  width: auto;
+  width: 100%;
   max-width: 50rem;
   background-color: white;
   background-position: center;
@@ -634,6 +634,10 @@ body.loading .modal {
   text-align: center;
 }
 
+.card-result:hover {
+  cursor: pointer;
+}
+
 .placeholder {
   position: absolute;
   top: 50%;
@@ -659,6 +663,10 @@ body.loading .modal {
   width: 223px;
   height: 310px;
   align-self: center;
+}
+
+#card-detail {
+  padding: 1.5rem;
 }
 
 @media only screen and (max-width: 62.5rem) {
