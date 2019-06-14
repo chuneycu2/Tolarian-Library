@@ -9,6 +9,7 @@ $(document).ready(function() {
   //jquery objects
   var $body = $('body');
   var $cardList = $('#card-list');
+  var $cardDetail = $('#card-detail');
   var $advancedTab = $('#advanced-search');
   var $advancedPanel = $('.advanced-search');
   var $generateTab = $('#generate-booster');
@@ -196,6 +197,10 @@ TolarianLibrary.renderCards = function(cards) {
     var set = cards[index].setName;
     var multiverseID = cards[index].multiverseid;
 
+    if (multiverseID === undefined) {
+      multiverseID = cards[index].id;
+    }
+
     if (imageUrl === './resources/images/card-unavailable.png') {
       var cardResult =
       '<div class="card-result" id="' + multiverseID + '">                     ' +
@@ -221,13 +226,14 @@ TolarianLibrary.renderCards = function(cards) {
 
 };
 
-/*TolarianLibrary.cardDetails = function(cards) {
+TolarianLibrary.cardDetails = function(cards) {
   var $cardList = $('#card-list');
   var $cardResult = $('.card-result');
   var $cardDetail = $('#card-detail');
   var $body = $('body');
 
-  console.log(cards);
+  var searchResults = cards;
+  console.log(searchResults);
 
   $cardResult.on('click', function() {
     var multiverseID = $(this).attr('id');
@@ -235,8 +241,10 @@ TolarianLibrary.renderCards = function(cards) {
 
     for (var index = 0; index < cards.length; index++) {
 
-      if (multiverseID = cards[index].multiverseid) {
+      if (multiverseID == cards[index].multiverseid || multiverseID == cards[index].id) {
 
+        cardDetails = cards[index].name;
+        console.log(cardDetails);
         var imageUrl = cards[index].imageUrl;
 
         if (imageUrl === undefined) {
@@ -267,7 +275,9 @@ TolarianLibrary.renderCards = function(cards) {
 
         var cardDetails =
 
-        '<div id="card-detail" class="content-container">            ' +
+        '<div class="back-to-results">                               ' +
+        '  <button id="back"><p>&larr; Back to results</p></button>  ' +
+        '</div>                                                      ' +
         '<div class="result">                                        ' +
         '  <img src="' + imageUrl + '" alt="' + name + ' card" />    ' +
         '  <div class="card-info">                                   ' +
@@ -308,15 +318,21 @@ TolarianLibrary.renderCards = function(cards) {
         ' <div id="rulings" class="rulings">                         ' +
         '   ' + TolarianLibrary.renderRulings(cards, index) + '      ' +
         '  </div>                                                    ' +
-        '</div>                                                      ' +
         '</div>                                                      ';
-
         }
       }
-    //$cardResult.hide();
-    //$body.append(cardDetails);
-  })
-}*/
+    $cardResult.detach();
+    $cardList.append(cardDetails);
+    window.scrollTo(0, 0);
+  });
+
+  $(document).on('click', '#back', function() {
+    console.log("test");
+    $cardList.empty();
+    $cardList.append($cardResult);
+  });
+
+}
 
 TolarianLibrary.ajaxRequest = function(url) {
   $.ajax({
@@ -325,7 +341,7 @@ TolarianLibrary.ajaxRequest = function(url) {
     dataType: 'JSON',
     success: function(response) {
       TolarianLibrary.renderCards(response.cards);
-      //TolarianLibrary.cardDetails(response.cards);
+      TolarianLibrary.cardDetails(response.cards);
     }
   });
 };
