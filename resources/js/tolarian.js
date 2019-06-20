@@ -120,7 +120,7 @@ TolarianLibrary.advancedSearch = function() {
   var $cmc = $('#cmc').val();
   var $text = $('#text').val();
   var $types = $('#types').val();
-  var $colors = TolarianLibrary.selectedColors(); //returns an array of color words
+  var $colors = TolarianLibrary.selectedColors();
   var $rarity = $('#rarity').val();
   var $set = $('#set').val();
   var $power = $('#power').val();
@@ -233,18 +233,14 @@ TolarianLibrary.cardDetails = function(cards) {
   var $body = $('body');
 
   var searchResults = cards;
-  console.log(searchResults);
 
   $cardResult.on('click', function() {
     var multiverseID = $(this).attr('id');
-    console.log(multiverseID);
 
     for (var index = 0; index < cards.length; index++) {
 
       if (multiverseID == cards[index].multiverseid || multiverseID == cards[index].id) {
 
-        cardDetails = cards[index].name;
-        console.log(cardDetails);
         var imageUrl = cards[index].imageUrl;
 
         if (imageUrl === undefined) {
@@ -318,6 +314,9 @@ TolarianLibrary.cardDetails = function(cards) {
         ' <div id="rulings" class="rulings">                         ' +
         '   ' + TolarianLibrary.renderRulings(cards, index) + '      ' +
         '  </div>                                                    ' +
+        '</div>                                                      ' +
+        '<div class="back-to-results">                               ' +
+        '  <button id="back"><p>&larr; Back to results</p></button>  ' +
         '</div>                                                      ';
         }
       }
@@ -327,7 +326,6 @@ TolarianLibrary.cardDetails = function(cards) {
   });
 
   $(document).on('click', '#back', function() {
-    console.log("test");
     $cardList.empty();
     $cardList.append($cardResult);
   });
@@ -342,9 +340,39 @@ TolarianLibrary.ajaxRequest = function(url) {
     success: function(response) {
       TolarianLibrary.renderCards(response.cards);
       TolarianLibrary.cardDetails(response.cards);
+
+      var cardNames = [];
+      for (var i = 0; i < response.cards.length; i++) {
+        cardNames.push(response.cards[i].name);
+      }
+      console.log(response.cards);
+      TolarianLibrary.tcgPlayerPrices(cardNames);
     }
   });
 };
+
+TolarianLibrary.tcgPlayerPrices = function(cardNames) {
+
+  var productIds = [];
+
+  for (var i = 0; i < cardNames.length; i++) {
+    $.ajax({
+      "async": true,
+      "crossDomain": true,
+      "url": "http://api.tcgplayer.com/v1.27.0/catalog/products?categoryId=1&productTypes=Cards&productName=" + cardNames[i],
+      "method": "GET",
+      "headers": {
+        "Authorization": "Bearer pDEkTuj7VuuCpQvtkDRzZ7OK05rb0F3_N3FpuHnN2V_lgdAZdWimcO4z_UO4mSyMxCwS8P5-OjkkWz8ZiI71dosYC-0eIaRqK0V72raIM3bFj0VTm48M3bxTYWXDLhp_3H8qJH29pNbRpr0OD1cBr0NJnuUobyJpo9oIwMRDpRhKXDzrtxo0nKEnN0uOnINJ-pcG3ieQG5I6DyESGD0MY1_ys_amQ9c4a2Wc8QHSxCs-tr2YGoKzfRu3GQzZjvv5gT-8BSbbXQvKC1ZTfIT1pi6WG9FHJSNRP-sXD5K_MUYd1HRMKkdw5GDGPqioUvMqNGBliQ",
+        "Accept": "*/*",
+        "Cache-Control": "no-cache",
+        "Postman-Token": "02721bfc-3fdc-4274-92b8-27fd622a7b13,463f4346-6a8d-42e7-81de-87d850e80c38",
+        "cache-control": "no-cache"
+      }
+    }).done(function (response) {
+      console.log(response);
+    });
+  }
+}
 
 // dynamic set fill for autocomplete
 /*TolarianLibrary.getSets = function() {
