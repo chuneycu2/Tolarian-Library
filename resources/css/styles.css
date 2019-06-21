@@ -8,6 +8,11 @@
   src: url('../fonts/Beleren-Bold.ttf');
 }
 
+@font-face {
+  font-family: "Keyrune", sans-serif;
+  src: url('../fonts/Keyrune.ttf');
+}
+
 body {
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
@@ -121,7 +126,7 @@ p {
   cursor: pointer;
 }
 
-/* advanced search page | advanced-search.html */
+/* advanced search page | search.html */
 
 header {
   width: 100%;
@@ -406,4 +411,294 @@ label .checkmark:after {
     border: 1px solid #19359b;
     border-radius: 10px;
   }
+}
+
+/* card image results | search.html */
+
+.refine-search {
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 1rem;
+  background-color: #d5e0f7;
+}
+
+.refine-search:hover {
+  cursor: pointer;
+  background-color: #b0c9f4;
+}
+
+.results-rows {
+  width: 100%;
+  padding: 3rem 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 70rem;
+  margin: 0 auto;
+}
+
+.card-result {
+  position: relative;
+  text-align: center;
+  margin: 0.75rem;
+}
+
+.card-result:hover {
+  cursor: pointer;
+}
+
+.placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+}
+
+.card-result p:first-child {
+  font-size: 1.15rem;
+  line-height: 1.15;
+  font-family: "Beleren-Bold", sans-serif;
+}
+
+.card-result p:last-child {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  padding-top: 0.3rem;
+}
+
+#card-image {
+  margin: 0.5rem;
+  width: 223px;
+  height: 310px;
+  align-self: center;
+}
+
+#card-detail {
+  padding: 1.5rem;
+}
+
+@media only screen and (max-width: 62.5rem) {
+  .results-rows {
+    justify-content: center;
+  }
+}
+
+/* single card result | search.html */
+
+.back-to-results {
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 1rem;
+  background-color: #d5e0f7;
+}
+
+.back-to-results:hover {
+  cursor: pointer;
+  background-color: #b0c9f4;
+}
+
+.result {
+  max-width: 70rem;
+  padding-top: 3rem;
+  margin: 0 auto;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 2rem;
+}
+
+.card-image {
+  width: 25%;
+  max-width: 25%;
+}
+
+.card-image img {
+  width: 100%;
+}
+
+.language-views {
+  padding-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.language-button {
+  margin: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  background-color: #e7f0f7;
+  border: 0.5px solid #19359b;
+}
+
+.language-button:hover {
+  background-color: #b0c9f4;
+  cursor: pointer;
+}
+
+.active {
+  background-color: #19359b;
+  color: white;
+}
+
+.card-details {
+  border-top: 1.5px solid #19359b;
+  margin: 0 1.25rem;
+  max-width: 33%;
+}
+
+.spec-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 0.5px solid #bcbcbc;
+}
+
+.spec-row p {
+  padding: 0.75rem 0.5rem;
+  line-height: 1.2;
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+}
+
+.spec-row img {
+  width: 22px;
+  height: 22px;
+}
+
+.flavor {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#flavor-text {
+  font-style: italic;
+}
+
+#artist {
+  font-size: 0.8rem;
+}
+
+.legalities {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #19359b;
+}
+
+.column {
+  padding: 0.75rem 0;
+}
+
+.format {
+  display: flex;
+  padding: 0.25rem 0;
+}
+
+.format p {
+  padding: 0.5rem;
+  font-weight: 300;
+  font-size: 0.8rem;
+}
+
+.legal {
+  width: 82px;
+  color: white;
+  background-color: #538c64;
+  text-align: center;
+}
+
+.not-legal {
+  width: 82px;
+  color: white;
+  background-color: #a0a0a0;
+  text-align: center;
+}
+
+.card-prices {
+  border-top: 1.5px solid #19359b;
+  border-bottom: 1.5px solid #19359b;
+  background-color: #f0f3f7;
+  width: 40%;
+  max-width: 40%;
+  height: auto;
+  max-height: 27rem;
+  overflow-y: scroll;
+}
+
+.printing {
+  border-bottom: 0.5px solid #bcbcbc;
+}
+
+.print-info {
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.print-info i {
+  padding-right: 0.75rem;
+}
+
+.print-info p {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.prices {
+  display: flex;
+  justify-content: flex-start;
+  padding-bottom: 0.75rem;
+}
+
+.prices p {
+  font-size: 0.75rem;
+}
+
+.market-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.market-value .label {
+  padding-bottom: 0.25rem;
+}
+
+.low {
+  background-color: #fcd4e7;
+  padding: 0.5rem;
+  margin: 0 0.5rem;
+  align-self: center;
+}
+
+.median {
+  background-color: #c9e5f7;
+  padding: 0.5rem;
+  margin: 0 0.5rem;
+  align-self: center;
+}
+
+.high {
+  background-color: #beeab7;
+  padding: 0.5rem;
+  margin: 0 0.5rem;
+  align-self: center;
+}
+
+.foil {
+  background-image: linear-gradient(to bottom right, lightblue, white, lightblue);
+  color: black;
+  padding: 0.5rem;
+  margin: 0 0.5rem;
+  align-self: center;
+}
+
+.shop {
+  margin-right: 0.75rem;
+}
+
+.shop i {
+  padding: 0.5rem;
+  margin: 0 0.5rem;
 }
