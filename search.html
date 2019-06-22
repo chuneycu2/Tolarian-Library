@@ -13,7 +13,7 @@
   <script type="text/javascript" src="./resources/js/jquery-ui.min.js"></script>
   <script type="text/javascript" src="./resources/js/tolarian.js"></script>
 </head>
-<body>
+<body onload="TolarianLibrary.getCards()">
   <header>
     <div class="logo">
       <a href="index.html"><img src="./resources/images/tolarian-favicon.png" alt="Tolarian Library logo" /></a>
@@ -24,6 +24,15 @@
       <a href="copyright.html"><img src="./resources/images/icon-copyright.png" alt="copyright page icon" /></a>
     </nav>
   </header>
+  <!-- card result grid -->
+  <p class="refine-search">&#8592; Refine search</p>
+  <section id="card-list" class="results-rows">
+    <!--<div class="card-result">
+      <img src="./resources/images/card-unavailable.png" />
+    </div>-->
+  </section>
+
+  <!-- advanced search pane -->
   <!--<section class="advanced-container">
     <div class="advanced-search">
       <div class="search-input">
@@ -145,13 +154,9 @@
       </div>
     </div>
   </section>-->
-  <!--<p class="refine-search">&#8592; Refine search</p>
-  <section id="card-list" class="results-rows">
-    <div class="card-result">
-      <img src="./resources/images/card-unavailable.png" />
-    </div>-->
-  </section>
-  <p class="back-to-results">&#8592; Back to search results</p>
+
+  <!-- card detail view -->
+  <!--<p class="back-to-results">&#8592; Back to search results</p>
   <section class="result">
     <div class="info-row">
       <div class="card-image">
@@ -363,6 +368,6 @@
         </div>
       </div>
     </div>
-  </section>
+  </section>-->
 </body>
 </html>

@@ -468,7 +468,6 @@ label .checkmark:after {
 }
 
 #card-image {
-  margin: 0.5rem;
   width: 223px;
   height: 310px;
   align-self: center;
