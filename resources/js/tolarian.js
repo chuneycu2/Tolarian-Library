@@ -22,8 +22,9 @@ $(document).ready(function() {
       $body.removeClass('loading');
     }
   });
-
+  
 });
+
 
 TolarianLibrary.getCards = function() {
 
