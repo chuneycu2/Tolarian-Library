@@ -50,6 +50,29 @@ p {
   }
 }
 
+/* dynamic classes */
+
+.hide {
+  display: none;
+}
+
+/* modal loading gif div */
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: url('../images/ajax-loader.gif') 50% 50% no-repeat;
+}
+
+body.loading .modal {
+  overflow: hidden;
+  display: block;
+}
+
 /* home page | index.html */
 
 .home {
@@ -413,40 +436,33 @@ label .checkmark:after {
   }
 }
 
-/* modal loading gif div */
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background: url('../images/ajax-loader.gif') 50% 50% no-repeat;
-}
-
-body.loading .modal {
-  overflow: hidden;
-  display: block;
-}
-
 /* card image results | search.html */
 
-.refine-search {
+.new-search {
   text-align: center;
-  padding: 1rem 0;
+  padding: 3rem 0 2rem 0;
   font-size: 1rem;
-  background-color: #d5e0f7;
+  margin: 0 auto;
 }
 
-.refine-search:hover {
+.new-search button {
+  background-color: #d5e0f7;
+  border-radius: 0;
+  width: 10rem;
+  height: 2rem;
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
+.new-search button:hover {
   cursor: pointer;
-  background-color: #b0c9f4;
+  background-color: #223151;
+  color: white;
+  font-weight: 700;
 }
 
 .results-rows {
   width: 100%;
-  padding: 3rem 0;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
