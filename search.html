@@ -23,138 +23,18 @@
       <a href="copyright.html"><img src="./resources/images/icon-copyright.png" alt="copyright page icon" /></a>
     </nav>
   </header>
+
   <!-- card result grid -->
   <div id="new-search" class="new-search hide">
     <button>&#8592; New search</button>
   </div>
   <section id="card-list" class="results-rows">
-    <!--<div class="card-result">
-      <img src="./resources/images/card-unavailable.png" />
-    </div>-->
+    <!-- card results -->
   </section>
+
+  <!-- ajax loading gif -->
   <div class="modal"></div>
-  <!-- advanced search pane -->
-  <!--<section class="advanced-container">
-    <div class="advanced-search">
-      <div class="search-input">
-        <p>Card name:</p>
-        <input id="card-name" type="text" placeholder="Full or partial name">
-      </div>
-      <div class="search-input">
-        <p>Converted mana cost:</p>
-        <input id="cmc" placeholder="Enter a whole number">
-      </div>
-      <div class="search-input">
-        <p>Rules text:</p>
-        <div class="dropdown-row">
-          <input id="text" placeholder="Add text or symbols">
-          <select id="symbols">
-            <option value="">Symbol:</option>
-            <option value="{W}">{W}: One white mana</option>
-            <option value="{U}">{U}: One blue mana</option>
-            <option value="{B}">{B}: One black mana</option>
-            <option value="{R}">{R}: One red mana</option>
-            <option value="{G}">{G}: One green mana</option>
-            <option value="{C}">{C}: One colorless mana</option>
-            <option value="{1}">{1}: One generic mana</option>
-            <option value="{2}">{2}: Two generic mana</option>
-            <option value="{3}">{3}: Three generic mana</option>
-            <option value="{4}">{4}: Four generic mana</option>
-            <option value="{5}">{5}: Five generic mana</option>
-            <option value="{6}">{6}: Six generic mana</option>
-            <option value="{7}">{7}: Seven generic mana</option>
-            <option value="{8}">{8}: Eight generic mana</option>
-            <option value="{9}">{9}: Nine generic mana</option>
-            <option value="{10}">{10}: Ten generic mana</option>
-            <option value="{11}">{11}: Eleven generic mana</option>
-            <option value="{12}">{12}: Twelve generic mana</option>
-            <option value="{13}">{13}: Thirteen generic mana</option>
-            <option value="{14}">{14}: Fourteen generic mana</option>
-            <option value="{15}">{15}: Fifteen generic mana</option>
-            <option value="{16}">{16}: Sixteen generic mana</option>
-            <option value="{W/U}">{W/U}: One white/blue hybrid mana</option>
-            <option value="{W/B}">{W/B}: One white/black hybrid mana</option>
-            <option value="{W/B}">{U/B}: One blue/black hybrid mana</option>
-            <option value="{W/B}">{U/R}: One blue/red hybrid mana</option>
-            <option value="{B/R}">{B/R}: One black/red hybrid mana</option>
-            <option value="{B/G}">{B/G}: One black/green hybrid mana</option>
-            <option value="{R/G}">{R/G}: One red/green hybrid mana</option>
-            <option value="{R/W}">{R/W}: One red/white hybrid mana</option>
-            <option value="{G/W}">{G/W}: One green/white hybrid mana</option>
-            <option value="{G/U}">{G/U}: One green/blue hybrid mana</option>
-          </select>
-        </div>
-      </div>
-      <div class="search-input">
-        <p>Types:</p>
-        <input id="types" placeholder="Types, supertypes, and/or subtypes">
-      </div>
-      <div class="search-input">
-        <p>Colors:</p>
-        <div class="colors-row">
-          <div class="color-inputs">
-            <label class="color-button" for="white">
-              <img src="./resources/images/color-icon-W.png" alt="white mana symbol"/>
-              <input id="white" type="checkbox">
-              <span class="checkmark"></span>
-            </label>
-            <label class="color-button" for="blue">
-              <img src="./resources/images/color-icon-U.png" alt="blue mana symbol"/>
-              <input id="blue" type="checkbox">
-              <span class="checkmark"></span>
-            </label>
-            <label class="color-button" for="black">
-              <img src="./resources/images/color-icon-B.png" alt="black mana symbol"/>
-              <input id="black" type="checkbox">
-              <span class="checkmark"></span>
-            </label>
-            <label class="color-button" for="red">
-              <img src="./resources/images/color-icon-R.png" alt="red mana symbol"/>
-              <input id="red" type="checkbox">
-              <span class="checkmark"></span>
-            </label>
-            <label class="color-button" for="green">
-              <img src="./resources/images/color-icon-G.png" alt="green mana symbol"/>
-              <input id="green" type="checkbox">
-              <span class="checkmark"></span>
-            </label>
-            <label class="color-button" for="colorless">
-              <img src="./resources/images/color-icon-C.png" alt="colorless mana symbol"/>
-              <input id="colorless" type="checkbox">
-              <span class="checkmark"></span>
-            </label>
-          </div>
-          <select id="color-specifics">
-            <option val="Exactly">Exactly</option>
-            <option val="Including">Including</option>
-          </select>
-        </div>
-      </div>
-      <div class="search-input">
-        <p>Rarity:</p>
-        <input id="rarity" placeholder="Common, uncommon, rare, or mythic">
-      </div>
-      <div class="search-input">
-        <p>Set:</p>
-        <input id="set" placeholder="Search by set name">
-      </div>
-      <div class="search-input">
-        <p>Stats:</p>
-        <div class="input-stats">
-          <input id="power" placeholder="Power">
-          <span>/</span>
-          <input id="toughness" placeholder="Toughness">
-        </div>
-      </div>
-      <div class="search-input">
-        <p>Artist:</p>
-        <input id="artist" placeholder="e.g. Magali, Terese, etc.">
-      </div>
-      <div class="search-button">
-        <button id="advanced-search-button">Search</button>
-      </div>
-    </div>
-  </section>-->
+  
 
   <!-- card detail view -->
   <!--<p class="back-to-results">&#8592; Back to search results</p>

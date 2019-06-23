@@ -248,18 +248,52 @@ nav img {
   box-shadow: 0px 0px 3px #19359b;
 }
 
+.type-lines {
+  display: flex;
+  width: 84%;
+  justify-content: space-between;
+}
+
+.type {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.type input {
+  width: 86%;
+}
+
+.type label {
+  width: 86%;
+  font-size: 0.85rem;
+  text-align: center;
+  padding-bottom: 0.35rem;
+}
+
 .colors-row {
   display: flex;
   width: 84%;
+  flex-wrap: wrap;
+}
+
+.colors-row p {
+  width: 100%;
+  text-align: left;
+  flex-basis: 100%;
+  padding: 0 0 1.5rem 0;
+  font-size: 0.85rem;
+  color: gray;
 }
 
 .color-inputs {
   display: flex;
   justify-content: space-between;
-  width: 84%;
+  width: 100%;
 }
 
-.color-button {
+.check-button {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -267,7 +301,7 @@ nav img {
   user-select: none;
 }
 
-.color-button img {
+.check-button img {
   width: 25px;
   height: 25px;
 }
@@ -285,7 +319,7 @@ nav img {
 }
 
 /* custom checkboxes */
-.color-button input {
+.check-button input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -293,7 +327,7 @@ nav img {
   width: 0;
 }
 
-.color-button .checkmark {
+.check-button .checkmark {
   position: relative;
   margin-top: 0.5rem;
   top: 0;
@@ -304,11 +338,27 @@ nav img {
   border: 1px solid #4676e0;
 }
 
-.color-button input:checked ~ .checkmark {
+.check-button #common:checked ~ .checkmark {
+  background-color: black;
+}
+
+.check-button #uncommon:checked ~ .checkmark {
+  background-color: slategray;
+}
+
+.check-button #rare:checked ~ .checkmark {
+  background-color: #a58e4a;
+}
+
+.check-button #mythic:checked ~ .checkmark {
+  background-color: #bf4427;
+}
+
+.check-button input:checked ~ .checkmark {
   background-color: #19359b;
 }
 
-.color-button span:after {
+.check-button span:after {
   left: 9px;
   top: 5px;
   width: 5px;
@@ -326,7 +376,7 @@ nav img {
   display: none;
 }
 
-.color-button input:checked ~ .checkmark:after {
+.check-button input:checked ~ .checkmark:after {
   display: block;
 }
 
@@ -342,6 +392,18 @@ label .checkmark:after {
   transform: rotate(45deg);
 }
 /* end custom checkboxes*/
+
+.rarity-buttons {
+  display: flex;
+  width: 84%;
+  justify-content: space-between;
+}
+
+.rarity-buttons .check-button p {
+  width: 100%;
+  font-size: 0.85rem;
+  padding: 0;
+}
 
 .input-stats {
   display: flex;
@@ -410,12 +472,49 @@ label .checkmark:after {
     width: 100%;
   }
   .search-input p {
-    padding-bottom: 0.75rem;
+    padding: 1rem 0;
     text-align: left;
     width: 100%;
   }
   .dropdown-row, .colors-row, .input-stats {
     width: 100%;
+  }
+  .type-lines {
+    flex-direction: column;
+    width: 100%;
+  }
+  .type {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .type input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .type label {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 0 0.5rem 0;
+  }
+  .colors-row {
+    flex-wrap: wrap;
+  }
+  .color-inputs {
+    width: 100%;
+  }
+  #color-specifics {
+    margin: 2rem 0 0 0;
+    width: 50%;
+  }
+  .rarity-buttons {
+    width: 100%;
+  }
+  .rarity-buttons label {
+    width: 25%;
+  }
+  .rarity-buttons .check-button p {
+    text-align: center;
+    padding-top: 1rem;
   }
   .search-button {
     padding: 1.5rem 0 3.5rem 0;
