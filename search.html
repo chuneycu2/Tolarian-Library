@@ -12,29 +12,34 @@
   <script type="text/javascript" src="./resources/js/jquery-ui.min.js"></script>
   <script type="text/javascript" src="./resources/js/tolarian.js"></script>
 </head>
-<body onload="TolarianLibrary.getCards()">
+<body onload="TolarianLibrary.getCards()" id="top">
   <header>
     <div class="logo">
       <a href="index.html"><img src="./resources/images/tolarian-favicon.png" alt="Tolarian Library logo" /></a>
     </div>
     <nav>
-      <a href="search.html"><img src="./resources/images/icon-advanced-search.png" alt="advanced search icon" /></a>
+      <a href="advanced.html"><img src="./resources/images/icon-advanced-search.png" alt="advanced search icon" /></a>
       <a href="about.html"><img src="./resources/images/icon-about.png" alt="about page icon" /></a>
       <a href="copyright.html"><img src="./resources/images/icon-copyright.png" alt="copyright page icon" /></a>
     </nav>
   </header>
 
   <!-- card result grid -->
-  <div id="new-search" class="new-search hide">
-    <button>&#8592; New search</button>
+  <div id="new-search" class="action-button hide">
+    <a href="index.html"><button>&#8592; New search</button></a>
   </div>
-  <section id="card-list" class="results-rows">
-    <!-- card results -->
+  <section class="search-results">
+    <section id="card-list" class="results-rows">
+      <!-- card results -->
+    </section>
   </section>
+  <div id="backToTop" class="action-button hide">
+    <a href="#top"><button>&#8593; Back to top</button></a>
+  </div>
 
   <!-- ajax loading gif -->
   <div class="modal"></div>
-  
+
 
   <!-- card detail view -->
   <!--<p class="back-to-results">&#8592; Back to search results</p>

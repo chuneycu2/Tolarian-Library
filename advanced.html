@@ -10,15 +10,15 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script type="text/javascript" src="./resources/js/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="./resources/js/tolarian.js"></script>
+  <script type="text/javascript" src="./resources/js/advanced.js"></script>
 </head>
-<body>
+<body onload="TolarianLibrary.getSets()">
   <header>
     <div class="logo">
       <a href="index.html"><img src="./resources/images/tolarian-favicon.png" alt="Tolarian Library logo" /></a>
     </div>
     <nav>
-      <a href="search.html"><img src="./resources/images/icon-advanced-search.png" alt="advanced search icon" /></a>
+      <a href="advanced.html"><img src="./resources/images/icon-advanced-search.png" alt="advanced search icon" /></a>
       <a href="about.html"><img src="./resources/images/icon-about.png" alt="about page icon" /></a>
       <a href="copyright.html"><img src="./resources/images/icon-copyright.png" alt="copyright page icon" /></a>
     </nav>
@@ -27,6 +27,7 @@
   <!-- advanced search pane -->
   <section class="advanced-container">
     <div class="advanced-search">
+      <p id="intro">Enter specific search terms to find the cards you're looking for:</p>
       <div class="search-input">
         <p>Card name:</p>
         <input id="card-name" type="text" placeholder="Full or partial name">
@@ -40,7 +41,7 @@
         <div class="dropdown-row">
           <input id="text" placeholder="Add text or symbols">
           <select id="symbols">
-            <option value="">Symbol:</option>
+            <option id="default" value="">Symbol:</option>
             <option value="{W}">{W}: One white mana</option>
             <option value="{U}">{U}: One blue mana</option>
             <option value="{B}">{B}: One black mana</option>
@@ -97,7 +98,7 @@
         <p>Colors:</p>
         <div class="colors-row">
           <p>Colors that appear in the casting cost.</p>
-          <div class="color-inputs">
+          <div class="color-inputs colors">
             <label class="check-button" for="white">
               <img src="./resources/images/color-icon-W.png" alt="white mana symbol"/>
               <input id="white" type="checkbox">
@@ -129,49 +130,49 @@
               <span class="checkmark"></span>
             </label>
           </div>
-          <!--<select id="color-specifics">
-            <option val="Exactly">Exactly</option>
-            <option val="Including">Including</option>
-          </select>-->
         </div>
       </div>
       <div class="search-input">
         <p>Color identity:</p>
         <div class="colors-row">
           <p>Colors that appear in the casting cost and rules text.</p>
-          <div class="color-inputs">
-            <label class="check-button" for="white">
+          <div class="color-inputs color-id">
+            <label class="check-button" for="W">
               <img src="./resources/images/color-icon-W.png" alt="white mana symbol"/>
-              <input id="white" type="checkbox">
+              <input id="W" type="checkbox">
               <span class="checkmark"></span>
             </label>
-            <label class="check-button" for="blue">
+            <label class="check-button" for="U">
               <img src="./resources/images/color-icon-U.png" alt="blue mana symbol"/>
-              <input id="blue" type="checkbox">
+              <input id="U" type="checkbox">
               <span class="checkmark"></span>
             </label>
-            <label class="check-button" for="black">
+            <label class="check-button" for="B">
               <img src="./resources/images/color-icon-B.png" alt="black mana symbol"/>
-              <input id="black" type="checkbox">
+              <input id="B" type="checkbox">
               <span class="checkmark"></span>
             </label>
-            <label class="check-button" for="red">
+            <label class="check-button" for="R">
               <img src="./resources/images/color-icon-R.png" alt="red mana symbol"/>
-              <input id="red" type="checkbox">
+              <input id="R" type="checkbox">
               <span class="checkmark"></span>
             </label>
-            <label class="check-button" for="green">
+            <label class="check-button" for="G">
               <img src="./resources/images/color-icon-G.png" alt="green mana symbol"/>
-              <input id="green" type="checkbox">
+              <input id="G" type="checkbox">
               <span class="checkmark"></span>
             </label>
-            <label class="check-button" for="colorless">
+            <label class="check-button" for="C">
               <img src="./resources/images/color-icon-C.png" alt="colorless mana symbol"/>
-              <input id="colorless" type="checkbox">
+              <input id="C" type="checkbox">
               <span class="checkmark"></span>
             </label>
           </div>
         </div>
+      </div>
+      <div class="search-input">
+        <p>Set:</p>
+        <input id="set" placeholder="Search by set name">
       </div>
       <div class="search-input">
         <p>Rarity:</p>
@@ -199,23 +200,19 @@
         </div>
       </div>
       <div class="search-input">
-        <p>Set:</p>
-        <input id="set" placeholder="Search by set name">
-      </div>
-      <div class="search-input">
         <p>Stats:</p>
         <div class="type-lines">
           <div class="type">
             <label>Power</label>
-            <input id="supertype" placeholder="Enter a number">
+            <input id="power" placeholder="Enter a number">
           </div>
           <div class="type">
             <label>Toughness</label>
-            <input id="type" placeholder="Enter a number">
+            <input id="toughness" placeholder="Enter a number">
           </div>
           <div class="type">
             <label>Loyalty</label>
-            <input id="subtype" placeholder="Enter a number">
+            <input id="loyalty" placeholder="Enter a number">
           </div>
         </div>
       </div>
@@ -228,3 +225,216 @@
       </div>
     </div>
   </section>
+  <!--<p class="back-to-results">&#8592; Back to search results</p>
+  <section class="result">
+    <div class="info-row">
+      <div class="card-image">
+        <img src="./resources/images/card-unavailable.png" alt="card name" />
+        <div class="language-views">
+          <div class="language-button">
+            <p>EN</p>
+          </div>
+          <div class="language-button">
+            <p>ES</p>
+          </div>
+          <div class="language-button">
+            <p>FR</p>
+          </div>
+          <div class="language-button">
+            <p>DE</p>
+          </div>
+          <div class="language-button">
+            <p>IT</p>
+          </div>
+          <div class="language-button">
+            <p>JA</p>
+          </div>
+          <div class="language-button">
+            <p>汉语</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-details">
+        <div class="spec-row">
+          <p>Burgeoning</p>
+          <img src="./resources/images/color-icon-G.png" alt="green mana symbol">
+        </div>
+        <div class="spec-row">
+          <p>Enchantment</p>
+        </div>
+        <div class="spec-row flavor">
+          <p>Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield.</p>
+          <p id="flavor-text">The first vine shows the others where to grow.</p>
+        </div>
+        <div class="spec-row">
+          <p id="artist">Illustrated by Titus Luntner</p>
+        </div>
+        <div class="spec-row legalities">
+          <div class="column">
+            <div class="format">
+              <div class="not-legal">
+                <p>NOT LEGAL</p>
+              </div>
+              <p class="format-name">Standard</p>
+            </div>
+            <div class="format">
+              <div class="not-legal">
+                <p>NOT LEGAL</p>
+              </div>
+              <p class="format-name">Modern</p>
+            </div>
+            <div class="format">
+              <div class="legal">
+                <p>LEGAL</p>
+              </div>
+              <p class="format-name">Legacy</p>
+            </div>
+            <div class="format">
+              <div class="legal">
+                <p>LEGAL</p>
+              </div>
+              <p class="format-name">Vintage</p>
+            </div>
+          </div>
+          <div class="column">
+            <div class="format">
+              <div class="legal">
+                <p>LEGAL</p>
+              </div>
+              <p class="format-name">EDH</p>
+            </div>
+            <div class="format">
+              <div class="legal">
+                <p>LEGAL</p>
+              </div>
+              <p class="format-name">Frontier</p>
+            </div>
+            <div class="format">
+              <div class="legal">
+                <p>LEGAL</p>
+              </div>
+              <p class="format-name">Pauper</p>
+            </div>
+            <div class="format">
+              <div class="legal">
+                <p>LEGAL</p>
+              </div>
+              <p class="format-name">Penny</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-prices">
+        <div class="printing">
+          <div class="print-info">
+            <i class="ss ss-c16 ss-2x ss-white"></i>
+            <div class="set-data">
+              <p>Commander 2016 (C16)</p>
+              <p>#143 &middot; Rare</p>
+            </div>
+          </div>
+          <div class="prices">
+            <div class="market-value">
+              <p class="label">Low</p>
+              <p class="low">$5.00</p>
+            </div>
+            <div class="market-value">
+              <p class="label">Median</p>
+              <p class="median">$10.00</p>
+            </div>
+            <div class="market-value">
+              <p class="label">High</p>
+              <p class="high">$15.00</p>
+            </div>
+            <div class="market-value">
+              <p class="label">Foil</p>
+              <p class="foil">$1000.00</p>
+            </div>
+            <div class="market-value shop">
+              <p class="label">Shop</p>
+              <a href=""><i class="fa fa-shopping-cart"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="printing">
+          <div class="print-info">
+            <i class="ss ss-cn2 ss-2x ss-white"></i>
+            <div class="set-data">
+              <p>Conspiracy: Take the Crown (CN2)</p>
+              <p>#178 &middot; Rare</p>
+            </div>
+          </div>
+          <div class="prices">
+            <div class="market-value">
+              <p class="label">Low</p>
+              <p class="low">$5.00</p>
+            </div>
+            <div class="market-value">
+              <p class="label">Median</p>
+              <p class="median">$10.00</p>
+            </div>
+            <div class="market-value">
+              <p class="label">High</p>
+              <p class="high">$15.00</p>
+            </div>
+            <div class="market-value">
+              <p class="label">Foil</p>
+              <p class="foil">$1000.00</p>
+            </div>
+            <div class="market-value shop">
+              <p class="label">Shop</p>
+              <a href=""><i class="fa fa-shopping-cart"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="printing">
+          <div class="print-info">
+            <i class="ss ss-sth ss-2x ss-white"></i>
+            <div class="set-data">
+              <p>Stronghold (STH)</p>
+              <p>#102 &middot; Rare</p>
+            </div>
+          </div>
+          <div class="prices">
+            <div class="market-value">
+              <p class="label">Low</p>
+              <p class="low">$5.00</p>
+            </div>
+            <div class="market-value">
+              <p class="label">Median</p>
+              <p class="median">$10.00</p>
+            </div>
+            <div class="market-value">
+              <p class="label">High</p>
+              <p class="high">$15.00</p>
+            </div>
+            <div class="market-value">
+              <p class="label">Foil</p>
+              <p class="foil">$1000.00</p>
+            </div>
+            <div class="market-value shop">
+              <p class="label">Shop</p>
+              <a href=""><i class="fa fa-shopping-cart"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rulings-row">
+      <p id="rulings-header">Rulings and information for Burgeoning</p>
+      <div class="rulings">
+        <div class="ruling">
+          <p>Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. <br> <span class="date">(01-01-2019)</span></p>
+        </div>
+        <div class="ruling">
+          <p>Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. <br> <span class="date">(01-01-2019)</span></p>
+        </div>
+        <div class="ruling">
+          <p>Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. <br> <span class="date">(01-01-2019)</span></p>
+        </div>
+        <div class="ruling">
+          <p>Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. <br> <span class="date">(01-01-2019)</span></p>
+        </div>
+      </div>
+    </div>
+  </section>-->

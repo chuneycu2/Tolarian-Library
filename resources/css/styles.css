@@ -199,6 +199,13 @@ nav img {
   margin: 1.5rem 0;
 }
 
+#intro {
+  font-style: italic;
+  padding: 1rem 0;
+  text-align: center;
+  color: gray;
+}
+
 .search-input {
   display: flex;
   justify-content: space-between;
@@ -459,6 +466,9 @@ label .checkmark:after {
   .advanced-search {
     margin: 0;
   }
+  #intro {
+    padding: 2rem 0 1rem 0;
+  }
   .search-input {
     flex-wrap: wrap;
     width: 100%;
@@ -499,6 +509,9 @@ label .checkmark:after {
   .colors-row {
     flex-wrap: wrap;
   }
+  .colors-row p {
+    padding: 0 0 2rem 0;
+  }
   .color-inputs {
     width: 100%;
   }
@@ -535,35 +548,52 @@ label .checkmark:after {
   }
 }
 
+/* jquery ui styles */
+
+.ui-menu-item {
+  padding: 0.25rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.ui-menu {
+  max-height: 20rem;
+  overflow-y: scroll;
+}
+
 /* card image results | search.html */
 
-.new-search {
+.action-button {
   text-align: center;
   padding: 3rem 0 2rem 0;
   font-size: 1rem;
   margin: 0 auto;
 }
 
-.new-search button {
+.action-button button {
   background-color: #d5e0f7;
   border-radius: 0;
   width: 10rem;
   height: 2rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
   border-radius: 5px;
 }
 
-.new-search button:hover {
+.action-button button:hover {
   cursor: pointer;
   background-color: #223151;
   color: white;
   font-weight: 700;
 }
 
+.search-results {
+  max-width: 62rem;
+  margin: 0 auto;
+}
+
 .results-rows {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   max-width: 70rem;
   margin: 0 auto;
