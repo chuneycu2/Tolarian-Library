@@ -228,7 +228,6 @@ TolarianLibrary.getSets = function() {
         sets.push(response.sets[i].name);
         setCodes[`${response.sets[i].name}`] = response.sets[i].code;
       }
-      console.log(setCodes);
     }
   });
 }
@@ -370,11 +369,14 @@ TolarianLibrary.advancedSearch = function() {
   }
 
   function getSetCode() {
-    for (key in setCodes) {
-      if (key === $('#set').val()) {
-        return setCodes[key];
+    if ($('#set').length > 0) {
+      for (key in setCodes) {
+        if (key === $('#set').val()) {
+          return setCodes[key];
+        }
       }
     }
+    return '';
   }
 
   var $name = 'name:' + $('#card-name').val();
