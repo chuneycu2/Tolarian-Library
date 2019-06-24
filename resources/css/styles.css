@@ -276,7 +276,7 @@ nav img {
   width: 86%;
   font-size: 0.85rem;
   text-align: center;
-  padding-bottom: 0.35rem;
+  padding-bottom: 0.5rem;
 }
 
 .colors-row {
@@ -289,14 +289,28 @@ nav img {
   width: 100%;
   text-align: left;
   flex-basis: 100%;
-  padding: 0 0 1.5rem 0;
+  padding: 1.5rem 0 0 0;
   font-size: 0.85rem;
   color: gray;
+  line-height: 1.2;
+  font-style: italic;
+}
+
+.colors-row select {
+  width: 25%;
+  height: 2.75rem;
+  font-size: 1rem;
+}
+
+.colors-row select:focus {
+  outline: none;
+  box-shadow: 0px 0px 3px #19359b;
 }
 
 .color-inputs {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
@@ -311,18 +325,6 @@ nav img {
 .check-button img {
   width: 25px;
   height: 25px;
-}
-
-.colors-row select {
-  margin-left: 2rem;
-  width: 25%;
-  height: 2.75rem;
-  font-size: 1rem;
-}
-
-.colors-row select:focus {
-  outline: none;
-  box-shadow: 0px 0px 3px #19359b;
 }
 
 /* custom checkboxes */
@@ -510,14 +512,16 @@ label .checkmark:after {
     flex-wrap: wrap;
   }
   .colors-row p {
-    padding: 0 0 2rem 0;
+    padding: 1.5rem 0 0 0;
   }
   .color-inputs {
     width: 100%;
+    flex-wrap: wrap;
   }
   #color-specifics {
     margin: 2rem 0 0 0;
     width: 50%;
+    flex-basis: 100%;
   }
   .rarity-buttons {
     width: 100%;

@@ -2,20 +2,28 @@ var TolarianLibrary = {};
 
 var magicAPI = 'https://api.magicthegathering.io/v1/';
 var magicAPISets = 'https://api.magicthegathering.io/v1/sets';
-var scryfallAPI = 'https://api.scryfall.com/cards/search?q=name%3A';
+var scryfallAPI = 'https://api.scryfall.com/cards/search?q=name:';
+var scryfallAdvancedSearch = 'https://api.scryfall.com/cards/search?q=';
 var tcgPlayer_productId = 'https://api.tcgplayer.com/v1.9.0/catalog/products/'; // + product ID
 
 $(document).ready(function() {
 
 });
 
-TolarianLibrary.getSearchParams = function(k) {
+TolarianLibrary.getNameParam = function(k) {
   //retrieves the search entry from the URL
   var p = {};
   location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(s,k,v){
     p[k] = v
   })
   return k ? p[k] : p;
+}
+
+TolarianLibrary.getScryfallParams = function() {
+  var url = window.location.search;
+  url = url.replace('?', '');
+  //console.log(url);
+  return url;
 }
 
 TolarianLibrary.getCards = function() {
@@ -38,49 +46,6 @@ TolarianLibrary.getCards = function() {
 
   //renders each card image
   function renderCardImages(cards) {
-    var cards = cards.cards;
-
-    for (var index = 0; index < cards.length; index++) {
-
-      var cardResult = '';
-      var imageUrl = cards[index].imageUrl;
-
-      if (imageUrl === undefined) {
-        imageUrl = './resources/images/card-unavailable.png';
-      };
-
-      var name = cards[index].name;
-      var set = cards[index].setName;
-      var multiverseID = cards[index].multiverseid;
-
-      if (multiverseID === undefined) {
-        multiverseID = cards[index].id;
-      }
-
-      if (imageUrl === './resources/images/card-unavailable.png') {
-        var cardResult =
-        '<div class="card-result" id="' + multiverseID + '">                     ' +
-        '  <img id="card-image" src="' + imageUrl + '" alt="' + name + ' card" />' +
-        '  <div class="placeholder">                                             ' +
-        '    <p>' + name + '</p>                                                 ' +
-        '    <p>' + set + '</p>                                                  ' +
-        '  </div>                                                                ' +
-        '</div>                                                                  ';
-      } else {
-        var cardResult =
-        '<div class="card-result" id="' + multiverseID + '">                     ' +
-        '  <img id="card-image" src="' + imageUrl + '" alt="' + name + ' card" />' +
-        '</div>                                                                  ';
-      }
-
-    $cardList.append(cardResult);
-
-    }
-
-  };
-
-  //renders each card image
-  function renderCardImagesII(cards) {
     var cards = cards.data;
 
     for (var index = 0; index < cards.length; index++) {
@@ -124,16 +89,37 @@ TolarianLibrary.getCards = function() {
 
   };
 
-  //make the ajax request
-  $.ajax({
-    url: scryfallAPI + TolarianLibrary.getSearchParams("name"),
+  var normalSearch = {
+    url: scryfallAPI + TolarianLibrary.getNameParam("name"),
     type: 'GET',
     dataType: 'JSON',
     success: function(response) {
       $newSearch.removeClass('hide');
-      renderCardImagesII(response);
+      renderCardImages(response);
       $backToTop.removeClass('hide');
+      console.log(normalSearch.url);
     }
-  });
+  };
+
+  var advancedSearch = {
+    url: scryfallAdvancedSearch + TolarianLibrary.getScryfallParams(),
+    type: 'GET',
+    dataType: 'JSON',
+    success: function(response) {
+      $newSearch.removeClass('hide');
+      renderCardImages(response);
+      $backToTop.removeClass('hide');
+      console.log(advancedSearch.url);
+    }
+  }
+
+  //console.log(TolarianLibrary.getScryfallParams());
+  var urlTest = window.location.search;
+  //make the ajax request
+  if (urlTest.startsWith("?name=")) {
+    $.ajax(normalSearch);
+  } else {
+    $.ajax(advancedSearch);
+  };
 
 };

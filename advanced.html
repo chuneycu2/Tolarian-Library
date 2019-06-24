@@ -42,6 +42,10 @@
           <input id="text" placeholder="Add text or symbols">
           <select id="symbols">
             <option id="default" value="">Symbol:</option>
+            <option value="{T}">{T}: Tap symbol</option>
+            <option value="{Q}">{Q}: Untap symbol</option>
+            <option value="{E}">{E}: Energy counter icon</option>
+            <option value="{X}">{X}: X cost icon</option>
             <option value="{W}">{W}: One white mana</option>
             <option value="{U}">{U}: One blue mana</option>
             <option value="{B}">{B}: One black mana</option>
@@ -64,6 +68,15 @@
             <option value="{14}">{14}: Fourteen generic mana</option>
             <option value="{15}">{15}: Fifteen generic mana</option>
             <option value="{16}">{16}: Sixteen generic mana</option>
+            <option value="{16}">{17}: Seventeen generic mana</option>
+            <option value="{18}">{18}: Eighteen generic mana</option>
+            <option value="{19}">{1i}: Nineteen generic mana</option>
+            <option value="{20}">{16}: Twenty generic mana</option>
+            <option value="{2/W}">{2/W}: Two generic or one white mana</option>
+            <option value="{2/U}">{2/U}: Two generic or one blue mana</option>
+            <option value="{2/B}">{2/B}: Two generic or one black mana</option>
+            <option value="{2/R}">{2/R}: Two generic or one red mana</option>
+            <option value="{2/G}">{2/W}: Two generic or one green mana</option>
             <option value="{W/U}">{W/U}: One white/blue hybrid mana</option>
             <option value="{W/B}">{W/B}: One white/black hybrid mana</option>
             <option value="{W/B}">{U/B}: One blue/black hybrid mana</option>
@@ -74,6 +87,12 @@
             <option value="{R/W}">{R/W}: One red/white hybrid mana</option>
             <option value="{G/W}">{G/W}: One green/white hybrid mana</option>
             <option value="{G/U}">{G/U}: One green/blue hybrid mana</option>
+            <option value="{W/P}">{W/P}: One white phyrexian mana</option>
+            <option value="{U/P}">{U/P}: One blue phyrexian mana</option>
+            <option value="{B/P}">{B/P}: One black phyrexian mana</option>
+            <option value="{R/P}">{R/P}: One red phyrexian mana</option>
+            <option value="{G/P}">{G/P}: One green phyrexian mana</option>
+            <option value="{S}">{S}: One snow mana</option>
           </select>
         </div>
       </div>
@@ -97,7 +116,6 @@
       <div class="search-input">
         <p>Colors:</p>
         <div class="colors-row">
-          <p>Colors that appear in the casting cost.</p>
           <div class="color-inputs colors">
             <label class="check-button" for="white">
               <img src="./resources/images/color-icon-W.png" alt="white mana symbol"/>
@@ -129,13 +147,18 @@
               <input id="colorless" type="checkbox">
               <span class="checkmark"></span>
             </label>
+            <select id="color-specifics">
+              <option val="Exactly">Exactly</option>
+              <option val="Including">At least</option>
+              <option val="Including">At most</option>
+            </select>
           </div>
+          <p>Colors that appear in the casting cost. "At least" includes cards of all selected colors, plus cards with more colors. "At most" includes cards that may be one or more of the selected colors, including colorless cards.</p>
         </div>
       </div>
       <div class="search-input">
         <p>Color identity:</p>
         <div class="colors-row">
-          <p>Colors that appear in the casting cost and rules text.</p>
           <div class="color-inputs color-id">
             <label class="check-button" for="W">
               <img src="./resources/images/color-icon-W.png" alt="white mana symbol"/>
@@ -168,6 +191,7 @@
               <span class="checkmark"></span>
             </label>
           </div>
+          <p>Colors that appear in the casting cost and rules text. Use this field to find cards that fit your commander deck.</p>
         </div>
       </div>
       <div class="search-input">
