@@ -6,10 +6,6 @@ var scryfallAPI = 'https://api.scryfall.com/cards/search?q=name:';
 var scryfallAdvancedSearch = 'https://api.scryfall.com/cards/search?q=';
 var tcgPlayer_productId = 'https://api.tcgplayer.com/v1.9.0/catalog/products/'; // + product ID
 
-$(document).ready(function() {
-
-});
-
 TolarianLibrary.getNameParam = function(k) {
   //retrieves the search entry from the URL
   var p = {};
@@ -21,8 +17,8 @@ TolarianLibrary.getNameParam = function(k) {
 
 TolarianLibrary.getScryfallParams = function() {
   var url = window.location.search;
+
   url = url.replace('?', '');
-  //console.log(url);
   return url;
 }
 
@@ -113,9 +109,9 @@ TolarianLibrary.getCards = function() {
     }
   }
 
-  //console.log(TolarianLibrary.getScryfallParams());
+  //make the ajax request by checking the URL
   var urlTest = window.location.search;
-  //make the ajax request
+
   if (urlTest.startsWith("?name=")) {
     $.ajax(normalSearch);
   } else {

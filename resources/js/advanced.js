@@ -3,10 +3,6 @@ var TolarianLibrary = {};
 var magicAPI = 'https://api.magicthegathering.io/v1/';
 var scryfallAPI = 'https://api.scryfall.com/cards/search?q=name%3A';
 
-//set names
-const sets = [];
-const setCodes = {};
-
 $(document).ready(function() {
 
   //DOM objects
@@ -58,7 +54,6 @@ $(document).ready(function() {
 
   //sets a click event on the magnifying glass icon
   $('#advanced-search-button').on('click', function() {
-    //TolarianLibrary.advancedSearch();
     window.location = 'search.html?' + TolarianLibrary.advancedSearch();
   });
 
@@ -73,8 +68,7 @@ $(document).ready(function() {
     $('#symbols option:eq(0)').prop('selected', true);
   });
 
-  //autocomplete for type inputs
-
+  //autocomplete functions for type inputs
   $supertype.autocomplete({
     source: supertypes,
     minLength: 0
@@ -82,26 +76,66 @@ $(document).ready(function() {
     $(this).autocomplete('search', $(this).val())
   });
 
-  $type.autocomplete({
-    source: types,
-    minLength: 0
-  }).focus(function() {
-    $(this).autocomplete('search', $(this).val())
+  $type.focusin(function() {
+    $( function() {
+
+      function split( val ) {
+        return val.split( /\s/ );
+      }
+      function extractLast( term ) {
+        return split( term ).pop();
+      }
+
+    $type
+      //don't navigate away from the field on tab when selecting an item
+      .on( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+          //delegate back to autocomplete, but extract the last term
+          response( $.ui.autocomplete.filter(
+            types, extractLast( request.term ) ) );
+        },
+        focus: function() {
+          //prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          //creates an array from the entered value
+          var terms = split( this.value );
+          //remove the current input
+          terms.pop();
+          //add the selected item
+          terms.push( ui.item.value );
+          //add placeholder to get the space at the end
+          terms.push( "" );
+          this.value = terms.join( " " );
+          return false;
+        }
+      }).focus(function() {
+        $(this).autocomplete('search', $(this).val())
+      });
+    })
   });
 
   $subtype.focusin(function() {
-    if ($type.val() == 'Creature') {
+    if ($type.val() == 'Creature' || 'Artifact Creature,' || 'Enchantment Creature' || 'Land Creature' || 'Creature Artifact' || 'Creature Enchantment' || 'Enchantment Artifact Creature' || 'Creature Artifact Enchantment' || 'Artifact Creature Enchantment') {
       $( function() {
 
         function split( val ) {
-          return val.split( /,\s*/ );
+          return val.split( /\s/ );
         }
         function extractLast( term ) {
           return split( term ).pop();
         }
 
         $subtype
-          // don't navigate away from the field on tab when selecting an item
+          //don't navigate away from the field on tab when selecting an item
           .on( "keydown", function( event ) {
             if ( event.keyCode === $.ui.keyCode.TAB &&
                 $( this ).autocomplete( "instance" ).menu.active ) {
@@ -111,23 +145,23 @@ $(document).ready(function() {
           .autocomplete({
             minLength: 0,
             source: function( request, response ) {
-              // delegate back to autocomplete, but extract the last term
+              //delegate back to autocomplete, but extract the last term
               response( $.ui.autocomplete.filter(
                 creatureTypes, extractLast( request.term ) ) );
             },
             focus: function() {
-              // prevent value inserted on focus
+              //prevent value inserted on focus
               return false;
             },
             select: function( event, ui ) {
               var terms = split( this.value );
-              // remove the current input
+              //remove the current input
               terms.pop();
-              // add the selected item
+              //add the selected item
               terms.push( ui.item.value );
-              // add placeholder to get the comma-and-space at the end
+              //add placeholder to get the space at the end
               terms.push( "" );
-              this.value = terms.join( ", " );
+              this.value = terms.join( " " );
               return false;
             }
           }).focus(function() {
@@ -216,6 +250,11 @@ $(document).ready(function() {
 
 });
 
+//global set objects - filled dynamically on advanced.html load
+const sets = [];
+const setCodes = {};
+
+//gets sets and set codes, adds to global objects
 TolarianLibrary.getSets = function() {
   var magicAPISets = 'https://api.magicthegathering.io/v1/sets';
 
@@ -232,8 +271,7 @@ TolarianLibrary.getSets = function() {
   });
 }
 
-//functions that parse the advanced field values
-
+//function that parses the advanced field values and returns a query string in Scryfall's syntax
 TolarianLibrary.advancedSearch = function() {
 
   function buildParameters() {
@@ -248,14 +286,8 @@ TolarianLibrary.advancedSearch = function() {
     if ($text.length > 7) {
       parameters.push($text);
     }
-    if ($supertype.length > 2) {
-      parameters.push($supertype);
-    }
-    if ($type.length > 2) {
-      parameters.push($type);
-    }
-    if ($subtype.length > 2) {
-      parameters.push($subtype);
+    if ($types.length > 0) {
+      parameters.push($types);
     }
     if ($colors.length > 2) {
       parameters.push($colors);
@@ -295,6 +327,47 @@ TolarianLibrary.advancedSearch = function() {
     } else if (!textField) {
       return '';
     }
+  }
+
+  function getTypes() {
+    var $supertype = $('#supertype').val();
+    var $type = $('#type').val();
+    var $subtype = $('#subtype').val();
+
+    var typesArray = [];
+
+    //add each type to the empty types array
+    function addToArray(string) {
+      if (string.includes(' ')) {
+        var types = string.split(' ');
+        for (type in types) {
+          typesArray.push(types[type]);
+        }
+      } else {
+        typesArray.push(string);
+      }
+    }
+
+    //append 't:' to all array elements
+    function appendT(array) {
+      for (type in array) {
+        array[type] = 't:' + array[type];
+        array[type] = array[type].toLowerCase();
+      }
+    }
+
+    addToArray($supertype);
+    addToArray($type);
+    addToArray($subtype);
+
+    typesArray = typesArray.filter(v=>v!='');
+
+    appendT(typesArray);
+
+    var typesParameter = typesArray.join('+');
+
+    return typesParameter;
+
   }
 
   function setColorRange() {
@@ -382,9 +455,7 @@ TolarianLibrary.advancedSearch = function() {
   var $name = 'name:' + $('#card-name').val();
   var $cmc = 'cmc:' + $('#cmc').val();
   var $text = 'oracle:' + getOracleText();
-  var $supertype = 't:' + $('#supertype').val();
-  var $type = 't:' + $('#type').val();
-  var $subtype = 't:' + $('#subtype').val();
+  var $types = getTypes();
   var $colors = 'c' + setColorRange() + selectedColors();
   var $colorID = 'id:' + selectedColorID();
   var $set = 'set:' + getSetCode();
@@ -394,59 +465,7 @@ TolarianLibrary.advancedSearch = function() {
   var $loyalty = 'loyalty:' + $('#loyalty').val();
   var $artist = 'artist:' + $('#artist-name').val();
 
-  /*const searchEntries = {
-    name: $name,
-    cmc: $cmc,
-    oracle: $text,
-    t: [
-      $supertype,
-      $type,
-      $subtype
-    ],
-    c: $colors,
-    identity: $colorID,
-    set: $set,
-    rarity: $rarity,
-    power: $power,
-    toughness: $toughness,
-    loyalty: $loyalty,
-    artist: $artist,
-  };*/
+  var searchParameters = buildParameters();
 
-  /*for (let [key, value] of Object.entries(searchEntries)) {
-    if (searchEntries[key] == '') {
-      delete searchEntries[key];
-    }
-    if (searchEntries[key] === $name) {
-      parameters = parameters + 'name:' + searchEntries.name;
-      console.log(parameters);
-    }
-    if (searchEntries[key] === $cmc) {
-      parameters = parameters + '+cmc:' + searchEntries.cmc;
-      console.log(parameters);
-    }
-    if (searchEntries[key] === $text) {
-      searchEntries.oracle.replace(/,/g, '');
-      parameters = parameters + '+oracle:' + searchEntries.oracle;
-      console.log(parameters);
-    }
-    if (searchEntries[key] == [$supertype, $type, $subtype]) {
-      console.log("type if statement working")
-      for (var i = 0; i < searchEntries[t].length; i++) {
-        parameters = parameters + '+t:' + searchEntries[t][i];
-        console.log(parameters);
-      }
-      //console.log(parameters);
-    }
-    if (searchEntries[key] === $colors) {
-      parameters = parameters + '+c:' + searchEntries.c;
-      console.log(parameters);
-    }
-  }*/
-
-  //var scryfallAPI = 'https://api.scryfall.com/cards/search?q=';
-  var searchUrl = buildParameters();
-
-  console.log(searchUrl);
-  return searchUrl;
+  return searchParameters;
 }
