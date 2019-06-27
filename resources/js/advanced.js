@@ -250,7 +250,7 @@ $(document).ready(function() {
 
 });
 
-//global set objects - filled dynamically on advanced.html load
+//global set objects, filled dynamically on advanced.html load by TolarianLibrary.getSets()
 const sets = [];
 const setCodes = {};
 
@@ -271,7 +271,7 @@ TolarianLibrary.getSets = function() {
   });
 }
 
-//function that parses the advanced field values and returns a query string in Scryfall's syntax
+//parses the advanced field values and returns a query string in Scryfall's syntax
 TolarianLibrary.advancedSearch = function() {
 
   function buildParameters() {
