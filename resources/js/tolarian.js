@@ -92,65 +92,158 @@ TolarianLibrary.getCards = function() {
     var $body = $('body');
 
     function visualizeManaCost(manaCost) {
-      //change string from {3}{U}{W} to <img src"..."" /><img src"..."" /><img src"..."" />;
+      //change string from {3}{U}{W} to "<i class='ms ms-cost ms-shadow" + class + "'></i>..."
+      const symbolClassPairs = {
+        'T': 'ms-tap',
+        'Q': 'ms-untap',
+        'W': 'ms-w',
+        'U': 'ms-u',
+        'B': 'ms-b',
+        'R': 'ms-r',
+        'G': 'ms-g',
+        '1': 'ms-1',
+        '2': 'ms-2',
+        '3': 'ms-3',
+        '4': 'ms-4',
+        '5': 'ms-5',
+        '6': 'ms-6',
+        '7': 'ms-7',
+        '8': 'ms-8',
+        '9': 'ms-9',
+        '10': 'ms-10',
+        '11': 'ms-11',
+        '12': 'ms-12',
+        '13': 'ms-13',
+        '14': 'ms-14',
+        '15': 'ms-15',
+        '16': 'ms-16',
+        '17': 'ms-17',
+        '18': 'ms-18',
+        '19': 'ms-19',
+        '20': 'ms-20',
+        'X': 'ms-x',
+        'Y': 'ms-y',
+        'Z': 'ms-z',
+        'P': 'ms-p',
+        'S': 'ms-s',
+        'E': 'ms-e',
+        '2/W': 'ms-2w',
+        '2/U': 'ms-2u',
+        '2/B': 'ms-2b',
+        '2/R': 'ms-2r',
+        '2/G': 'ms-2g',
+        'W/U': 'ms-wu',
+        'W/B': 'ms-wb',
+        'U/B': 'ms-ub',
+        'U/R': 'ms-ur',
+        'B/R': 'ms-br',
+        'B/G': 'ms-bg',
+        'R/G': 'ms-rg',
+        'R/W': 'ms-rw',
+        'G/W': 'ms-gw',
+        'G/U': 'ms-gu',
+        'W/P': 'ms-wp',
+        'U/P': 'ms-up',
+        'B/P': 'ms-bp',
+        'R/P': 'ms-rp',
+        'G/P': 'ms-gp',
+        '1/2': 'ms-1-2',
+        '100': 'ms-100',
+        '1000000': 'ms-1000000'
+      }
 
+      var valuePairs = Object.entries(symbolClassPairs);
+      var noBrackets = manaCost.replace(/{|}/g, ' '); // 3 U W
+      var costArray = noBrackets.split(' ');
+
+      var charHtml = '';
+
+      for (var i = 0; i < costArray.length; i++) {
+        if (costArray[i] !== '') {
+          for (var z = 0; z < valuePairs.length; z++) {
+            if (valuePairs[z][0] === costArray[i]) {
+              charHtml += "<i class='ms ms-cost ms-shadow " + valuePairs[z][1] + "'></i>";
+            }
+          }
+        }
+      }
+      return charHtml;
     }
 
-    function getLegalities() {
-      <div class="spec-row legalities">
-        <div class="column">
-          <div class="format">
-            <div class="not-legal">
-              <p>NOT LEGAL</p>
-            </div>
-            <p class="format-name">Standard</p>
-          </div>
-          <div class="format">
-            <div class="not-legal">
-              <p>NOT LEGAL</p>
-            </div>
-            <p class="format-name">Modern</p>
-          </div>
-          <div class="format">
-            <div class="legal">
-              <p>LEGAL</p>
-            </div>
-            <p class="format-name">Legacy</p>
-          </div>
-          <div class="format">
-            <div class="legal">
-              <p>LEGAL</p>
-            </div>
-            <p class="format-name">Vintage</p>
-          </div>
-        </div>
-        <div class="column">
-          <div class="format">
-            <div class="legal">
-              <p>LEGAL</p>
-            </div>
-            <p class="format-name">EDH</p>
-          </div>
-          <div class="format">
-            <div class="legal">
-              <p>LEGAL</p>
-            </div>
-            <p class="format-name">Frontier</p>
-          </div>
-          <div class="format">
-            <div class="legal">
-              <p>LEGAL</p>
-            </div>
-            <p class="format-name">Pauper</p>
-          </div>
-          <div class="format">
-            <div class="legal">
-              <p>LEGAL</p>
-            </div>
-            <p class="format-name">Penny</p>
-          </div>
-        </div>
-      </div>
+    function getLegalities(legalities) {
+
+      const legalArray = Object.entries(legalities);
+      const formats = [
+        "commander",
+        "frontier",
+        "legacy",
+        "modern",
+        "pauper",
+        "penny",
+        "standard",
+        "vintage"
+      ];
+
+      function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      }
+
+      var column1Html = '';
+      var column2Html = '';
+      var count = 0;
+
+      for (var i = 0; i < legalArray.length; i++) {
+
+        var legalStr = legalArray[i][1];
+        var isLegal = legalStr.replace('_', ' ');
+
+        for (var f = 0; f < formats.length; f++) {
+
+          if (formats[f] === legalArray[i][0] && count < 4) {
+
+          column1Html +=
+
+          "<div class='format'>" +
+          "<div class='" + legalArray[i][1] + "'>" +
+          "<p>" + isLegal.toUpperCase() + "</p>" +
+          "</div>" +
+          "<p class='format-name'>" + capitalize(formats[f]) + "</p>" +
+          "</div>";
+
+          count++;
+
+          } else if (formats[f] === legalArray[i][0] && count >= 4) {
+
+          column2Html +=
+
+          "<div class='format'>" +
+          "<div class='" + legalArray[i][1] + "'>" +
+          "<p>" + isLegal.toUpperCase() + "</p>" +
+          "</div>" +
+          "<p class='format-name'>" + capitalize(formats[f]) + "</p>" +
+          "</div>";
+
+          }
+        }
+      }
+
+      var legalitiesDiv =
+
+      "<div class='spec-row legalities'>" +
+      "  <div class='column'>" +
+
+      column1Html +
+
+      "  </div>" +
+      "  <div class='column'>" +
+
+      column2Html +
+
+      "  </div>" +
+      "</div>";
+
+      return legalitiesDiv;
+
     }
 
     //parses through a card object sent by the $cardResult click handler
@@ -160,10 +253,17 @@ TolarianLibrary.getCards = function() {
       var manaCost = card.mana_cost;
       var types = card.type_line;
       var cardText = card.oracle_text;
-      var flavorText = card.flavorText;
+      var flavorText = card.flavor_text;
+
+      if (flavorText === undefined) {
+        flavorText = '';
+      }
+
       var artist = card.artist;
       var legalities = card.legalities //object
       var tcg_url = card.purchase_uris.tcgplayer;
+
+
 
       var cardHTML =
 
@@ -211,7 +311,7 @@ TolarianLibrary.getCards = function() {
       "      <div class='spec-row'>" +
       "        <p id='artist'>Illustrated by " + artist + "</p>" +
       "      </div>" +
-            getLegalities() +
+            getLegalities(legalities) +
       "    </div>" +
       "    <div class='card-prices'>" +
       "      <div class='printing'>" +
@@ -241,7 +341,7 @@ TolarianLibrary.getCards = function() {
       "          </div>" +
       "          <div class='market-value shop'>" +
       "            <p class='label'>Shop</p>" +
-      "            <a href=" + tcg_url + "><i class='fa fa-shopping-cart'></i></a>" +
+      "            <a href=" + tcg_url + " target='_blank'><i class='fa fa-shopping-cart'></i></a>" +
       "          </div>" +
       "        </div>" +
       "      </div>" +
@@ -272,7 +372,7 @@ TolarianLibrary.getCards = function() {
       "          </div>" +
       "          <div class='market-value shop'>" +
       "            <p class='label'>Shop</p>" +
-      "            <a href=" + tcgUrl + "><i class='fa fa-shopping-cart'></i></a>" +
+      "            <a href=" + tcg_url + " target='_blank'><i class='fa fa-shopping-cart'></i></a>" +
       "          </div>" +
       "        </div>" +
       "      </div>" +
@@ -303,7 +403,7 @@ TolarianLibrary.getCards = function() {
       "          </div>" +
       "          <div class='market-value shop'>" +
       "            <p class='label'>Shop</p>" +
-      "            <a href=" + tcgUrl + "><i class='fa fa-shopping-cart'></i></a>" +
+      "            <a href=" + tcg_url + " target='_blank'><i class='fa fa-shopping-cart'></i></a>" +
       "          </div>" +
       "        </div>" +
       "      </div>" +
@@ -315,6 +415,7 @@ TolarianLibrary.getCards = function() {
       "      <div class='ruling'>" +
       "        <p>Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. <br> <span class='date'>(01-01-2019)</span></p>" +
       "      </div>" +
+      "      <div class='ruling'>" +
       "        <p>Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. <br> <span class='date'>(01-01-2019)</span></p>" +
       "      </div>" +
       "    </div>" +
@@ -335,7 +436,7 @@ TolarianLibrary.getCards = function() {
           window.scrollTo(0, 0);
         }
       }
-    }
+    });
 
     $(document).on('click', '#back', function() {
       $cardList.empty();
@@ -352,7 +453,7 @@ TolarianLibrary.getCards = function() {
       $newSearch.removeClass('hide');
       renderCardImages(response.data);
       console.log(response.data);
-      //renderCardDetails(response.data);
+      renderCardDetails(response.data);
       $backToTop.removeClass('hide');
     }
   };
@@ -365,7 +466,7 @@ TolarianLibrary.getCards = function() {
       $newSearch.removeClass('hide');
       renderCardImages(response.data);
       console.log(response.data);
-      //renderCardDetails(response.data);
+      renderCardDetails(response.data);
       $backToTop.removeClass('hide');
     }
   }

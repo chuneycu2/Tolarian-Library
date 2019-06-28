@@ -720,13 +720,17 @@ label .checkmark:after {
 .card-details {
   border-top: 1.5px solid #19359b;
   margin: 0 1.25rem;
-  max-width: 33%;
+  max-width: 36%;
 }
 
 .spec-row {
   display: flex;
   align-items: center;
   border-bottom: 0.5px solid #bcbcbc;
+}
+
+.spec-row i {
+  margin: 0.1rem;
 }
 
 .spec-row p {
@@ -783,10 +787,17 @@ label .checkmark:after {
   text-align: center;
 }
 
-.not-legal {
+.not_legal {
   width: 82px;
   color: white;
   background-color: #a0a0a0;
+  text-align: center;
+}
+
+.banned {
+  width: 82px;
+  color: white;
+  background-color: red;
   text-align: center;
 }
 
