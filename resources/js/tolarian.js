@@ -171,7 +171,7 @@ TolarianLibrary.getCards = function() {
     }
 
     function visualizeOracleText(text) {
-      // change brackets to $symbols
+      // change brackets to $symbols - done
       // change + or - # to loyalty symbol
       // italicize reminder text
       const symbolClassPairs = {
@@ -182,6 +182,7 @@ TolarianLibrary.getCards = function() {
         '{B}': 'ms-b',
         '{R}': 'ms-r',
         '{G}': 'ms-g',
+        '{C}': 'ms-c',
         '{1}': 'ms-1',
         '{2}': 'ms-2',
         '{3}': 'ms-3',
@@ -264,7 +265,7 @@ TolarianLibrary.getCards = function() {
       var valuePairs = Object.entries(symbolClassPairs);
 
       var oracleText = text;
-      var symbols = oracleText.match(/\{.*?\}/g);
+      var symbols = oracleText.match(/([+-]+[0-9]\d*|0)|(\{.*?\})/g);
 
       String.prototype.replaceAll = function(search, replace) {
         if (replace === undefined) {
@@ -274,8 +275,8 @@ TolarianLibrary.getCards = function() {
       }
 
       if (symbols !== null) {
-        for (sym = 0; sym < symbols.length; sym++) { //4
-          for (key = 0; key < valuePairs.length; key++) { //56
+        for (sym = 0; sym < symbols.length; sym++) {
+          for (key = 0; key < valuePairs.length; key++) {
             if (symbols[sym] === valuePairs[key][0]) {
               oracleText = oracleText.replaceAll(symbols[sym], "<i class='ms ms-cost " + valuePairs[key][1] + "'></i>");
             }
@@ -377,6 +378,87 @@ TolarianLibrary.getCards = function() {
 
     }
 
+    function getPrintings(url) {
+
+      function renderPrinting(cards) {
+        var printRow = '';
+
+        for (var card = 0; card < cards.length; card++) {
+          var prices = [];
+
+          $.ajax({
+            "async": true,
+            "crossDomain": true,
+            "url": "http://api.tcgplayer.com/v1.27.0/pricing/product/" + cards.tcgplayer_id,
+            "method": "GET",
+            "headers": {
+              "Authorization": "Bearer pDEkTuj7VuuCpQvtkDRzZ7OK05rb0F3_N3FpuHnN2V_lgdAZdWimcO4z_UO4mSyMxCwS8P5-OjkkWz8ZiI71dosYC-0eIaRqK0V72raIM3bFj0VTm48M3bxTYWXDLhp_3H8qJH29pNbRpr0OD1cBr0NJnuUobyJpo9oIwMRDpRhKXDzrtxo0nKEnN0uOnINJ-pcG3ieQG5I6DyESGD0MY1_ys_amQ9c4a2Wc8QHSxCs-tr2YGoKzfRu3GQzZjvv5gT-8BSbbXQvKC1ZTfIT1pi6WG9FHJSNRP-sXD5K_MUYd1HRMKkdw5GDGPqioUvMqNGBliQ",
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+              "Cache-Control": "no-cache",
+              "Host": "api.tcgplayer.com",
+              "accept-encoding": "gzip, deflate",
+              "Connection": "keep-alive",
+              "cache-control": "no-cache"
+            }
+          }).done(function(response) {
+            prices.push(response.results[0].lowPrice);
+            prices.push(response.results[0].midPrice);
+            prices.push(response.results[0].highPrice);
+            if (response.results[1].midPrice) {
+              prices.push(response.results[1].midPrice);
+            } else {
+              prices.push("N/A");
+            }
+          })
+
+          var printRow = printRow +
+          "      <div class='printing'>" +
+          "        <div class='print-info'>" +
+          "          <i class='ss ss-" + cards.set + " ss-2x ss-white'></i>" +
+          "          <div class='set-data'>" +
+          "            <p>" + cards.set_name + "</p>" +
+          "            <p>#" + cards.collector_number + " &middot; " + cards.rarity + "</p>" +
+          "          </div>" +
+          "        </div>" +
+          "        <div class='prices'>" +
+          "          <div class='market-value'>" +
+          "            <p class='label'>Low</p>" +
+          "            <p class='low'>" + prices[0] + "</p>" +
+          "          </div>" +
+          "          <div class='market-value'>" +
+          "            <p class='label'>Median</p>" +
+          "            <p class='median'>" + prices[1] + "</p>" +
+          "          </div>" +
+          "          <div class='market-value'>" +
+          "            <p class='label'>High</p>" +
+          "            <p class='high'>" + prices[2] + "</p>" +
+          "          </div>" +
+          "          <div class='market-value'>" +
+          "            <p class='label'>Foil</p>" +
+          "            <p class='foil'>" + prices[3] + "</p>" +
+          "          </div>" +
+          "          <div class='market-value shop'>" +
+          "            <p class='label'>Shop</p>" +
+          "            <a href=" + cards.purchase_uris.tcg_player + " target='_blank'><i class='fa fa-shopping-cart'></i></a>" +
+          "          </div>" +
+          "        </div>" +
+          "      </div>";
+        }
+        return printRow;
+      }
+
+      $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'JSON',
+        success: function(response) {
+          renderPrinting(response.data);
+        }
+      });
+
+    }
+
     //parses through a card object sent by the $cardResult click handler
     function cardDetails(card) {
       var imageUrl = card.image_uris.large;
@@ -393,7 +475,7 @@ TolarianLibrary.getCards = function() {
       var artist = card.artist;
       var legalities = card.legalities //object
       var tcg_url = card.purchase_uris.tcgplayer;
-
+      var printings = card.prints_search_uris;
 
 
       var cardHTML =
@@ -441,99 +523,7 @@ TolarianLibrary.getCards = function() {
             getLegalities(legalities) +
       "    </div>" +
       "    <div class='card-prices'>" +
-      "      <div class='printing'>" +
-      "        <div class='print-info'>" +
-      "          <i class='ss ss-c16 ss-2x ss-white'></i>" +
-      "          <div class='set-data'>" +
-      "            <p>Commander 2016 (C16)</p>" +
-      "            <p>#143 &middot; Rare</p>" +
-      "          </div>" +
-      "        </div>" +
-      "        <div class='prices'>" +
-      "          <div class='market-value'>" +
-      "            <p class='label'>Low</p>" +
-      "            <p class='low'>$5.00</p>" +
-      "          </div>" +
-      "          <div class='market-value'>" +
-      "            <p class='label'>Median</p>" +
-      "            <p class='median'>$10.00</p>" +
-      "          </div>" +
-      "          <div class='market-value'>" +
-      "            <p class='label'>High</p>" +
-      "            <p class='high'>$15.00</p>" +
-      "          </div>" +
-      "          <div class='market-value'>" +
-      "            <p class='label'>Foil</p>" +
-      "            <p class='foil'>$1000.00</p>" +
-      "          </div>" +
-      "          <div class='market-value shop'>" +
-      "            <p class='label'>Shop</p>" +
-      "            <a href=" + tcg_url + " target='_blank'><i class='fa fa-shopping-cart'></i></a>" +
-      "          </div>" +
-      "        </div>" +
-      "      </div>" +
-      "      <div class='printing'>" +
-      "        <div class='print-info'>" +
-      "          <i class='ss ss-cn2 ss-2x ss-white'></i>" +
-      "          <div class='set-data'>" +
-      "            <p>Conspiracy: Take the Crown (CN2)</p>" +
-      "            <p>#178 &middot; Rare</p>" +
-      "          </div>" +
-      "        </div>" +
-      "        <div class='prices'>" +
-      "          <div class='market-value'>" +
-      "            <p class='label'>Low</p>" +
-      "            <p class='low'>$5.00</p>" +
-      "          </div>" +
-      "          <div class='market-value'>" +
-      "            <p class='label'>Median</p>" +
-      "            <p class='median'>$10.00</p>" +
-      "          </div>" +
-      "          <div class='market-value'>" +
-      "            <p class='label'>High</p>" +
-      "            <p class='high'>$15.00</p>" +
-      "          </div>" +
-      "          <div class='market-value'>" +
-      "            <p class='label'>Foil</p>" +
-      "            <p class='foil'>$1000.00</p>" +
-      "          </div>" +
-      "          <div class='market-value shop'>" +
-      "            <p class='label'>Shop</p>" +
-      "            <a href=" + tcg_url + " target='_blank'><i class='fa fa-shopping-cart'></i></a>" +
-      "          </div>" +
-      "        </div>" +
-      "      </div>" +
-      "      <div class='printing'>" +
-      "        <div class='print-info'>" +
-      "          <i class='ss ss-sth ss-2x ss-white'></i>" +
-      "          <div class='set-data'>" +
-      "            <p>Stronghold (STH)</p>" +
-      "            <p>#102 &middot; Rare</p>" +
-      "          </div>" +
-      "        </div>" +
-      "        <div class='prices'>" +
-      "          <div class='market-value'>" +
-      "            <p class='label'>Low</p>" +
-      "            <p class='low'>$5.00</p>" +
-      "          </div>" +
-      "          <div class='market-value'>" +
-      "            <p class='label'>Median</p>" +
-      "            <p class='median'>$10.00</p>" +
-      "          </div>" +
-      "          <div class='market-value'>" +
-      "            <p class='label'>High</p>" +
-      "            <p class='high'>$15.00</p>" +
-      "          </div>" +
-      "          <div class='market-value'>" +
-      "            <p class='label'>Foil</p>" +
-      "            <p class='foil'>$1000.00</p>" +
-      "          </div>" +
-      "          <div class='market-value shop'>" +
-      "            <p class='label'>Shop</p>" +
-      "            <a href=" + tcg_url + " target='_blank'><i class='fa fa-shopping-cart'></i></a>" +
-      "          </div>" +
-      "        </div>" +
-      "      </div>" +
+           getPrintings(printings) +
       "    </div>" +
       "  </div>" +
       "  <div class='rulings-row'>" +
