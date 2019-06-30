@@ -26,7 +26,7 @@ TolarianLibrary.getCards = function() {
 
   //DOM objects
   var $body = $('body');
-  var $newSearch = $('#new-search');
+  var $search = $('#search');
   var $cardList = $('#card-list');
   var $backToTop = $('#backToTop');
 
@@ -170,6 +170,137 @@ TolarianLibrary.getCards = function() {
       return charHtml;
     }
 
+    function visualizeOracleText(text) {
+      // change brackets to $symbols
+      // change + or - # to loyalty symbol
+      // italicize reminder text
+      const symbolClassPairs = {
+        '{T}': 'ms-tap',
+        '{Q}': 'ms-untap',
+        '{W}': 'ms-w',
+        '{U}': 'ms-u',
+        '{B}': 'ms-b',
+        '{R}': 'ms-r',
+        '{G}': 'ms-g',
+        '{1}': 'ms-1',
+        '{2}': 'ms-2',
+        '{3}': 'ms-3',
+        '{4}': 'ms-4',
+        '{5}': 'ms-5',
+        '{6}': 'ms-6',
+        '{7}': 'ms-7',
+        '{8}': 'ms-8',
+        '{9}': 'ms-9',
+        '{10}': 'ms-10',
+        '{11}': 'ms-11',
+        '{12}': 'ms-12',
+        '{13}': 'ms-13',
+        '{14}': 'ms-14',
+        '{15}': 'ms-15',
+        '{16}': 'ms-16',
+        '{17}': 'ms-17',
+        '{18}': 'ms-18',
+        '{19}': 'ms-19',
+        '{20}': 'ms-20',
+        '{X}': 'ms-x',
+        '{Y}': 'ms-y',
+        '{Z}': 'ms-z',
+        '{P}': 'ms-p',
+        '{S}': 'ms-s',
+        '{E}': 'ms-e',
+        '{2/W}': 'ms-2w',
+        '{2/U}': 'ms-2u',
+        '{2/B}': 'ms-2b',
+        '{2/R}': 'ms-2r',
+        '{2/G}': 'ms-2g',
+        '{W/U}': 'ms-wu',
+        '{W/B}': 'ms-wb',
+        '{U/B}': 'ms-ub',
+        '{U/R}': 'ms-ur',
+        '{B/R}': 'ms-br',
+        '{B/G}': 'ms-bg',
+        '{R/G}': 'ms-rg',
+        '{R/W}': 'ms-rw',
+        '{G/W}': 'ms-gw',
+        '{G/U}': 'ms-gu',
+        '{W/P}': 'ms-wp',
+        '{U/P}': 'ms-up',
+        '{B/P}': 'ms-bp',
+        '{R/P}': 'ms-rp',
+        '{G/P}': 'ms-gp',
+        '{1/2}': 'ms-1-2',
+        '{100}': 'ms-100',
+        '{1000000}': 'ms-1000000'
+      }
+      const loyaltyClassPairs = {
+        '0': 'ms-loyalty-up ms-loyalty-0',
+        '+1': 'ms-loyalty-up ms-loyalty-1',
+        '+2': 'ms-loyalty-up ms-loyalty-2',
+        '+3': 'ms-loyalty-up ms-loyalty-3',
+        '+4': 'ms-loyalty-up ms-loyalty-4',
+        '+5': 'ms-loyalty-up ms-loyalty-5',
+        '+6': 'ms-loyalty-up ms-loyalty-6',
+        '+7': 'ms-loyalty-up ms-loyalty-7',
+        '+8': 'ms-loyalty-up ms-loyalty-8',
+        '+9': 'ms-loyalty-up ms-loyalty-9',
+        '+10': 'ms-loyalty-up ms-loyalty-10',
+        '-1': 'ms-loyalty-down ms-loyalty-1',
+        '-2': 'ms-loyalty-down ms-loyalty-2',
+        '-3': 'ms-loyalty-down ms-loyalty-3',
+        '-4': 'ms-loyalty-down ms-loyalty-4',
+        '-5': 'ms-loyalty-down ms-loyalty-5',
+        '-6': 'ms-loyalty-down ms-loyalty-6',
+        '-7': 'ms-loyalty-down ms-loyalty-7',
+        '-8': 'ms-loyalty-down ms-loyalty-8',
+        '-9': 'ms-loyalty-down ms-loyalty-9',
+        '-10': 'ms-loyalty-down ms-loyalty-10',
+        '-11': 'ms-loyalty-down ms-loyalty-11',
+        '-12': 'ms-loyalty-down ms-loyalty-12',
+        '-13': 'ms-loyalty-down ms-loyalty-13',
+        '-14': 'ms-loyalty-down ms-loyalty-14',
+        '-15': 'ms-loyalty-down ms-loyalty-15'
+      }
+
+      var valuePairs = Object.entries(symbolClassPairs);
+
+      var oracleText = text;
+      var symbols = oracleText.match(/\{.*?\}/g);
+
+      String.prototype.replaceAll = function(search, replace) {
+        if (replace === undefined) {
+          return this.toString();
+        }
+        return this.split(search).join(replace);
+      }
+
+      if (symbols !== null) {
+        for (sym = 0; sym < symbols.length; sym++) { //4
+          for (key = 0; key < valuePairs.length; key++) { //56
+            if (symbols[sym] === valuePairs[key][0]) {
+              oracleText = oracleText.replaceAll(symbols[sym], "<i class='ms ms-cost " + valuePairs[key][1] + "'></i>");
+            }
+          }
+        }
+        oracleText = "<p>" + oracleText + "</p>";
+        return oracleText;
+      } else {
+        oracleText = "<p>" + oracleText + "</p>";
+        return oracleText;
+      }
+    }
+
+    function getFlavor(flavor) {
+      var flavorText = '';
+
+      if (flavor === '') {
+        return flavorText;
+      } else {
+        flavorText +=
+        "<p id='flavor-text'>" + flavor + "</p>";
+        return flavorText;
+      }
+    }
+
     function getLegalities(legalities) {
 
       const legalArray = Object.entries(legalities);
@@ -267,34 +398,30 @@ TolarianLibrary.getCards = function() {
 
       var cardHTML =
 
-      "<p id='back' class='back-to-results'>← Back to search results</p>" +
+      "<div id='back'class='action-button'>" +
+      "  <button>Back to results</button>" +
+      "</div>" +
       "<section class='result'>" +
       "  <div class='info-row'>" +
       "    <div class='card-image'>" +
       "      <img src=" + imageUrl + " alt=" + name + " />" +
-      "       <div class='language-views'>" +
-      "        <div class='language-button'>" +
-      "          <p>EN</p>" +
+      "       <div class='resource-links'>" +
+      "        <a href=" + card.related_uris.edhrec + " target='_blank'>" +
+      "        <div class='resource-button'>" +
+      "          <p>EDHREC</p>" +
       "        </div>" +
-      "        <div class='language-button'>" +
-      "          <p>ES</p>" +
+      "        </a>" +
+      "        <a href=" + card.related_uris.mtgtop8 + " target='_blank'>" +
+      "        <div class='resource-button'>" +
+      "          <p>MtGTop8</p>" +
       "        </div>" +
-      "        <div class='language-button'>" +
-      "          <p>FR</p>" +
+      "        </a>" +
+      "        <a href=" + card.related_uris.gatherer + " target='_blank'>" +
+      "        <div class='resource-button'>" +
+      "          <p>Gatherer</p>" +
       "        </div>" +
-      "        <div class='language-button'>" +
-      "          <p>DE</p> " +
-      "        </div>" +
-      "        <div class='language-button'>" +
-      "          <p>IT</p>" +
-      "        </div>" +
-      "        <div class='language-button'>" +
-      "          <p>JA</p>" +
-      "        </div>" +
-      "        <div class='language-button'>" +
-      "          <p>汉语</p>" +
-      "        </div>" +
-      "      </div>" +
+      "        </a>" +
+      "       </div>" +
       "    </div>" +
       "    <div class='card-details'>" +
       "      <div class='spec-row'>" +
@@ -304,9 +431,9 @@ TolarianLibrary.getCards = function() {
       "      <div class='spec-row'>" +
       "        <p>" + types + "</p>" +
       "      </div>" +
-      "      <div class='spec-row flavor'>" +
-      "        <p>" + cardText + "</p>" +
-      "        <p id='flavor-text'>" + flavorText + "</p>" +
+      "      <div class='spec-row oracle'>" +
+               visualizeOracleText(cardText) +
+               getFlavor(flavorText) +
       "      </div>" +
       "      <div class='spec-row'>" +
       "        <p id='artist'>Illustrated by " + artist + "</p>" +
@@ -432,6 +559,7 @@ TolarianLibrary.getCards = function() {
         if (tcgPlayerID == cards[index].tcgplayer_id) {
           var cardHTML = cardDetails(cards[index]);
           $cardResult.detach();
+          $search.hide();
           $cardList.append(cardHTML);
           window.scrollTo(0, 0);
         }
@@ -440,6 +568,7 @@ TolarianLibrary.getCards = function() {
 
     $(document).on('click', '#back', function() {
       $cardList.empty();
+      $search.show();
       $cardList.append($cardResult);
     });
 
@@ -450,7 +579,7 @@ TolarianLibrary.getCards = function() {
     type: 'GET',
     dataType: 'JSON',
     success: function(response) {
-      $newSearch.removeClass('hide');
+      $search.removeClass('hide');
       renderCardImages(response.data);
       console.log(response.data);
       renderCardDetails(response.data);
@@ -463,7 +592,7 @@ TolarianLibrary.getCards = function() {
     type: 'GET',
     dataType: 'JSON',
     success: function(response) {
-      $newSearch.removeClass('hide');
+      $search.removeClass('hide');
       renderCardImages(response.data);
       console.log(response.data);
       renderCardDetails(response.data);
