@@ -389,13 +389,17 @@ TolarianLibrary.getCards = function() {
           $.ajax({
             "async": true,
             "crossDomain": true,
-            "url": "http://api.tcgplayer.com/v1.27.0/pricing/product/162150" + cards.tcgplayer_id,
+            "url": "http://api.tcgplayer.com/v1.27.0/pricing/product/162150",
             "method": "GET",
             "headers": {
               "Authorization": "Bearer pDEkTuj7VuuCpQvtkDRzZ7OK05rb0F3_N3FpuHnN2V_lgdAZdWimcO4z_UO4mSyMxCwS8P5-OjkkWz8ZiI71dosYC-0eIaRqK0V72raIM3bFj0VTm48M3bxTYWXDLhp_3H8qJH29pNbRpr0OD1cBr0NJnuUobyJpo9oIwMRDpRhKXDzrtxo0nKEnN0uOnINJ-pcG3ieQG5I6DyESGD0MY1_ys_amQ9c4a2Wc8QHSxCs-tr2YGoKzfRu3GQzZjvv5gT-8BSbbXQvKC1ZTfIT1pi6WG9FHJSNRP-sXD5K_MUYd1HRMKkdw5GDGPqioUvMqNGBliQ",
+              "User-Agent": "PostmanRuntime/7.15.0",
               "Accept": "*/*",
               "Cache-Control": "no-cache",
-              "Postman-Token": "02721bfc-3fdc-4274-92b8-27fd622a7b13,463f4346-6a8d-42e7-81de-87d850e80c38",
+              "Postman-Token": "987df20c-6257-463f-ac41-3c726f857c81,5352fb71-3811-4500-99d7-066ca42486e1",
+              "Host": "api.tcgplayer.com",
+              "accept-encoding": "gzip, deflate",
+              "Connection": "keep-alive",
               "cache-control": "no-cache"
             }
           }).done(function(response) {
