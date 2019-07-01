@@ -378,91 +378,69 @@ TolarianLibrary.getCards = function() {
 
     }
 
-    function getPrintings(url) {
+    function getPrintings(printings) {
+      var prices = [
+        "$1.00",
+        "$1.00",
+        "$1.00",
+        "$1.00"
+      ];
 
-      function renderPrinting(cards) {
-        var printRow = '';
+      var printRow = '';
+      console.log(printings);
 
-        for (var card = 0; card < cards.length; card++) {
-          var prices = [];
-
-          $.ajax({
-            "async": true,
-            "crossDomain": true,
-            "url": "http://api.tcgplayer.com/v1.27.0/pricing/product/162150",
-            "method": "GET",
-            "headers": {
-              "Authorization": "Bearer pDEkTuj7VuuCpQvtkDRzZ7OK05rb0F3_N3FpuHnN2V_lgdAZdWimcO4z_UO4mSyMxCwS8P5-OjkkWz8ZiI71dosYC-0eIaRqK0V72raIM3bFj0VTm48M3bxTYWXDLhp_3H8qJH29pNbRpr0OD1cBr0NJnuUobyJpo9oIwMRDpRhKXDzrtxo0nKEnN0uOnINJ-pcG3ieQG5I6DyESGD0MY1_ys_amQ9c4a2Wc8QHSxCs-tr2YGoKzfRu3GQzZjvv5gT-8BSbbXQvKC1ZTfIT1pi6WG9FHJSNRP-sXD5K_MUYd1HRMKkdw5GDGPqioUvMqNGBliQ",
-              "User-Agent": "PostmanRuntime/7.15.0",
-              "Accept": "*/*",
-              "Cache-Control": "no-cache",
-              "Postman-Token": "987df20c-6257-463f-ac41-3c726f857c81,5352fb71-3811-4500-99d7-066ca42486e1",
-              "Host": "api.tcgplayer.com",
-              "accept-encoding": "gzip, deflate",
-              "Connection": "keep-alive",
-              "cache-control": "no-cache"
-            }
-          }).done(function(response) {
-            prices.push(response.results[0].lowPrice);
-            prices.push(response.results[0].midPrice);
-            prices.push(response.results[0].highPrice);
-            if (response.results[1].midPrice) {
-              prices.push(response.results[1].midPrice);
-            } else {
-              prices.push("N/A");
-            }
-          })
-
-          var printRow = printRow +
-          "      <div class='printing'>" +
-          "        <div class='print-info'>" +
-          "          <i class='ss ss-" + cards.set + " ss-2x ss-white'></i>" +
-          "          <div class='set-data'>" +
-          "            <p>" + cards.set_name + "</p>" +
-          "            <p>#" + cards.collector_number + " &middot; " + cards.rarity + "</p>" +
-          "          </div>" +
-          "        </div>" +
-          "        <div class='prices'>" +
-          "          <div class='market-value'>" +
-          "            <p class='label'>Low</p>" +
-          "            <p class='low'>" + prices[0] + "</p>" +
-          "          </div>" +
-          "          <div class='market-value'>" +
-          "            <p class='label'>Median</p>" +
-          "            <p class='median'>" + prices[1] + "</p>" +
-          "          </div>" +
-          "          <div class='market-value'>" +
-          "            <p class='label'>High</p>" +
-          "            <p class='high'>" + prices[2] + "</p>" +
-          "          </div>" +
-          "          <div class='market-value'>" +
-          "            <p class='label'>Foil</p>" +
-          "            <p class='foil'>" + prices[3] + "</p>" +
-          "          </div>" +
-          "          <div class='market-value shop'>" +
-          "            <p class='label'>Shop</p>" +
-          "            <a href=" + cards.purchase_uris.tcg_player + " target='_blank'><i class='fa fa-shopping-cart'></i></a>" +
-          "          </div>" +
-          "        </div>" +
-          "      </div>";
-        }
-        return printRow;
+      function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
       }
 
-      $.ajax({
-        url: url,
-        type: 'GET',
-        dataType: 'JSON',
-        success: function(response) {
-          renderPrinting(response.data);
-        }
-      });
+      for (var p = 0; p < printings.length; p++) {
+
+        var printRow = printRow +
+        "      <div class='printing'>" +
+        "        <div class='print-info'>" +
+        "          <i class='ss ss-" + printings[p].set + " ss-2x ss-white'></i>" +
+        "          <div class='set-data'>" +
+        "            <p>" + printings[p].set_name + "</p>" +
+        "            <p>#" + printings[p].collector_number + " &middot; " + capitalize(printings[p].rarity) + "</p>" +
+        "          </div>" +
+        "        </div>" +
+        "        <div class='prices'>" +
+        "          <div class='market-value'>" +
+        "            <p class='label'>Low</p>" +
+        "            <p class='low'>" + prices[0] + "</p>" +
+        "          </div>" +
+        "          <div class='market-value'>" +
+        "            <p class='label'>Median</p>" +
+        "            <p class='median'>" + prices[1] + "</p>" +
+        "          </div>" +
+        "          <div class='market-value'>" +
+        "            <p class='label'>High</p>" +
+        "            <p class='high'>" + prices[2] + "</p>" +
+        "          </div>" +
+        "          <div class='market-value'>" +
+        "            <p class='label'>Foil</p>" +
+        "            <p class='foil'>" + prices[3] + "</p>" +
+        "          </div>" +
+        "          <div class='market-value shop'>" +
+        "            <p class='label'>Shop</p>" +
+        "            <a href=" + printings[p].purchase_uris.tcgplayer + " target='_blank'><i class='fa fa-shopping-cart'></i></a>" +
+        "          </div>" +
+        "        </div>" +
+        "      </div>";
+      }
+      return printRow;
 
     }
 
-    //parses through a card object sent by the $cardResult click handler
-    function cardDetails(card) {
-      var imageUrl = card.image_uris.large;
+    function cardDetails(card, printings) {
+      var imageUrl = '';
+
+      if (card.image_uris.large !== undefined) {
+        imageUrl = card.image_uris.large;
+      } else if (!card.image_uris) {
+        imageUrle = card.card_faces[0].image_uris.large;
+      }
+
       var name = card.name;
       var manaCost = card.mana_cost;
       var types = card.type_line;
@@ -476,7 +454,6 @@ TolarianLibrary.getCards = function() {
       var artist = card.artist;
       var legalities = card.legalities //object
       var tcg_url = card.purchase_uris.tcgplayer;
-      var printings = card.prints_search_uris;
 
 
       var cardHTML =
@@ -546,7 +523,37 @@ TolarianLibrary.getCards = function() {
     $cardResult.on('click', function() {
       var tcgPlayerID = $(this).attr('id');
 
-      for (var index = 0; index < cards.length; index++) {
+      function printIndex() {
+        var printIndex = 0;
+        for (var i = 0; i < cards.length; i++) {
+          printIndex++;
+          if (tcgPlayerID == cards[i].tcgplayer_id) {
+            console.log(printIndex);
+            return printIndex -1;
+          }
+        }
+      }
+
+      $cardResult.detach();
+      $search.hide();
+      //console.log(printingsUrls);
+      $.ajax({
+        url: printingsUrls[printIndex()],
+        type: 'GET',
+        dataType: 'JSON',
+      }).done(function(response) {
+        console.log(response.data);
+        for (var index = 0; index < cards.length; index++) {
+          if (tcgPlayerID == cards[index].tcgplayer_id) {
+            //console.log(printingsUrls[index]);
+            var cardHTML = cardDetails(cards[index], response.data);
+            $cardList.append(cardHTML);
+            window.scrollTo(0, 0);
+          }
+        }
+      })
+
+      /*for (var index = 0; index < cards.length; index++) {
         if (tcgPlayerID == cards[index].tcgplayer_id) {
           var cardHTML = cardDetails(cards[index]);
           $cardResult.detach();
@@ -554,7 +561,7 @@ TolarianLibrary.getCards = function() {
           $cardList.append(cardHTML);
           window.scrollTo(0, 0);
         }
-      }
+      }*/
     });
 
     $(document).on('click', '#back', function() {
@@ -564,6 +571,8 @@ TolarianLibrary.getCards = function() {
     });
 
   }
+
+  var printingsUrls = [];
 
   var normalSearch = {
     url: scryfallAPI + TolarianLibrary.getNameParam("name"),
@@ -575,6 +584,10 @@ TolarianLibrary.getCards = function() {
       console.log(response.data);
       renderCardDetails(response.data);
       $backToTop.removeClass('hide');
+      for (var i = 0; i < response.data.length; i++) {
+        printingsUrls.push(response.data[i].prints_search_uri);
+      }
+      //console.log(printingsUrls);
     }
   };
 
@@ -588,6 +601,10 @@ TolarianLibrary.getCards = function() {
       console.log(response.data);
       renderCardDetails(response.data);
       $backToTop.removeClass('hide');
+      for (var i = 0; i < response.data.length; i++) {
+        printingsUrls.push(response.data[i].prints_search_uri);
+      }
+      //console.log(printingsUrls);
     }
   }
 
