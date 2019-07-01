@@ -29,6 +29,8 @@ TolarianLibrary.getCards = function() {
   var $search = $('#search');
   var $cardList = $('#card-list');
   var $backToTop = $('#backToTop');
+  var $cardResult = $('.card-result');
+  var $cardDetail = $('#card-detail');
 
   //displays a loading gif during ajax requests
   $(document).on({
@@ -49,9 +51,9 @@ TolarianLibrary.getCards = function() {
       var imageUrl = cards[index].image_uris;
 
       if (imageUrl === undefined) {
-        imageUrl = cards[index].card_faces[0].image_uris.large;
+        imageUrl = cards[index].card_faces[0].image_uris.normal;
       } else {
-        imageUrl = cards[index].image_uris.large;
+        imageUrl = cards[index].image_uris.normal;
       }
 
       var name = cards[index].name;
@@ -87,11 +89,13 @@ TolarianLibrary.getCards = function() {
   //renders details for each card on click
   function renderCardDetails(cards) {
 
+    //DOM objects
     var $cardList = $('#card-list');
     var $cardResult = $('.card-result');
     var $cardDetail = $('#card-detail');
     var $body = $('body');
 
+    //converts bracket costs (i.e. {W}) into mana.css symbols
     function visualizeManaCost(manaCost) {
       //change string from {3}{U}{W} to "<i class='ms ms-cost ms-shadow" + class + "'></i>..."
       const symbolClassPairs = {
@@ -171,10 +175,9 @@ TolarianLibrary.getCards = function() {
       return charHtml;
     }
 
+    //converts bracket costs in card's text to mana.css symbols
     function visualizeOracleText(text) {
-      // change brackets to $symbols - done
-      // change + or - # to loyalty symbol
-      // italicize reminder text
+
       const symbolClassPairs = {
         '{T}': 'ms-tap',
         '{Q}': 'ms-untap',
@@ -291,6 +294,7 @@ TolarianLibrary.getCards = function() {
       }
     }
 
+    //returns a card's flavor text
     function getFlavor(flavor) {
       var flavorText = '';
 
@@ -303,6 +307,7 @@ TolarianLibrary.getCards = function() {
       }
     }
 
+    //returns a card's legalities <div>
     function getLegalities(legalities) {
 
       const legalArray = Object.entries(legalities);
@@ -379,6 +384,7 @@ TolarianLibrary.getCards = function() {
 
     }
 
+    //returns HTML rows of data for each card printing
     function getPrintings(printings) {
       var printRow = '';
 
@@ -427,6 +433,7 @@ TolarianLibrary.getCards = function() {
 
     }
 
+    //returns HTML rows of data for each card's ruling
     function getRulings(rulings) {
       var rulingsHtml = '';
 
@@ -445,7 +452,7 @@ TolarianLibrary.getCards = function() {
           "  <p>" +
           rulings[r].comment +
           "  </br>" +
-          "  <span class='date'>" + rulings[r].published_at + "</span>" +
+          "  <span class='date'>(" + rulings[r].published_at + ")</span>" +
           "  </p>" +
           "</div>";
         }
@@ -453,6 +460,7 @@ TolarianLibrary.getCards = function() {
       return rulingsHtml;
     }
 
+    //renders a card's details on click with the help from the above functions
     function cardDetails(card, printings, rulings) {
       var imageUrl = '';
 
@@ -551,7 +559,6 @@ TolarianLibrary.getCards = function() {
       function findRuling(i) {
         for (var r = 0; r < cardRulings.length; r++) {
           if (cardRulings[r][0] === i) {
-            console.log(cardRulings[r][1].data);
             return cardRulings[r][1].data;
           }
         }
@@ -568,7 +575,6 @@ TolarianLibrary.getCards = function() {
         //console.log(response.data);
         for (var index = 0; index < cards.length; index++) {
           if (tcgPlayerID == cards[index].tcgplayer_id) {
-            console.log(cardRulings);
             var cardHTML = cardDetails(cards[index], response.data, findRuling(index));
             $cardList.append(cardHTML);
             window.scrollTo(0, 0);
@@ -586,6 +592,7 @@ TolarianLibrary.getCards = function() {
 
   }
 
+  //ajax holding arrays
   var printingsUrls = [];
   var rulingsUrls = [];
   var cardRulings = [];
@@ -597,17 +604,14 @@ TolarianLibrary.getCards = function() {
     success: function(response) {
       $search.removeClass('hide');
       renderCardImages(response.data);
-      console.log(response.data);
       renderCardDetails(response.data);
       $backToTop.removeClass('hide');
       for (var i = 0; i < response.data.length; i++) {
         printingsUrls.push(response.data[i].prints_search_uri);
         rulingsUrls.push(response.data[i].rulings_uri);
       }
-      console.log(rulingsUrls);
     }
   };
-
   var advancedSearch = {
     url: scryfallAdvancedSearch + TolarianLibrary.getScryfallParams(),
     type: 'GET',
@@ -615,7 +619,6 @@ TolarianLibrary.getCards = function() {
     success: function(response) {
       $search.removeClass('hide');
       renderCardImages(response.data);
-      console.log(response.data);
       renderCardDetails(response.data);
       $backToTop.removeClass('hide');
       for (var i = 0; i < response.data.length; i++) {
@@ -625,6 +628,7 @@ TolarianLibrary.getCards = function() {
     }
   }
 
+  //finds correct rulings for a card since ajax returns ruling data asynchronously
   function rulingsCallback(r) {
     return function(response) {
       cardRulings.push([
@@ -653,10 +657,8 @@ TolarianLibrary.getCards = function() {
         $.ajax({
           url: rulingsUrls[r],
           type: 'GET',
-          dataType: 'JSON'
-        }).done(function(response) {
-          //console.log(response);
-          cardRulings.push(response);
+          dataType: 'JSON',
+          success: rulingsCallback(r)
         });
       }
     })
