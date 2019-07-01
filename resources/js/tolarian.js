@@ -379,15 +379,7 @@ TolarianLibrary.getCards = function() {
     }
 
     function getPrintings(printings) {
-      var prices = [
-        "$1.00",
-        "$1.00",
-        "$1.00",
-        "$1.00"
-      ];
-
       var printRow = '';
-      console.log(printings);
 
       function capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
@@ -395,31 +387,33 @@ TolarianLibrary.getCards = function() {
 
       for (var p = 0; p < printings.length; p++) {
 
+        var variableUSD = '$' + printings[p].prices.usd;
+        var variableFoil = '$' + printings[p].prices.usd_foil;
+
+        if (printings[p].prices.usd === null) {
+          variableUSD = "N/A";
+        }
+        if (printings[p].prices.usd_foil === null) {
+          variableFoil = "N/A";
+        }
+
         var printRow = printRow +
         "      <div class='printing'>" +
         "        <div class='print-info'>" +
-        "          <i class='ss ss-" + printings[p].set + " ss-2x ss-white'></i>" +
+        "          <i class='ss ss-" + printings[p].set + " ss-2x ss-white ss-fw'></i>" +
         "          <div class='set-data'>" +
         "            <p>" + printings[p].set_name + "</p>" +
-        "            <p>#" + printings[p].collector_number + " &middot; " + capitalize(printings[p].rarity) + "</p>" +
+        "            <p>#" + printings[p].collector_number + " &middot; " + capitalize(printings[p].rarity) + " &middot; " + printings[p].lang.toUpperCase() + "</p>" +
         "          </div>" +
         "        </div>" +
         "        <div class='prices'>" +
         "          <div class='market-value'>" +
-        "            <p class='label'>Low</p>" +
-        "            <p class='low'>" + prices[0] + "</p>" +
-        "          </div>" +
-        "          <div class='market-value'>" +
         "            <p class='label'>Median</p>" +
-        "            <p class='median'>" + prices[1] + "</p>" +
-        "          </div>" +
-        "          <div class='market-value'>" +
-        "            <p class='label'>High</p>" +
-        "            <p class='high'>" + prices[2] + "</p>" +
+        "            <p class='median'>" + variableUSD + "</p>" +
         "          </div>" +
         "          <div class='market-value'>" +
         "            <p class='label'>Foil</p>" +
-        "            <p class='foil'>" + prices[3] + "</p>" +
+        "            <p class='foil'>" + variableFoil + "</p>" +
         "          </div>" +
         "          <div class='market-value shop'>" +
         "            <p class='label'>Shop</p>" +
@@ -435,10 +429,10 @@ TolarianLibrary.getCards = function() {
     function cardDetails(card, printings) {
       var imageUrl = '';
 
-      if (card.image_uris.large !== undefined) {
+      if (card.card_faces) {
+        imageUrl = card.card_faces[0].image_uris.large;
+      } else {
         imageUrl = card.image_uris.large;
-      } else if (!card.image_uris) {
-        imageUrle = card.card_faces[0].image_uris.large;
       }
 
       var name = card.name;
