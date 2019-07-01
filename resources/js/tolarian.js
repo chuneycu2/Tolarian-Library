@@ -84,6 +84,7 @@ TolarianLibrary.getCards = function() {
 
   };
 
+  //renders details for each card on click
   function renderCardDetails(cards) {
 
     var $cardList = $('#card-list');
@@ -426,7 +427,24 @@ TolarianLibrary.getCards = function() {
 
     }
 
-    function cardDetails(card, printings) {
+    function getRulings(rulings) {
+      var rulingsHtml = '';
+
+      for (var r = 0; r < rulings.length; r++) {
+        rulingsHtml = rulingsHtml +
+        "<div class='ruling'>" +
+        "  <p>" +
+        rulings[r].comment +
+        "  </br>" +
+        "  <span class='date'>" + rulings[r].published_at + "</span>" +
+        "  </p>" +
+        "</div>";
+      }
+
+      return rulingsHtml;
+    }
+
+    function cardDetails(card, printings, rulings) {
       var imageUrl = '';
 
       if (card.card_faces) {
@@ -448,7 +466,6 @@ TolarianLibrary.getCards = function() {
       var artist = card.artist;
       var legalities = card.legalities //object
       var tcg_url = card.purchase_uris.tcgplayer;
-
 
       var cardHTML =
 
@@ -499,14 +516,9 @@ TolarianLibrary.getCards = function() {
       "    </div>" +
       "  </div>" +
       "  <div class='rulings-row'>" +
-      "    <p id='rulings-header'>Rulings and information for Burgeoning</p>" +
+      "    <p id='rulings-header'>Rulings and information for " + card.name + "</p>" +
       "    <div class='rulings'>" +
-      "      <div class='ruling'>" +
-      "        <p>Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. <br> <span class='date'>(01-01-2019)</span></p>" +
-      "      </div>" +
-      "      <div class='ruling'>" +
-      "        <p>Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. Whenever an opponent plays a land, you may put a land card from your hand onto the battlefield. <br> <span class='date'>(01-01-2019)</span></p>" +
-      "      </div>" +
+           getRulings(rulings) +
       "    </div>" +
       "  </div>" +
       "</section>";
@@ -522,40 +534,39 @@ TolarianLibrary.getCards = function() {
         for (var i = 0; i < cards.length; i++) {
           printIndex++;
           if (tcgPlayerID == cards[i].tcgplayer_id) {
-            console.log(printIndex);
             return printIndex -1;
+          }
+        }
+      }
+
+      function findRuling(i) {
+        for (var r = 0; r < cardRulings.length; r++) {
+          if (cardRulings[r][0] === i) {
+            console.log(cardRulings[r][1].data);
+            return cardRulings[r][1].data;
           }
         }
       }
 
       $cardResult.detach();
       $search.hide();
-      //console.log(printingsUrls);
+
       $.ajax({
         url: printingsUrls[printIndex()],
         type: 'GET',
         dataType: 'JSON',
       }).done(function(response) {
-        console.log(response.data);
+        //console.log(response.data);
         for (var index = 0; index < cards.length; index++) {
           if (tcgPlayerID == cards[index].tcgplayer_id) {
-            //console.log(printingsUrls[index]);
-            var cardHTML = cardDetails(cards[index], response.data);
+            console.log(cardRulings);
+            var cardHTML = cardDetails(cards[index], response.data, findRuling(index));
             $cardList.append(cardHTML);
             window.scrollTo(0, 0);
           }
         }
       })
 
-      /*for (var index = 0; index < cards.length; index++) {
-        if (tcgPlayerID == cards[index].tcgplayer_id) {
-          var cardHTML = cardDetails(cards[index]);
-          $cardResult.detach();
-          $search.hide();
-          $cardList.append(cardHTML);
-          window.scrollTo(0, 0);
-        }
-      }*/
     });
 
     $(document).on('click', '#back', function() {
@@ -567,6 +578,8 @@ TolarianLibrary.getCards = function() {
   }
 
   var printingsUrls = [];
+  var rulingsUrls = [];
+  var cardRulings = [];
 
   var normalSearch = {
     url: scryfallAPI + TolarianLibrary.getNameParam("name"),
@@ -580,8 +593,9 @@ TolarianLibrary.getCards = function() {
       $backToTop.removeClass('hide');
       for (var i = 0; i < response.data.length; i++) {
         printingsUrls.push(response.data[i].prints_search_uri);
+        rulingsUrls.push(response.data[i].rulings_uri);
       }
-      //console.log(printingsUrls);
+      console.log(rulingsUrls);
     }
   };
 
@@ -597,8 +611,16 @@ TolarianLibrary.getCards = function() {
       $backToTop.removeClass('hide');
       for (var i = 0; i < response.data.length; i++) {
         printingsUrls.push(response.data[i].prints_search_uri);
+        rulingsUrls.push(response.data[i].rulings_uri);
       }
-      //console.log(printingsUrls);
+    }
+  }
+
+  function rulingsCallback(r) {
+    return function(response) {
+      cardRulings.push([
+        r, response
+      ]);
     }
   }
 
@@ -606,9 +628,29 @@ TolarianLibrary.getCards = function() {
   var urlTest = window.location.search;
 
   if (urlTest.startsWith("?name=")) {
-    $.ajax(normalSearch);
+    $.ajax(normalSearch).done(function() {
+      for (var r = 0; r < rulingsUrls.length; r++) {
+        $.ajax({
+          url: rulingsUrls[r],
+          type: 'GET',
+          dataType: 'JSON',
+          success: rulingsCallback(r)
+        });
+      }
+    })
   } else {
-    $.ajax(advancedSearch);
+    $.ajax(advancedSearch).done(function() {
+      for (var r = 0; r < rulingsUrls.length; r++) {
+        $.ajax({
+          url: rulingsUrls[r],
+          type: 'GET',
+          dataType: 'JSON'
+        }).done(function(response) {
+          //console.log(response);
+          cardRulings.push(response);
+        });
+      }
+    })
   };
 
 };
