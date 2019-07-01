@@ -430,17 +430,26 @@ TolarianLibrary.getCards = function() {
     function getRulings(rulings) {
       var rulingsHtml = '';
 
-      for (var r = 0; r < rulings.length; r++) {
+      if (rulings === undefined) {
+        var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         rulingsHtml = rulingsHtml +
         "<div class='ruling'>" +
-        "  <p>" +
-        rulings[r].comment +
-        "  </br>" +
-        "  <span class='date'>" + rulings[r].published_at + "</span>" +
-        "  </p>" +
+        "  <p>No rulings as of " + date + "</p>" +
         "</div>";
+        return rulingsHtml;
+      } else {
+        for (var r = 0; r < rulings.length; r++) {
+          rulingsHtml = rulingsHtml +
+          "<div class='ruling'>" +
+          "  <p>" +
+          rulings[r].comment +
+          "  </br>" +
+          "  <span class='date'>" + rulings[r].published_at + "</span>" +
+          "  </p>" +
+          "</div>";
+        }
       }
-
       return rulingsHtml;
     }
 
