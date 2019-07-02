@@ -815,6 +815,13 @@ label .checkmark:after {
   text-align: center;
 }
 
+.restricted {
+  width: 82px;
+  color: white;
+  background-color: orange;
+  text-align: center;
+}
+
 .card-prices {
   border-top: 1.5px solid #19359b;
   border-bottom: 1.5px solid #19359b;
@@ -835,6 +842,11 @@ label .checkmark:after {
 
 .print-info i {
   padding-right: 0.5rem;
+}
+
+.print-info:hover {
+  cursor: pointer;
+  background-color: #d7dde2;
 }
 
 .print-info p {

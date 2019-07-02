@@ -6,6 +6,7 @@ var scryfallAPI = 'https://api.scryfall.com/cards/search?q=name:';
 var scryfallAdvancedSearch = 'https://api.scryfall.com/cards/search?q=';
 var tcgPlayer_productId = 'https://api.tcgplayer.com/v1.9.0/catalog/products/'; // + product ID
 
+
 TolarianLibrary.getNameParam = function(k) {
   //retrieves the search entry from the URL
   var p = {};
@@ -94,6 +95,8 @@ TolarianLibrary.getCards = function() {
     var $cardResult = $('.card-result');
     var $cardDetail = $('#card-detail');
     var $body = $('body');
+    //var $defaultImg = $('#defaultImg');
+    //var $printImg = $('#printImg');
 
     //converts bracket costs (i.e. {W}) into mana.css symbols
     function visualizeManaCost(manaCost) {
@@ -394,6 +397,7 @@ TolarianLibrary.getCards = function() {
 
       for (var p = 0; p < printings.length; p++) {
 
+        var printId = "printId-" + p;
         var variableUSD = '$' + printings[p].prices.usd;
         var variableFoil = '$' + printings[p].prices.usd_foil;
 
@@ -405,7 +409,7 @@ TolarianLibrary.getCards = function() {
         }
 
         var printRow = printRow +
-        "      <div class='printing'>" +
+        "      <div id=" + p + " class='printing'>" +
         "        <div class='print-info'>" +
         "          <i class='ss ss-" + printings[p].set + " ss-2x ss-white ss-fw'></i>" +
         "          <div class='set-data'>" +
@@ -415,7 +419,7 @@ TolarianLibrary.getCards = function() {
         "        </div>" +
         "        <div class='prices'>" +
         "          <div class='market-value'>" +
-        "            <p class='label'>Median</p>" +
+        "            <p class='label'>Non-foil</p>" +
         "            <p class='median'>" + variableUSD + "</p>" +
         "          </div>" +
         "          <div class='market-value'>" +
@@ -435,9 +439,10 @@ TolarianLibrary.getCards = function() {
 
     //returns HTML rows of data for each card's ruling
     function getRulings(rulings) {
+      console.log(rulings);
       var rulingsHtml = '';
 
-      if (rulings === undefined) {
+      if (rulings === undefined || rulings === null || rulings === []) {
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         rulingsHtml = rulingsHtml +
@@ -492,7 +497,7 @@ TolarianLibrary.getCards = function() {
       "<section class='result'>" +
       "  <div class='info-row'>" +
       "    <div class='card-image'>" +
-      "      <img src=" + imageUrl + " alt=" + name + " />" +
+      "      <img id='defaultImg' src=" + imageUrl + " alt=" + name + " />" +
       "       <div class='resource-links'>" +
       "        <a href=" + card.related_uris.edhrec + " target='_blank'>" +
       "        <div class='resource-button'>" +
@@ -541,11 +546,13 @@ TolarianLibrary.getCards = function() {
       "</section>";
 
       return cardHTML;
+
     }
 
     $cardResult.on('click', function() {
       var tcgPlayerID = $(this).attr('id');
 
+      //finds the correct printings url to query for the selected card
       function printIndex() {
         var printIndex = 0;
         for (var i = 0; i < cards.length; i++) {
@@ -556,10 +563,22 @@ TolarianLibrary.getCards = function() {
         }
       }
 
+      //finds the correct index for the selected card's rulings, since ajax returns rulings objects out of order in the cardRulings array
       function findRuling(i) {
         for (var r = 0; r < cardRulings.length; r++) {
           if (cardRulings[r][0] === i) {
             return cardRulings[r][1].data;
+          }
+        }
+      }
+
+      //pushes a selected card's printings images to a holding array
+      function addPrintsImages(cards) {
+        for (var i = 0; i < cards.length; i++) {
+          if (cards[i].card_faces) {
+            printingsImages.push(cards[i].card_faces[0].image_uris.large);
+          } else {
+            printingsImages.push(cards[i].image_uris.large);
           }
         }
       }
@@ -572,19 +591,29 @@ TolarianLibrary.getCards = function() {
         type: 'GET',
         dataType: 'JSON',
       }).done(function(response) {
-        //console.log(response.data);
+        console.log(response.data);
         for (var index = 0; index < cards.length; index++) {
           if (tcgPlayerID == cards[index].tcgplayer_id) {
+            addPrintsImages(response.data);
+            console.log(printingsImages);
             var cardHTML = cardDetails(cards[index], response.data, findRuling(index));
+
             $cardList.append(cardHTML);
             window.scrollTo(0, 0);
           }
         }
-      })
+      });
+
+      $(document).on('click', 'div.printing', function() {
+        var $defaultImg = $('#defaultImg');
+        var $printId = $(this).attr('id');
+        $defaultImg.attr('src', printingsImages[$printId]);
+      });
 
     });
 
     $(document).on('click', '#back', function() {
+      printingsImages = [];
       $cardList.empty();
       $search.show();
       $cardList.append($cardResult);
@@ -596,6 +625,7 @@ TolarianLibrary.getCards = function() {
   var printingsUrls = [];
   var rulingsUrls = [];
   var cardRulings = [];
+  var printingsImages = [];
 
   var normalSearch = {
     url: scryfallAPI + TolarianLibrary.getNameParam("name"),
