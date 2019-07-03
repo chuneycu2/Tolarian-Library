@@ -640,16 +640,16 @@ label .checkmark:after {
 }
 
 .search-results {
-  max-width: 62rem;
+  max-width: 80rem;
   margin: 0 auto;
 }
 
 .results-rows {
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
-  max-width: 70rem;
+  max-width: 80rem;
   margin: 0 auto;
 }
 
@@ -786,6 +786,10 @@ label .checkmark:after {
 
 .spec-row i {
   margin: 0.1rem;
+}
+
+#frontside, #backside:hover {
+  cursor: pointer;
 }
 
 .spec-row p {

@@ -95,6 +95,8 @@ TolarianLibrary.getCards = function() {
     var $cardResult = $('.card-result');
     var $cardDetail = $('#card-detail');
     var $body = $('body');
+    var $frontSide = $('#frontside');
+    var $backSide = $('#backside');
     //var $defaultImg = $('#defaultImg');
     //var $printImg = $('#printImg');
 
@@ -301,7 +303,7 @@ TolarianLibrary.getCards = function() {
     function getFlavor(flavor) {
       var flavorText = '';
 
-      if (flavor === '') {
+      if (flavor === '' || flavor === undefined) {
         return flavorText;
       } else {
         flavorText +=
@@ -397,7 +399,6 @@ TolarianLibrary.getCards = function() {
 
       for (var p = 0; p < printings.length; p++) {
 
-        var printId = "printId-" + p;
         var variableUSD = '$' + printings[p].prices.usd;
         var variableFoil = '$' + printings[p].prices.usd_foil;
 
@@ -466,85 +467,171 @@ TolarianLibrary.getCards = function() {
 
     //renders a card's details on click with the help from the above functions
     function cardDetails(card, printings, rulings) {
-      var imageUrl = '';
 
       if (card.card_faces) {
-        imageUrl = card.card_faces[0].image_uris.large;
+        var cardFaceFront = card.card_faces[0];
+        var cardFaceBack = card.card_faces[1];
+
+        flipCardFaces.push(card.card_faces[0].image_uris.large);
+        flipCardFaces.push(card.card_faces[1].image_uris.large);
+
+        var imageUrl = cardFaceFront.image_uris.large;
+        var imageUrlBack = cardFaceBack.image_uris.large;
+        var name = cardFaceFront.name;
+        var nameBack = cardFaceBack.name;
+        var manaCost = cardFaceFront.mana_cost;
+        var manaCostBack = cardFaceBack.mana_cost;
+        var types = cardFaceFront.type_line;
+        var typesBack = cardFaceBack.type_line;
+        var cardText = cardFaceFront.oracle_text;
+        var cardTextBack = cardFaceBack.oracle_text;
+        var flavorText = cardFaceFront.flavor_text;
+        var flavorTextBack = cardFaceBack.flavor_text;
+
+        if (flavorText === undefined || flavorTextBack === undefined) {
+          flavorText = '';
+        }
+
+        var artist = cardFaceFront.artist;
+        var legalities = card.legalities //object
+        var tcg_url = card.purchase_uris.tcgplayer;
+
+        var cardHTML =
+
+        "<div id='back'class='action-button'>" +
+        "  <button>Back to results</button>" +
+        "</div>" +
+        "<section class='result'>" +
+        "  <div class='info-row'>" +
+        "    <div class='card-image'>" +
+        "      <img id='defaultImg' src=" + imageUrl + " alt='" + name + " // " + nameBack + "' />" +
+        "       <div class='resource-links'>" +
+        "        <a href=" + card.related_uris.edhrec + " target='_blank'>" +
+        "        <div class='resource-button'>" +
+        "          <p>EDHREC</p>" +
+        "        </div>" +
+        "        </a>" +
+        "        <a href=" + card.related_uris.mtgtop8 + " target='_blank'>" +
+        "        <div class='resource-button'>" +
+        "          <p>MtGTop8</p>" +
+        "        </div>" +
+        "        </a>" +
+        "        <a href=" + card.related_uris.gatherer + " target='_blank'>" +
+        "        <div class='resource-button'>" +
+        "          <p>Gatherer</p>" +
+        "        </div>" +
+        "        </a>" +
+        "       </div>" +
+        "    </div>" +
+        "    <div class='card-details'>" +
+        "      <div class='spec-row'>" +
+        "        <p><i id='frontside' class='ms ms-dfc-day'></i> " + name + " // <i id='backside' class='ms ms-dfc-night'></i> " + nameBack + "</p>" +
+                 visualizeManaCost(manaCost) +
+        "      </div>" +
+        "      <div class='spec-row'>" +
+        "        <p>" + types + " // " + typesBack + "</p>" +
+        "      </div>" +
+        "      <div class='spec-row oracle'>" +
+                 visualizeOracleText(cardText) +
+                 getFlavor(flavorText) +
+        "        </br>                           " +
+                 visualizeOracleText(cardTextBack) +
+                 getFlavor(flavorTextBack) +
+        "      </div>" +
+        "      <div class='spec-row'>" +
+        "        <p id='artist'>Illustrated by " + artist + "</p>" +
+        "      </div>" +
+              getLegalities(legalities) +
+        "    </div>" +
+        "    <div class='card-prices'>" +
+             getPrintings(printings) +
+        "    </div>" +
+        "  </div>" +
+        "  <div class='rulings-row'>" +
+        "    <p id='rulings-header'>Rulings and information for " + card.name + "</p>" +
+        "    <div class='rulings'>" +
+             getRulings(rulings) +
+        "    </div>" +
+        "  </div>" +
+        "</section>";
+
+        return cardHTML;
+
       } else {
-        imageUrl = card.image_uris.large;
+
+        var imageUrl = card.image_uris.large;
+        var name = card.name;
+        var manaCost = card.mana_cost;
+        var types = card.type_line;
+        var cardText = card.oracle_text;
+        var flavorText = card.flavor_text;
+
+        if (flavorText === undefined) {
+          flavorText = '';
+        }
+
+        var artist = card.artist;
+        var legalities = card.legalities //object
+        var tcg_url = card.purchase_uris.tcgplayer;
+
+        var cardHTML =
+
+        "<div id='back'class='action-button'>" +
+        "  <button>Back to results</button>" +
+        "</div>" +
+        "<section class='result'>" +
+        "  <div class='info-row'>" +
+        "    <div class='card-image'>" +
+        "      <img id='defaultImg' src=" + imageUrl + " alt=" + name + " />" +
+        "       <div class='resource-links'>" +
+        "        <a href=" + card.related_uris.edhrec + " target='_blank'>" +
+        "        <div class='resource-button'>" +
+        "          <p>EDHREC</p>" +
+        "        </div>" +
+        "        </a>" +
+        "        <a href=" + card.related_uris.mtgtop8 + " target='_blank'>" +
+        "        <div class='resource-button'>" +
+        "          <p>MtGTop8</p>" +
+        "        </div>" +
+        "        </a>" +
+        "        <a href=" + card.related_uris.gatherer + " target='_blank'>" +
+        "        <div class='resource-button'>" +
+        "          <p>Gatherer</p>" +
+        "        </div>" +
+        "        </a>" +
+        "       </div>" +
+        "    </div>" +
+        "    <div class='card-details'>" +
+        "      <div class='spec-row'>" +
+        "        <p>" + name + "</p>" +
+                 visualizeManaCost(manaCost) +
+        "      </div>" +
+        "      <div class='spec-row'>" +
+        "        <p>" + types + "</p>" +
+        "      </div>" +
+        "      <div class='spec-row oracle'>" +
+                 visualizeOracleText(cardText) +
+                 getFlavor(flavorText) +
+        "      </div>" +
+        "      <div class='spec-row'>" +
+        "        <p id='artist'>Illustrated by " + artist + "</p>" +
+        "      </div>" +
+              getLegalities(legalities) +
+        "    </div>" +
+        "    <div class='card-prices'>" +
+             getPrintings(printings) +
+        "    </div>" +
+        "  </div>" +
+        "  <div class='rulings-row'>" +
+        "    <p id='rulings-header'>Rulings and information for " + card.name + "</p>" +
+        "    <div class='rulings'>" +
+             getRulings(rulings) +
+        "    </div>" +
+        "  </div>" +
+        "</section>";
+
+        return cardHTML;
       }
-
-      var name = card.name;
-      var manaCost = card.mana_cost;
-      var types = card.type_line;
-      var cardText = card.oracle_text;
-      var flavorText = card.flavor_text;
-
-      if (flavorText === undefined) {
-        flavorText = '';
-      }
-
-      var artist = card.artist;
-      var legalities = card.legalities //object
-      var tcg_url = card.purchase_uris.tcgplayer;
-
-      var cardHTML =
-
-      "<div id='back'class='action-button'>" +
-      "  <button>Back to results</button>" +
-      "</div>" +
-      "<section class='result'>" +
-      "  <div class='info-row'>" +
-      "    <div class='card-image'>" +
-      "      <img id='defaultImg' src=" + imageUrl + " alt=" + name + " />" +
-      "       <div class='resource-links'>" +
-      "        <a href=" + card.related_uris.edhrec + " target='_blank'>" +
-      "        <div class='resource-button'>" +
-      "          <p>EDHREC</p>" +
-      "        </div>" +
-      "        </a>" +
-      "        <a href=" + card.related_uris.mtgtop8 + " target='_blank'>" +
-      "        <div class='resource-button'>" +
-      "          <p>MtGTop8</p>" +
-      "        </div>" +
-      "        </a>" +
-      "        <a href=" + card.related_uris.gatherer + " target='_blank'>" +
-      "        <div class='resource-button'>" +
-      "          <p>Gatherer</p>" +
-      "        </div>" +
-      "        </a>" +
-      "       </div>" +
-      "    </div>" +
-      "    <div class='card-details'>" +
-      "      <div class='spec-row'>" +
-      "        <p>" + name + "</p>" +
-               visualizeManaCost(manaCost) +
-      "      </div>" +
-      "      <div class='spec-row'>" +
-      "        <p>" + types + "</p>" +
-      "      </div>" +
-      "      <div class='spec-row oracle'>" +
-               visualizeOracleText(cardText) +
-               getFlavor(flavorText) +
-      "      </div>" +
-      "      <div class='spec-row'>" +
-      "        <p id='artist'>Illustrated by " + artist + "</p>" +
-      "      </div>" +
-            getLegalities(legalities) +
-      "    </div>" +
-      "    <div class='card-prices'>" +
-           getPrintings(printings) +
-      "    </div>" +
-      "  </div>" +
-      "  <div class='rulings-row'>" +
-      "    <p id='rulings-header'>Rulings and information for " + card.name + "</p>" +
-      "    <div class='rulings'>" +
-           getRulings(rulings) +
-      "    </div>" +
-      "  </div>" +
-      "</section>";
-
-      return cardHTML;
 
     }
 
@@ -613,6 +700,15 @@ TolarianLibrary.getCards = function() {
         $defaultImg.attr('src', printingsImages[$printId]);
       });
 
+      $(document).on('click', '#frontside', function() {
+        var $defaultImg = $('#defaultImg');
+        $defaultImg.attr('src', flipCardFaces[0]);
+      })
+      $(document).on('click', '#backside', function() {
+        var $defaultImg = $('#defaultImg');
+        $defaultImg.attr('src', flipCardFaces[1]);
+      })
+
     });
 
     $(document).on('click', '#back', function() {
@@ -643,6 +739,7 @@ TolarianLibrary.getCards = function() {
   var rulingsUrls = [];
   var cardRulings = [];
   var printingsImages = [];
+  var flipCardFaces = [];
 
   var normalSearch = {
     url: scryfallAPI + TolarianLibrary.getNameParam("name"),
