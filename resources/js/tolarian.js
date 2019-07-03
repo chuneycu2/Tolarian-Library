@@ -595,7 +595,6 @@ TolarianLibrary.getCards = function() {
         type: 'GET',
         dataType: 'JSON',
       }).done(function(response) {
-        console.log(response.data);
         for (var index = 0; index < cards.length; index++) {
           if (tcgPlayerID == cards[index].tcgplayer_id) {
             addPrintsImages(response.data);
@@ -655,6 +654,7 @@ TolarianLibrary.getCards = function() {
       }
     },
     success: function(response) {
+      console.log(response.data);
       $search.removeClass('hide');
       renderCardImages(response.data);
       renderCardDetails(response.data);
@@ -675,6 +675,7 @@ TolarianLibrary.getCards = function() {
       }
     },
     success: function(response) {
+      console.log(response.data);
       $search.removeClass('hide');
       renderCardImages(response.data);
       renderCardDetails(response.data);
