@@ -713,6 +713,7 @@ TolarianLibrary.getCards = function() {
 
     $(document).on('click', '#back', function() {
       printingsImages = [];
+      flipCardFaces = [];
       $cardList.empty();
       $search.show();
       $cardList.append($cardResult);
