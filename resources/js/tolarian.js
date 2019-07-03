@@ -626,6 +626,19 @@ TolarianLibrary.getCards = function() {
 
   }
 
+  //renders html for 404 errors
+  function noResults() {
+    var html404 =
+
+    "<div class='no-results'>" +
+    "  <img src='./resources/images/card-unavailable.png' alt='404 - no cards found' />" +
+    "  <h1>No results</h1>" +
+    "  <h2><a href='index.html'>Try another search</a></h2>" +
+    "</div>";
+
+    $cardList.append(html404);
+  }
+
   //ajax holding arrays
   var printingsUrls = [];
   var rulingsUrls = [];
@@ -637,7 +650,9 @@ TolarianLibrary.getCards = function() {
     type: 'GET',
     dataType: 'JSON',
     statusCode: {
-      404: noResults()
+      404: function() {
+        noResults();
+      }
     },
     success: function(response) {
       $search.removeClass('hide');
@@ -655,7 +670,9 @@ TolarianLibrary.getCards = function() {
     type: 'GET',
     dataType: 'JSON',
     statusCode: {
-      404: noResults()
+      404: function() {
+        noResults();
+      }
     },
     success: function(response) {
       $search.removeClass('hide');
@@ -678,10 +695,6 @@ TolarianLibrary.getCards = function() {
     }
   }
 
-  function noResults() {
-
-  }
-
   //make the ajax request by checking the URL
   var urlTest = window.location.search;
 
@@ -692,9 +705,6 @@ TolarianLibrary.getCards = function() {
           url: rulingsUrls[r],
           type: 'GET',
           dataType: 'JSON',
-          statusCode: {
-            404: noResults()
-          },
           success: rulingsCallback(r)
         });
       }
@@ -706,9 +716,6 @@ TolarianLibrary.getCards = function() {
           url: rulingsUrls[r],
           type: 'GET',
           dataType: 'JSON',
-          statusCode: {
-            404: noResults()
-          },
           success: rulingsCallback(r)
         });
       }

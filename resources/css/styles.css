@@ -144,14 +144,59 @@ body.loading .modal {
   cursor: pointer;
 }
 
-.option-icons img {
-  width: 50px;
-  height: 50px;
-  padding: 0 1rem;
+.option-buttons {
+  display: flex;
 }
 
-.option-icons img:hover {
+.option-buttons img {
+  width: 25px;
+  height: 25px;
+  padding-left: 1rem;
+}
+
+.option-buttons img:hover {
   cursor: pointer;
+}
+
+.option-buttons a {
+  text-decoration: none;
+}
+
+.option {
+  display: flex;
+  padding: 0.5rem 1rem;
+  margin: 0 1rem;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  border: 1px solid #e3edfc;
+}
+
+.option p {
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.option:hover {
+  background-color: #19359b;
+  border-color: white;
+}
+
+/* 404 div */
+
+.no-results {
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 7rem;
+}
+
+.no-results h1 {
+  color: black;
+  padding-top: 1rem;
+}
+
+.no-results h2 {
+  color: black;
 }
 
 /* advanced search page | search.html */
