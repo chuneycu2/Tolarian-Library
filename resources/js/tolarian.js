@@ -1,7 +1,7 @@
 var TolarianLibrary = {};
 
-var magicAPI = 'https://api.magicthegathering.io/v1/';
-var magicAPISets = 'https://api.magicthegathering.io/v1/sets';
+//var magicAPI = 'https://api.magicthegathering.io/v1/';
+//var magicAPISets = 'https://api.magicthegathering.io/v1/sets';
 var scryfallAPI = 'https://api.scryfall.com/cards/search?q=name:';
 var scryfallAdvancedSearch = 'https://api.scryfall.com/cards/search?q=';
 var tcgPlayer_productId = 'https://api.tcgplayer.com/v1.9.0/catalog/products/'; // + product ID
@@ -439,7 +439,6 @@ TolarianLibrary.getCards = function() {
 
     //returns HTML rows of data for each card's ruling
     function getRulings(rulings) {
-      console.log(rulings);
       var rulingsHtml = '';
 
       if (rulings === undefined || rulings === null || rulings === []) {
@@ -549,7 +548,11 @@ TolarianLibrary.getCards = function() {
 
     }
 
+    var currentLocation;
+
     $cardResult.on('click', function() {
+      currentLocation = window.pageYOffset;
+
       var tcgPlayerID = $(this).attr('id');
 
       //finds the correct printings url to query for the selected card
@@ -586,6 +589,7 @@ TolarianLibrary.getCards = function() {
       $cardResult.detach();
       $search.hide();
 
+      //printings request made on click per card
       $.ajax({
         url: printingsUrls[printIndex()],
         type: 'GET',
@@ -595,10 +599,10 @@ TolarianLibrary.getCards = function() {
         for (var index = 0; index < cards.length; index++) {
           if (tcgPlayerID == cards[index].tcgplayer_id) {
             addPrintsImages(response.data);
-            console.log(printingsImages);
-            var cardHTML = cardDetails(cards[index], response.data, findRuling(index));
 
+            var cardHTML = cardDetails(cards[index], response.data, findRuling(index));
             $cardList.append(cardHTML);
+
             window.scrollTo(0, 0);
           }
         }
@@ -617,6 +621,7 @@ TolarianLibrary.getCards = function() {
       $cardList.empty();
       $search.show();
       $cardList.append($cardResult);
+      window.scrollTo(0, currentLocation);
     });
 
   }
@@ -631,6 +636,9 @@ TolarianLibrary.getCards = function() {
     url: scryfallAPI + TolarianLibrary.getNameParam("name"),
     type: 'GET',
     dataType: 'JSON',
+    statusCode: {
+      404: noResults()
+    },
     success: function(response) {
       $search.removeClass('hide');
       renderCardImages(response.data);
@@ -646,6 +654,9 @@ TolarianLibrary.getCards = function() {
     url: scryfallAdvancedSearch + TolarianLibrary.getScryfallParams(),
     type: 'GET',
     dataType: 'JSON',
+    statusCode: {
+      404: noResults()
+    },
     success: function(response) {
       $search.removeClass('hide');
       renderCardImages(response.data);
@@ -667,6 +678,10 @@ TolarianLibrary.getCards = function() {
     }
   }
 
+  function noResults() {
+
+  }
+
   //make the ajax request by checking the URL
   var urlTest = window.location.search;
 
@@ -677,6 +692,9 @@ TolarianLibrary.getCards = function() {
           url: rulingsUrls[r],
           type: 'GET',
           dataType: 'JSON',
+          statusCode: {
+            404: noResults()
+          },
           success: rulingsCallback(r)
         });
       }
@@ -688,6 +706,9 @@ TolarianLibrary.getCards = function() {
           url: rulingsUrls[r],
           type: 'GET',
           dataType: 'JSON',
+          statusCode: {
+            404: noResults()
+          },
           success: rulingsCallback(r)
         });
       }
