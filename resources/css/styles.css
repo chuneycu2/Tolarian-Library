@@ -52,6 +52,7 @@ p {
   }
   h2 {
     padding-top: 1rem;
+    line-height: 1.25;
   }
 }
 
@@ -95,7 +96,8 @@ body.loading .modal {
   justify-content: center;
   margin: 0 auto;
   max-width: 60rem;
-  padding-top: 10rem;
+  padding-top: 5rem;
+  padding-bottom: 8rem;
 }
 
 .headline {
@@ -182,6 +184,26 @@ body.loading .modal {
   border-color: white;
 }
 
+@media only screen and (max-width: 36.25rem) {
+  .headline {
+    width: 85%;
+  }
+}
+
+
+@media only screen and (max-width: 31.25rem) {
+  .home-container {
+    padding-top: 4rem;
+  }
+  .option-buttons {
+    flex-direction: column;
+    padding-bottom: 8rem;
+  }
+  .option {
+    margin-bottom: 1rem;
+  }
+}
+
 /* about page */
 
 .about {
@@ -219,6 +241,13 @@ body.loading .modal {
 
 .about a {
   color: white;
+}
+
+@media only screen and (max-width: 31.25rem) {
+  .about {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
 }
 
 /* 404 div */
@@ -557,8 +586,20 @@ label .checkmark:after {
   .advanced-search {
     margin: 0;
   }
+  .ui-autocomplete-menu {
+    width: 100%;
+  }
   #intro {
     padding: 2rem 0 1rem 0;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  #card-name, #cmc, #text, #set, #artist-name {
+    width: 100%;
+  }
+  select {
+    padding: 0 0.5rem;
   }
   .search-input {
     flex-wrap: wrap;
@@ -568,9 +609,6 @@ label .checkmark:after {
   }
   .search-input:first-child {
     padding: 1.5rem;
-  }
-  .search-input input {
-    width: 100%;
   }
   .search-input p {
     padding: 1rem 0;
@@ -596,6 +634,13 @@ label .checkmark:after {
     width: 100%;
     text-align: left;
     padding: 0.75rem 0 0.5rem 0;
+  }
+  .textline {
+    flex-wrap: wrap;
+  }
+  .textline select {
+    flex-basis: 100%;
+    margin: 2rem 0 0 0;
   }
   .colors-row {
     flex-wrap: wrap;
@@ -722,7 +767,7 @@ label .checkmark:after {
   padding-top: 0.3rem;
 }
 
-#card-image {
+.card-result img {
   width: 223px;
   height: 310px;
   align-self: center;
@@ -735,6 +780,16 @@ label .checkmark:after {
 @media only screen and (max-width: 62.5rem) {
   .results-rows {
     justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 31.25rem) {
+  .card-result {
+    width: 90%;
+  }
+  .card-result img {
+    width: 100%;
+    height: auto;
   }
 }
 
@@ -1150,5 +1205,30 @@ label .checkmark:after {
   .rulings {
     width: 100%;
     max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 31.25rem) {
+  .card-image img {
+    max-width: 100%;
+    width: 100%;
+  }
+  .resource-links {
+    flex-direction: column;
+  }
+  .legalities {
+    flex-direction: column;
+  }
+  .column {
+    width: 100%;
+  }
+  .legal, .not_legal, .restricted, .banned {
+    width: 150px;
+  }
+  .format {
+    padding: 0.25rem 0.5rem;
+  }
+  #rulings-header {
+    text-align: center;
   }
 }
