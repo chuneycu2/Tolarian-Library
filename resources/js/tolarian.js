@@ -641,6 +641,7 @@ TolarianLibrary.getCards = function() {
       currentLocation = window.pageYOffset;
 
       var tcgPlayerID = $(this).attr('id');
+      var oracleID = $(this).attr('id');
 
       //finds the correct printings url to query for the selected card
       function printIndex() {
@@ -648,7 +649,9 @@ TolarianLibrary.getCards = function() {
         for (var i = 0; i < cards.length; i++) {
           printIndex++;
           if (tcgPlayerID == cards[i].tcgplayer_id) {
-            return printIndex -1;
+            return printIndex - 1;
+          } else if (oracleID == cards[i].oracle_id) {
+            return printIndex - 1;
           }
         }
       }
@@ -683,7 +686,7 @@ TolarianLibrary.getCards = function() {
         dataType: 'JSON',
       }).done(function(response) {
         for (var index = 0; index < cards.length; index++) {
-          if (tcgPlayerID == cards[index].tcgplayer_id) {
+          if (tcgPlayerID == cards[index].tcgplayer_id || oracleID == cards[index].oracle_id) {
             addPrintsImages(response.data);
 
             var cardHTML = cardDetails(cards[index], response.data, findRuling(index));
