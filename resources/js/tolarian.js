@@ -647,12 +647,12 @@ TolarianLibrary.getCards = function() {
       function printIndex() {
         var printIndex = 0;
         for (var i = 0; i < cards.length; i++) {
-          printIndex++;
           if (tcgPlayerID == cards[i].tcgplayer_id) {
-            return printIndex - 1;
+            return printIndex;
           } else if (oracleID == cards[i].oracle_id) {
-            return printIndex - 1;
+            return printIndex;
           }
+          printIndex++;
         }
       }
 
