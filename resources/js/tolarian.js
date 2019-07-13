@@ -442,13 +442,11 @@ TolarianLibrary.getCards = function() {
     function getRulings(rulings) {
       var rulingsHtml = '';
 
-      if (rulings === undefined || rulings === null || rulings === []) {
+      if (rulings === undefined) {
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         rulingsHtml = rulingsHtml +
-        "<div class='ruling'>" +
-        "  <p>No rulings as of " + date + "</p>" +
-        "</div>";
+        "  <p id='no-rulings'>No rulings as of " + date + "</p>";
         return rulingsHtml;
       } else {
         for (var r = 0; r < rulings.length; r++) {
@@ -660,7 +658,11 @@ TolarianLibrary.getCards = function() {
       function findRuling(i) {
         for (var r = 0; r < cardRulings.length; r++) {
           if (cardRulings[r][0] === i) {
-            return cardRulings[r][1].data;
+            if (cardRulings[r][1].data.length === 0) {
+              return undefined;
+            } else {
+              return cardRulings[r][1].data;
+            }
           }
         }
       }
@@ -755,7 +757,7 @@ TolarianLibrary.getCards = function() {
       }
     },
     success: function(response) {
-      console.log(response.data);
+      //console.log(response.data);
       $search.removeClass('hide');
       renderCardImages(response.data);
       renderCardDetails(response.data);
