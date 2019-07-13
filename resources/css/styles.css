@@ -720,7 +720,7 @@ label .checkmark:after {
 
 .action-button {
   text-align: center;
-  padding: 3rem 0 2rem 0;
+  padding:  3rem 0 2rem 0;
   font-size: 1rem;
   margin: 0 auto;
 }
@@ -896,6 +896,10 @@ label .checkmark:after {
   border-bottom: 0.5px solid #bcbcbc;
 }
 
+.spec-row:last-child {
+  border-bottom: none;
+}
+
 .spec-row i {
   margin: 0.1rem;
 }
@@ -937,7 +941,6 @@ label .checkmark:after {
 .legalities {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1.5px solid #19359b;
 }
 
 .column {
@@ -984,13 +987,12 @@ label .checkmark:after {
 }
 
 .card-prices {
-  border-top: 1.5px solid #19359b;
-  border-bottom: 1.5px solid #19359b;
+  border-top: 2px solid #19359b;
   background-color: white;
   width: 40%;
   max-width: 40%;
   height: auto;
-  max-height: 27rem;
+  max-height: 26rem;
   overflow-y: scroll;
 }
 
@@ -1084,13 +1086,16 @@ label .checkmark:after {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 2rem;
-  padding: 2rem 0;
+  margin: 2rem;
 }
 
 #rulings-header {
-  padding: 1rem 0;
+  padding: 2rem 0 1rem 0;
   text-decoration: underline;
+  font-weight: bold;
+  border-top: 1px solid #19359b;
+  text-align: center;
+  width: 100%;
 }
 
 .rulings {
@@ -1164,6 +1169,9 @@ label .checkmark:after {
     margin: 0 1rem;
     background-color: #f0f3f7;
   }
+  #rulings-header {
+    width: 65%;
+  }
   .rulings-row {
     align-items: center;
   }
@@ -1220,6 +1228,9 @@ label .checkmark:after {
   .shop i {
     padding: 0.75rem;
   }
+  #rulings-header {
+    width: 100%;
+  }
   .rulings {
     width: 100%;
     max-width: 100%;
@@ -1245,8 +1256,5 @@ label .checkmark:after {
   }
   .format {
     padding: 0.25rem 0.5rem;
-  }
-  #rulings-header {
-    text-align: center;
   }
 }
