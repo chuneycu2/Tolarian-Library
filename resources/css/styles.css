@@ -1105,7 +1105,6 @@ label .checkmark:after {
 
 #rulings-header {
   padding: 2rem 0 1rem 0;
-  text-decoration: underline;
   font-weight: bold;
   border-top: 1px solid #19359b;
   text-align: center;
@@ -1122,6 +1121,7 @@ label .checkmark:after {
 
 .ruling {
   background-color: white;
+  border-top: 1px solid #19359b;
 }
 
 .ruling p {
