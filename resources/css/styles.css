@@ -1117,6 +1117,7 @@ label .checkmark:after {
 
 .rulings {
   max-width: 70%;
+  word-break: break-word;
 }
 
 .ruling {

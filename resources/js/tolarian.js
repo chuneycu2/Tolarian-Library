@@ -293,10 +293,10 @@ TolarianLibrary.getCards = function() {
             }
           }
         }
-        oracleText = "<p>" + oracleText + "</p>";
+        //oracleText = "<p>" + oracleText + "</p>";
         return oracleText;
       } else {
-        oracleText = "<p>" + oracleText + "</p>";
+        //oracleText = "<p>" + oracleText + "</p>";
         return oracleText;
       }
     }
@@ -455,7 +455,7 @@ TolarianLibrary.getCards = function() {
           rulingsHtml = rulingsHtml +
           "<div class='ruling'>" +
           "  <p>" +
-          rulings[r].comment +
+          visualizeOracleText(rulings[r].comment) +
           "  </br>" +
           "  <span class='date'>(" + rulings[r].published_at + ")</span>" +
           "  </p>" +
@@ -532,10 +532,13 @@ TolarianLibrary.getCards = function() {
         "        <p>" + types + " // " + typesBack + "</p>" +
         "      </div>" +
         "      <div class='spec-row oracle'>" +
+        "        <p>"+
                  visualizeOracleText(cardText) +
+        "        </p>" +
                  getFlavor(flavorText) +
-        "        </br>                           " +
+        "        <p>" +
                  visualizeOracleText(cardTextBack) +
+        "        </p>" +
                  getFlavor(flavorTextBack) +
         "      </div>" +
         "      <div class='spec-row'>" +
@@ -610,7 +613,9 @@ TolarianLibrary.getCards = function() {
         "        <p>" + types + "</p>" +
         "      </div>" +
         "      <div class='spec-row oracle'>" +
+        "        <p>"+
                  visualizeOracleText(cardText) +
+        "        </p>" +
                  getFlavor(flavorText) +
         "      </div>" +
         "      <div class='spec-row'>" +
